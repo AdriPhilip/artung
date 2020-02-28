@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -55,6 +57,16 @@ class Artists
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $wordpress_link;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Fans", inversedBy="favoris")
+     */
+    private $fans;
+
+    public function __construct()
+    {
+        $this->fans = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -153,6 +165,32 @@ class Artists
     public function setWordpressLink(?string $wordpress_link): self
     {
         $this->wordpress_link = $wordpress_link;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Fans[]
+     */
+    public function getFans(): Collection
+    {
+        return $this->fans;
+    }
+
+    public function addFan(Fans $fan): self
+    {
+        if (!$this->fans->contains($fan)) {
+            $this->fans[] = $fan;
+        }
+
+        return $this;
+    }
+
+    public function removeFan(Fans $fan): self
+    {
+        if ($this->fans->contains($fan)) {
+            $this->fans->removeElement($fan);
+        }
 
         return $this;
     }

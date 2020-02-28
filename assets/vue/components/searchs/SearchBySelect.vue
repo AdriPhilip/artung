@@ -38,6 +38,11 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      value: null
+    };
+  },
   methods: {
     emitValue($event) {
       searchBus.$emit("input-" + this.search.type, $event.target.value);

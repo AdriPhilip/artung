@@ -1,1 +1,1 @@
-# artung-api
+# artung

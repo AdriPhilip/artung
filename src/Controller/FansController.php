@@ -84,6 +84,7 @@ class FansController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="fans_edit", methods={"PUT"})
+     * @IsGranted("ROLE_FAN")
      */
     public function edit(Request $request, FansRepository $fansRepository): Response
     {
@@ -103,6 +104,7 @@ class FansController extends AbstractController
 
     /**
      * @Route("/{id}/addfav/{artistId}", name="fans_add_fav", methods={"PUT"})
+     * @IsGranted("ROLE_FAN")
      */
     public function addFav(Request $request, FansRepository $fansRepository, ArtistsRepository $artistsRepository): Response
     {
@@ -124,6 +126,7 @@ class FansController extends AbstractController
 
     /**
      * @Route("/{id}", name="fans_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_FAN")
      */
     public function delete(Request $request, FansRepository $fansRepository): Response
     {

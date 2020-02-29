@@ -3,21 +3,29 @@
     :id="`artist-${ artist.id }`"
     class="artistCard"
   >
+    <!-- On clique sur la card pour accéder à la page détails de l'artiste -->
     <div
       class="artistInfos"
       @click.self="$router.push({ name: 'ArtistDetails', params: { id: artist.id, artist: artistProp }})"
     >
+      <!-- Photo de miniature à laquelle on envoie l'objet artist -->
       <ArtistThumbnail :artist="artistProp" />
+      <!-- Nom de l'artiste -->
       <h2 class="artistNickname">
         {{ artist.nickname }}
       </h2>
-      <button class="starIcon">
+      <!-- Bouton de mise en favori ; ne doit s'afficher que quand on est connecté -->
+      <button
+        v-show="$route.name!=='Home'"
+        class="starIcon"
+      >
         <font-awesome-icon
           :icon="['far', 'star']"
           size="2x"
         />
       </button>
     </div>
+    <!-- Description de l'artiste ; ne s'affiche que sur la page détails -->
     <div
       v-show="$route.name=='ArtistDetails'|$route.name=='ArtistPreview'"
       class="artistDescription"

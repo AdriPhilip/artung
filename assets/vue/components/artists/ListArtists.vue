@@ -1,12 +1,14 @@
 <template>
   <div>
     <div class="listArtists">
+      <!-- Boucle sur tous les artistes issus de la recherche ou du tri -->
       <ArtistCard
         v-for="(artist, id) of filteredArtists"
         :key="id"
         :artist="artist"
       />
     </div>
+    <!-- Si la recherche retourne aucun artiste -->
     <p v-show="filteredArtists.length == 0">
       Aucun artiste ne correspond à votre recherche.
     </p>
@@ -38,8 +40,10 @@ export default {
   },
   computed: {
     urlArtist() {
+      // Url de l'API
       return `${window.rootUrl}artists`;
     },
+    // filtre les résultats, par texte, par catégorie, ou pas du tout
     filteredArtists: function() {
       if (this.searchByText !== "") {
         return this.infosArtistResults.filter(this.filterArtistsByText);
@@ -54,6 +58,7 @@ export default {
     this.getInfosArtist();
   },
   methods: {
+    // retourne le JSON qui sort de l'API
     async getInfosArtist() {
       try {
         const response = await fetch(this.urlArtist);
@@ -63,6 +68,7 @@ export default {
         console.log(err);
       }
     },
+    // recherche par texte : compare le contenu de l'input au nickname de l'artiste, en mettant tout en minuscules
     filterArtistsByText: function(obj) {
       if (
         obj.nickname.toLowerCase().includes(this.searchByText.toLowerCase())
@@ -72,6 +78,7 @@ export default {
         return false;
       }
     },
+    // recherche par catégorie : compare la value du select à la catégorie de l'artiste
     filterArtistsByCategory: function(obj) {
       if (obj.category === this.searchByCategory) {
         return true;

@@ -30,9 +30,8 @@ final class SecurityController extends AbstractController
   /**
    * @Route("/security/login", name="login")
    */
-  public function loginAction(Security $security): JsonResponse
+  public function loginAction(): JsonResponse
   {
-    //$user = $security->getUser();
     /** @var User $user */
     $user = $this->getUser();
     if ($user) {

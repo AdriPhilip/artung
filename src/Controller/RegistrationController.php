@@ -3,7 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Security\HashPasswordListener;
+use App\Entity\Fans;
+use App\Entity\Artists;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +16,7 @@ use Doctrine\ORM\EntityManagerInterface;
 class RegistrationController extends AbstractController
 {
     /**
-     * @Route("/api/registration", name="registration")
+     * @Route("/api/registration/{type}", name="registration")
      */
     public function index(Request $request, EntityManagerInterface $manager, SerializerInterface $serializer)
     {
@@ -23,6 +24,16 @@ class RegistrationController extends AbstractController
         $user->setLogin($request->request->get("email"));
         $user->setPlainPassword($request->request->get("password"));
         $user->setRoles(['ROLE_FAN']);
+
+        // On récupère le type de compte (artist ou fan) pour définir le role
+        $type = $request->get('type');
+        if ($type == 'artist') {
+            $artist = new Artists();
+            $artist->setNickname($request->request->get('nickname'));
+        } else if ($type == 'fan') {
+            $fan = new Fans();
+            $fan->setNickname($request->request->get('nickname'));
+        }
 
         $manager->persist($user);
         $manager->flush();

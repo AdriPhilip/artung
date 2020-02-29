@@ -24,8 +24,8 @@
       />
       <TextButton
         text="Go !"
-        :route="route"
         form
+        @onClick="route()"
       />
     </form>
   </div>
@@ -41,10 +41,10 @@ export default {
     FormGroup,
     TextButton,
   },
-  computed: {
+  methods: {
     route() {
-      if(this.$route.params.params.role === 'artist') return 'ArtistAccount';
-      else return 'Catalog';
+      if(this.$route.params.role === 'artist') this.$router.push({ name: "ArtistAccount", params: '' });
+      else if (this.$route.params.role === 'fan') this.$router.push({ name: "Catalog", params: '' });
     }
   }
 };

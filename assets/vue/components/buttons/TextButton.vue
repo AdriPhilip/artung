@@ -3,7 +3,7 @@
     <button
       type="button"
       class="btn btn-primary"
-      @click="$router.push({ name: `${route}`, params: {params} })"
+      @click="$emit('onClick')"
     >
       {{ text }}
     </button>
@@ -18,14 +18,6 @@ export default {
     text: {
       type: String,
       required: true
-    },
-    route: {
-      type: String,
-      required: true
-    },
-    params: {
-      type: Object,
-      default: null
     },
     secondary: Boolean,
     form: Boolean

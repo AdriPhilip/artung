@@ -70,6 +70,16 @@ class User implements UserInterface
    */
   private $updated;
 
+  /**
+   * @ORM\OneToOne(targetEntity="App\Entity\Fans", mappedBy="user", cascade={"persist", "remove"})
+   */
+  private $fan;
+
+  /**
+   * @ORM\OneToOne(targetEntity="App\Entity\Artists", mappedBy="user", cascade={"persist", "remove"})
+   */
+  private $artist;
+
   public function __construct()
   {
     $this->roles = [];
@@ -176,5 +186,39 @@ class User implements UserInterface
   public function getUpdated(): ?DateTime
   {
     return $this->updated;
+  }
+
+  public function getFan(): ?Fans
+  {
+    return $this->fan;
+  }
+
+  public function setFan(Fans $fan): self
+  {
+    $this->fan = $fan;
+
+    // set the owning side of the relation if necessary
+    if ($fan->getUser() !== $this) {
+      $fan->setUser($this);
+    }
+
+    return $this;
+  }
+
+  public function getArtist(): ?Artists
+  {
+    return $this->artist;
+  }
+
+  public function setArtist(Artists $artist): self
+  {
+    $this->artist = $artist;
+
+    // set the owning side of the relation if necessary
+    if ($artist->getUser() !== $this) {
+      $artist->setUser($this);
+    }
+
+    return $this;
   }
 }

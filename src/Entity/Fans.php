@@ -24,7 +24,7 @@ class Fans
     private $nickname;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $photo;
 
@@ -32,6 +32,12 @@ class Fans
      * @ORM\ManyToMany(targetEntity="App\Entity\Artists", mappedBy="fans")
      */
     private $favoris;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="fan", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     public function __construct()
     {
@@ -91,6 +97,18 @@ class Fans
             $this->favoris->removeElement($favori);
             $favori->removeFan($this);
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

@@ -28,11 +28,17 @@ class RegistrationController extends AbstractController
         // On récupère le type de compte (artist ou fan) pour définir le role
         $type = $request->get('type');
         if ($type == 'artist') {
+            $user->setRoles(["ROLE_ARTIST"]);
             $artist = new Artists();
             $artist->setNickname($request->request->get('nickname'));
+            $artist->setUser($user);
+            $manager->persist($artist);
         } else if ($type == 'fan') {
+            $user->setRoles(["ROLE_FAN"]);
             $fan = new Fans();
             $fan->setNickname($request->request->get('nickname'));
+            $fan->setUser($user);
+            $manager->persist($fan);
         }
 
         $manager->persist($user);
@@ -40,8 +46,8 @@ class RegistrationController extends AbstractController
 
         // On clone le user pour le renvoyer sans password
         $userClone = clone $user;
+        $userClone->setPlainPassword('');
         $userClone->setPassword('');
-
         // Pour pouvoir récupérer le(s) artiste(s) associés aux fans, il faut préciser ça :
         $context['circular_reference_handler'] = function ($object) {
             return $object->getId();

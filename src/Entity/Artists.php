@@ -24,17 +24,17 @@ class Artists
     private $nickname;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $photo;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $category;
 
     /**
-     * @ORM\Column(type="text", length=65535)
+     * @ORM\Column(type="text", length=65535, nullable=true)
      */
     private $description;
 
@@ -62,6 +62,12 @@ class Artists
      * @ORM\ManyToMany(targetEntity="App\Entity\Fans", inversedBy="favoris")
      */
     private $fans;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="artist", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     public function __construct()
     {
@@ -191,6 +197,18 @@ class Artists
         if ($this->fans->contains($fan)) {
             $this->fans->removeElement($fan);
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

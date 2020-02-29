@@ -30,14 +30,21 @@ final class SecurityController extends AbstractController
   /**
    * @Route("/security/login", name="login")
    */
-  public function loginAction(): JsonResponse
+  public function loginAction(SerializerInterface $serializer): JsonResponse
   {
     /** @var User $user */
     $user = $this->getUser();
     if ($user) {
       $userClone = clone $user;
       $userClone->setPassword('');
-      $data = $this->serializer->serialize($userClone, JsonEncoder::FORMAT);
+
+      // Pour pouvoir récupérer le(s) artiste(s) associés aux fans, il faut préciser ça :
+      $context['circular_reference_handler'] = function ($object) {
+        return $object->getId();
+      };
+
+      // Transformation de l'objet Doctrine en JSON
+      $data = $serializer->serialize($userClone, 'json', $context);
 
       return new JsonResponse($data, Response::HTTP_OK, [], true);
     } else {

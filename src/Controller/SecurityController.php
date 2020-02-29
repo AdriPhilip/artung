@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/api")
@@ -29,15 +30,20 @@ final class SecurityController extends AbstractController
   /**
    * @Route("/security/login", name="login")
    */
-  public function loginAction(): JsonResponse
+  public function loginAction(Security $security): JsonResponse
   {
+    //$user = $security->getUser();
     /** @var User $user */
     $user = $this->getUser();
-    $userClone = clone $user;
-    $userClone->setPassword('');
-    $data = $this->serializer->serialize($userClone, JsonEncoder::FORMAT);
+    if ($user) {
+      $userClone = clone $user;
+      $userClone->setPassword('');
+      $data = $this->serializer->serialize($userClone, JsonEncoder::FORMAT);
 
-    return new JsonResponse($data, Response::HTTP_OK, [], true);
+      return new JsonResponse($data, Response::HTTP_OK, [], true);
+    } else {
+      return new JsonResponse("Pas de user trouvé", 500, [], false);
+    }
   }
 
   /**

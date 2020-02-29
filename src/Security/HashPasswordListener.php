@@ -52,7 +52,7 @@ final class HashPasswordListener implements EventSubscriber
     return ['prePersist', 'preUpdate'];
   }
 
-  private function encodePassword(User $entity): void
+  public function encodePassword(User $entity): void
   {
     $plainPassword = $entity->getPlainPassword();
     if ($plainPassword === null) {

@@ -7,13 +7,15 @@
       :value="infosArtistResults.nickname"
       :placeholder="placeholder"
       @readonlyStatus="readonlyStatus"
-    > -->
+
+      Remettre le :readonly dans l'input si le watch n'est pas utilisé !!!
+      :readonly="readonlyValue"      
+    >-->
     <input
       :id="formGroup"
       v-model="model"
       class="form-control"
       :placeholder="placeholder"
-      @readonlyStatus="readonlyStatus"
     >
   </div>
 </template>
@@ -21,8 +23,10 @@
 
 
 <script>
+import { readonlyBus } from "../../index.js";
 export default {
   name: "FormGroup",
+  components: {},
   props: {
     text: {
       type: String,
@@ -38,31 +42,34 @@ export default {
     },
     model: {
       type: String,
-      default: ''
+      default: ""
     },
     placeholder: {
       type: String,
-      default: ''
+      default: ""
     },
-    readonlyStatus: Boolean
+    readonly: {
+      type: Boolean,
+      required: true
+    }
   },
   data() {
     return {
-      infosArtistResults: null
+      infosArtistResults: null,
+      readonlyValue: true
     };
   },
   computed: {
     urlArtist() {
       return `${window.rootUrl}artists/5`;
-    },
-    isReadonly: function() {
-      if (this.readonlyStatus) {
-        return "readonly";
-      } else {
-        return "";
-      }
     }
   },
+  watch: {
+    readonlyValue: function() {
+      this.$el.querySelector("input").toggleAttribute("readonly");
+    }
+  },
+
   // methods: {
   //   typeChange: function() {
   //     if (this.typeStatus == "email") {
@@ -75,12 +82,15 @@ export default {
   //   },
   created() {
     this.getInfosArtist();
+    readonlyBus.$on("readonlyStatus", data => {
+      this.readonlyValue = data;
+    });
   },
   mounted() {
     this.typeChange();
   },
   methods: {
-    typeChange: function() {
+    typeChange() {
       switch (this.typeStatus) {
       case "email":
         this.$el.querySelector("input").setAttribute("type", "email");
@@ -95,15 +105,16 @@ export default {
         this.$el.querySelector("input").setAttribute("type", "text");
       }
     },
-    // isReadonly: function() {
-    //   if (this.readonlyStatus) {
-    //     this.$el.querySelector("input").attr("readonly", true);
-    //     alert(
-    //       "FormGroup : if lancé ! readonly ok -> readonly =" + this.readonly
-    //     );
+
+    // isReadonly() {
+    //   if (this.readonlyValue == true) {
+    //     this.$el.querySelector("input").toggleAttribute("readonly");
+    //     this.$el.querySelector("input").classList.add("form-control-plaintext");
     //   } else {
-    //     this.$el.querySelector("input").attr("readonly", false);
-    //     alert("FormGroup : else lancé ! readonly ko -> readonly =" + readonly);
+    //     this.$el.querySelector("input").toggleAttribute("readonly");
+    //     this.$el
+    //       .querySelector("input")
+    //       .classList.remove("form-control-plaintext");
     //   }
     // },
 

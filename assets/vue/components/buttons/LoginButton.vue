@@ -1,7 +1,6 @@
 <template>
   <div>
     <button
-      href="/Login"
       @click="$emit('onClick')"
     >
       <div id="dot">

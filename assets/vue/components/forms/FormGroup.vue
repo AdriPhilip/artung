@@ -16,42 +16,38 @@
       v-model="model"
       class="form-control"
       :placeholder="placeholder"
+      @input="$emit('input', model)"
     >
   </div>
 </template>
-  <!-- Types : text, password, email -->
-
+<!-- Types : text, password, email -->
 
 <script>
 import { readonlyBus } from "../../index.js";
 export default {
-  name: "FormGroup",
-  components: {},
+  name: 'FormGroup',
   props: {
     text: {
       type: String,
-      required: true
+      required: true,
     },
     typeStatus: {
       type: String,
-      required: true
+      required: true,
     },
     formGroup: {
       type: String,
-      required: true
+      required: true,
     },
     model: {
       type: String,
-      default: ""
+      default: '',
     },
     placeholder: {
       type: String,
-      default: ""
+      default: '',
     },
-    readonly: {
-      type: Boolean,
-      required: true
-    }
+    readonlyStatus: Boolean,
   },
   data() {
     return {
@@ -92,17 +88,17 @@ export default {
   methods: {
     typeChange() {
       switch (this.typeStatus) {
-      case "email":
-        this.$el.querySelector("input").setAttribute("type", "email");
+      case 'email':
+        this.$el.querySelector('input').setAttribute('type', 'email');
         break;
-      case "password":
-        this.$el.querySelector("input").setAttribute("type", "password");
+      case 'password':
+        this.$el.querySelector('input').setAttribute('type', 'password');
         break;
-      case "text":
-        this.$el.querySelector("input").setAttribute("type", "text");
+      case 'text':
+        this.$el.querySelector('input').setAttribute('type', 'text');
         break;
       default:
-        this.$el.querySelector("input").setAttribute("type", "text");
+        this.$el.querySelector('input').setAttribute('type', 'text');
       }
     },
 
@@ -126,11 +122,10 @@ export default {
       } catch (err) {
         console.log(err);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>
+<style scoped></style>

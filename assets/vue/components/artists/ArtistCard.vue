@@ -16,7 +16,7 @@
       </h2>
       <!-- Bouton de mise en favori ; ne doit s'afficher que quand on est connecté -->
       <button
-        v-show="$route.name!=='Home'"
+        v-if="isAuthenticated"
         class="starIcon"
       >
         <font-awesome-icon
@@ -52,9 +52,14 @@ export default {
     }
   },
   computed: {
+    // Récupère la prop artist pour la renvoyer à l'enfant ArtistThumbnail
     artistProp() {
       return this.artist
-    }
+    },
+    // Récupère si le user est connecté
+    isAuthenticated() {
+      return this.$store.getters["security/isAuthenticated"]
+    },
   }
 };
 </script>
@@ -67,6 +72,7 @@ export default {
     min-height: 60px;
     max-height: 240px;
     margin-bottom: var(--spacing-md);
+    padding-left: var(--spacing-xs);
     background-color: var(--dark);
     border-radius: 0 var(--spacing-sm) var(--spacing-sm) var(--spacing-sm);
     cursor: pointer;
@@ -82,8 +88,8 @@ export default {
     flex-wrap: nowrap;
     align-items: center;
   }
-
   .artistNickname {
+    font-size: 2.5em;
     color: var(--light);
     margin-left: var(--spacing-sm);
   }
@@ -103,8 +109,11 @@ export default {
   }
   @media (min-width: 768px) {
     .artistCard {
-      width: calc(50% - var(--spacing-md));
+      width: calc(50% - var(--spacing-md) / 2);
       margin-right: var(--spacing-md);
+    }
+    .artistNickname {
+      font-size: 3.25em;
     }
   }
 </style>

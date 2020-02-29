@@ -95,4 +95,7 @@ export default {
 .listArtists {
   padding-top: var(--spacing-md);
 }
+div:nth-child(2n) {
+  margin-right: 0;
+}
 </style>

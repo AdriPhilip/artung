@@ -1,9 +1,12 @@
 <template>
   <div>
     <Header />
-    <ArtistCard />
-    <SearchBar />
-    <ListPosts />
+    <ArtistCard
+      :artist="artistProp"
+      :style="styleObject"
+    />
+    <SearchBar :search-types="searchTypes" />
+    <ListPosts :artist="artistProp" />
   </div>
 </template>
 
@@ -20,6 +23,17 @@ export default {
     ArtistCard,
     SearchBar,
     ListPosts,
+  },
+  data() {
+    return {
+      searchTypes: ["flux", "date"],
+      styleObject: {width: "100%"}
+    };
+  },
+  computed: {
+    artistProp() {
+      return this.$route.params.artist;
+    }
   }
 };
 </script>

@@ -3,6 +3,7 @@
     <img
       :src="artist.photo"
       :alt="`Photo de ${ artist.nickname }`"
+      @click="$router.push({ name: 'ArtistDetails', params: { id: artist.id, artist: artist }})"
     >
     <div
       class="categoryButton"
@@ -70,14 +71,14 @@ export default {
   img {
     width: 56px;
     height: 56px;
-    margin-left: var(--spacing-xs);
     border-bottom-left-radius: var(--spacing-sm);
+    cursor: pointer;
   }
   .categoryButton {
     cursor: pointer;
     position: absolute;
     top: 0;
-    left: var(--spacing-xs);
+    left: 0;
     border: 0;
     background-color: transparent;
     width: 0; 

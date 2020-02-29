@@ -9,6 +9,7 @@
         form-group="photoInput"
         type-status="text"
         text="Photo de profil"
+        :model="user.artist.photo"
       />
     </form>
 
@@ -23,12 +24,12 @@
     <TextButton
       text="Me déconnecter"
       secondary
-      @onClick="routerPush('Home', '')"
+      @onClick="disconnect()"
     />
     <TextButton
       text="Supprimer mon profil"
       secondary
-      @onClick="routerPush('DeleteAccount', '')"
+      @onClick="routerPush('DeleteAccount')"
     />
   </div>
 </template>
@@ -48,10 +49,24 @@ export default {
     EditIcon,
     FormAccount,
     TextButton,
+  },
+  computed: {
+    // Récupère les infos du user dans le Store
+    user() {
+      return this.$store.getters["security/user"];
+    }
+  },
+  methods: {
+    // Routes de destination des TextButton
+    routerPush(name) {
+      this.$router.push({ name: name });
+    },
+    disconnect() {
+      window.location.href = window.rootUrl+'security/logout'
+    }
   }
 };
 </script>
 
 <style lang="scss">
-
 </style>

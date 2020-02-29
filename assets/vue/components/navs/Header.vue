@@ -1,6 +1,12 @@
 <template>
   <div>
     <nav>
+      <img
+        v-show="$route.name=='Catalog'|$route.name=='ArtistDetails'|$route.name=='FanAccount'"
+        src="../../../img/artung_logo.png"
+        alt="logo de l'application Artung"
+        @click="$router.push({ name: 'Catalog' })"
+      >
       <TextButton
         v-show="$route.name=='Home'"
         text="Je suis artiste"
@@ -55,5 +61,10 @@ nav {
   display: flex;
   align-items: center;
   padding: 5px;
+}
+nav img {
+  width: 56px;
+  height: 56px;
+  cursor: pointer;
 }
 </style>

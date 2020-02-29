@@ -3,20 +3,20 @@
     <nav>
       <!-- Logo ; permet de retourner au catalogue -->
       <img
-        v-show="$route.name=='Catalog'|$route.name=='ArtistDetails'|$route.name=='FanAccount'"
+        v-show="$route.name=='Home'|$route.name=='Catalog'|$route.name=='ArtistDetails'|$route.name=='FanAccount'"
         src="../../../img/artung_logo.png"
         alt="logo de l'application Artung"
         @click="routerLogo()"
       >
-      <!-- Boutons de registration ; ne s'affichent que sur la page Home -->
+      <!-- Boutons de registration ; ne s'affichent que si non connecté -->
       <TextButton
-        v-show="$route.name=='Home'"
+        v-if="!isAuthenticated"
         text="Je suis artiste"
         secondary
         @onClick="routerPush('Register', {role: 'artist'})"
       />
       <TextButton
-        v-show="$route.name=='Home'"
+        v-if="!isAuthenticated"
         text="Je veux suivre des artistes"
         @onClick="routerPush('Register', {role: 'fan'})"
       />
@@ -28,12 +28,12 @@
         @onClick="routerPush('ArtistPreview', { artist: user.artist })"
       />
       <!-- Barre de favoris ; ne s'affiche que dans le parcours fan -->
-      <FavBar v-show="$route.name=='Catalog'|$route.name=='ArtistDetails'|$route.name=='FanAccount'" />
-      <!-- Bouton de profil -->
-      <AccountButton v-show="$route.name=='Catalog'|$route.name=='ArtistDetails'|$route.name=='FanAccount'|$route.name=='ArtistAccount'|$route.name=='ArtistPreview'" />
-      <!-- Bouton de login ; ne s'affiche que sur la page Home -->
+      <FavBar v-if="role === 'ROLE_FAN'" />
+      <!-- Bouton de profil ; ne s'affiche que si connecté -->
+      <AccountButton v-if="isAuthenticated" />
+      <!-- Bouton de login ; ne s'affiche que si non connecté -->
       <LoginButton
-        v-show="$route.name=='Home'"
+        v-if="!isAuthenticated"
         @onClick="routerPush('Login', '')"
       />
     </nav>

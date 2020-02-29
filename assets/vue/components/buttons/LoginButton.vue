@@ -1,6 +1,9 @@
 <template>
   <div>
-    <a href="/Login">
+    <a
+      href="/Login"
+      @click="$emit('onClick')"
+    >
       <div id="dot">
         <img
           src="../../../img/Arrow.svg"

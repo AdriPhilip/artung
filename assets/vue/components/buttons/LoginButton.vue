@@ -3,7 +3,7 @@
     <a href="/Login">
       <div id="dot">
         <img
-          src="../../assets/Arrow.svg"
+          src="../../../img/Arrow.svg"
           alt="right arrow"
         >
       </div>

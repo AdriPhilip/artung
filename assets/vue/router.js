@@ -4,7 +4,7 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 // Import des composants
-import HelloWorld from './components/HelloWorld';
+import Logo from './components/Logo';
 import Home from './views/Home';
 import Register from './views/Register';
 import DeleteAccount from './views/DeleteAccount';
@@ -25,7 +25,7 @@ const routes = [
   {
     name: "Logo",
     path: "/",
-    component: HelloWorld
+    component: Logo
   },
   {
     name: "Home",

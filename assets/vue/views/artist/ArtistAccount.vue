@@ -14,6 +14,7 @@
         <label for="category">Catégorie</label>
         <select
           id="category"
+          v-model="user.artist.category"
           class="form-control"
         >
           <option value="architecture">
@@ -42,6 +43,7 @@
           <label for="description">Description</label>
           <textarea
             id="description"
+            v-model="user.artist.description"
             class="form-control"
             rows="3"
           />
@@ -99,6 +101,18 @@ export default {
     FormGroupInline,
     FormAccount,
     TextButton,
+  },
+  computed: {
+    // Récupère les infos du user dans le Store
+    user() {
+      return this.$store.getters["security/user"];
+    }
+  },
+  methods: {
+    // Routes de destination des TextButton
+    routerPush(name, params) {
+      this.$router.push({ name: name, params: params });
+    }
   }
 };
 </script>

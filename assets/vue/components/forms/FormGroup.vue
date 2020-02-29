@@ -10,10 +10,10 @@
     > -->
     <input
       :id="formGroup"
+      v-model="model"
       class="form-control"
       :placeholder="placeholder"
-      :value="value"
-      @input="$emit('input', $event.target.value)"
+      @input="$emit('input', model)"
       @readonlyStatus="readonlyStatus"
     >
   </div>

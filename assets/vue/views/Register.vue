@@ -1,6 +1,9 @@
 <template>
   <div>
-    <form class="m-5 p-5">
+    <form
+      class="m-5 p-5"
+      @submit.prevent
+    >
       <FormGroup
         form-group="emailInput"
         type-status="email"

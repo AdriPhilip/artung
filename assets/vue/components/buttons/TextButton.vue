@@ -3,7 +3,7 @@
     <button
       type="button"
       class="btn btn-primary"
-      @click.prevent="$emit('onClick')"
+      @click="$emit('onClick')"
     >
       {{ text }}
     </button>

@@ -9,6 +9,7 @@
         form-group="photoInput"
         type-status="text"
         text="Photo de profil"
+        :model="user.artist.photo"
       />
     </form>
 
@@ -48,7 +49,13 @@ export default {
     EditIcon,
     FormAccount,
     TextButton,
-  }
+  },
+  computed: {
+    // Récupère les infos du user dans le Store
+    user() {
+      return this.$store.getters["security/user"];
+    }
+  },
 };
 </script>
 

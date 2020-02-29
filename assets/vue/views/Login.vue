@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form>
+    <form @submit.prevent>
       <FormGroup
         v-model="login"
         form-group="emailInput"

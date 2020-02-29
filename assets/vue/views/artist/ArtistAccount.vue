@@ -9,6 +9,7 @@
         form-group="photoInput"
         type-status="text"
         text="Photo de profil"
+        :model="user.artist.photo"
       />
       <div class="form-group">
         <label for="category">Catégorie</label>

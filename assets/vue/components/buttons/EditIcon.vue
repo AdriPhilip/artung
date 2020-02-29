@@ -21,7 +21,7 @@
 </template>
 
 <script>
-// import readonly from "../forms/FormGroup";
+import { readonlyBus } from "../../index.js";
 
 export default {
   name: "EditIcon",
@@ -32,14 +32,13 @@ export default {
     this.editable()
   },
   methods: {
-    editable: function() {
+    editable() {
       if (this.isEdit) {
-        this.$emit("readonlyStatus", false);
+        readonlyBus.$emit("readonlyStatus", false);
         // alert("EditIcon -> readonly=" + !this.isEdit);
-        //   this.$el.querySelector("button").toggleAttribute("readonly");
-        //   this.$el.querySelector("button").attr('readonly', true);
+
       } else {
-        this.$emit("readonlyStatus", true);
+        readonlyBus.$emit("readonlyStatus", true);
         // alert("EditIcon -> readonly=" + this.isEdit);
       }
     }

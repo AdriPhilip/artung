@@ -3,6 +3,7 @@
     <button
       type="button"
       class="btn btn-primary"
+      @click="$router.push({ name: `${route}`, params: {params} })"
     >
       {{ text }}
     </button>
@@ -17,6 +18,14 @@ export default {
     text: {
       type: String,
       required: true
+    },
+    route: {
+      type: String,
+      required: true
+    },
+    params: {
+      type: Object,
+      default: null
     },
     secondary: Boolean,
     form: Boolean
@@ -36,9 +45,11 @@ export default {
     },
     addSecondaryClass: function() {
       if (this.secondary) {
-        this.$el.querySelector("button").classList.add("btn-secondary");        
+        this.$el.querySelector("button").classList.add("btn-outline-primary");
+        this.$el.querySelector("button").classList.remove("btn-primary");        
       } else {
-        this.$el.querySelector("button").classList.remove("btn-secondary");
+        this.$el.querySelector("button").classList.add("btn-primary");
+        this.$el.querySelector("button").classList.remove("btn-outline-primary");
         // alert("removed !")
       }
     },
@@ -48,16 +59,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 .btn-primary {
-  color: #db5c3d;
-  background: #131b23;
-  border-color: #db5c3d;
+  font-family: Caveat;
+  color: var(--black);
 }
-
-.btn-secondary {
-  color: #131b23;
-  background: #db5c3d;
-  border-color: #db5c3d;
+.btn-primary:hover {
+  color: var(--light);
+}
+.btn-outline-primary {
+  font-family: Caveat;
 }
 </style>

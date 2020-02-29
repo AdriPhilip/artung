@@ -4,14 +4,20 @@
       <TextButton
         v-show="$route.name=='Home'"
         text="Je suis artiste"
+        route="Register"
+        :params="{role: 'artist'}"
+        secondary
       />
       <TextButton
         v-show="$route.name=='Home'"
         text="Je veux suivre des artistes"
+        route="Register"
+        :params="{role: 'fan'}"
       />
       <TextButton
         v-show="$route.name=='ArtistAccount'|$route.name=='ArtistPreview'"
         text="Aperçu de ma page"
+        route="ArtistPreview"
       />
       <FavBar v-show="$route.name=='Catalog'|$route.name=='ArtistDetails'|$route.name=='FanAccount'" />
       <AccountButton v-show="$route.name=='Catalog'|$route.name=='ArtistDetails'|$route.name=='FanAccount'|$route.name=='ArtistAccount'|$route.name=='ArtistPreview'" />

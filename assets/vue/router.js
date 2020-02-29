@@ -35,7 +35,8 @@ const routes = [
   {
     name: "Register",
     path: "/register",
-    component: Register
+    component: Register,
+    props: true
   },
   {
     name: "DeleteAccount",
@@ -45,7 +46,8 @@ const routes = [
   {
     name: "Login",
     path: "/login",
-    component: Login
+    component: Login,
+    props: true
   },
   // Routes Fan
   {

@@ -22,6 +22,8 @@ $input-border-radius-sm: none;
 }
 
 // Fonts
+$font-size-base: 1rem;
+
 @font-face {
   font-family: "Montserrat";
   src: url("../font/Montserrat/Montserrat-Regular.ttf") format("truetype");
@@ -57,29 +59,14 @@ body {
 
 h1 {
   font-family: Caveat;
-  font-size: 6.103515625em;
 }
 
 h2 {
   font-family: Caveat;
-  font-size: 3em !important;
 }
 
 p {
   font-family: Alegreya Sans;
-  font-size: 18px !important;
-}
-
-@media screen and (max-width: 720px) {
-  h1 {
-    font-size: 3em;
-  }
-  h2 {
-    font-size: 2.25em !important;
-  }
-  p {
-    font-size: 16px !important;
-  }
 }
 
 // Exemple de personnalisation des variables :

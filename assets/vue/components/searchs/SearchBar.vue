@@ -44,7 +44,7 @@ export default {
     return {
       searchByCategory: {
         type: "category",
-        label: "Rechercher une catégorie",
+        label: "Recherche par catégorie",
         options: [
           { text: "Architecture", value: "architecture" },
           { text: "Sculpture", value: "sculpture" },
@@ -57,7 +57,7 @@ export default {
       },
       searchByFlux: {
         type: "flux",
-        label: "Rechercher un réseau social",
+        label: "Trier par source",
         options: [
           { text: "Facebook", value: "facebook" },
           { text: "Twitter", value: "twitter" },

@@ -3,7 +3,7 @@
     <button
       type="button"
       class="btn btn-primary"
-      @click="$emit('onClick')"
+      @click.prevent="$emit('onClick')"
     >
       {{ text }}
     </button>
@@ -13,14 +13,14 @@
 
 <script>
 export default {
-  name: "TextButton",
+  name: 'TextButton',
   props: {
     text: {
       type: String,
-      required: true
+      required: true,
     },
     secondary: Boolean,
-    form: Boolean
+    form: Boolean,
   },
   mounted() {
     // this.isSecondary();
@@ -30,22 +30,24 @@ export default {
   methods: {
     checkForm: function() {
       if (this.form) {
-        this.$el.querySelector("button").setAttribute("type", "submit");
+        this.$el.querySelector('button').setAttribute('type', 'submit');
       } else {
-        this.$el.querySelector("button").setAttribute("type", "button");
+        this.$el.querySelector('button').setAttribute('type', 'button');
       }
     },
     addSecondaryClass: function() {
       if (this.secondary) {
-        this.$el.querySelector("button").classList.add("btn-outline-primary");
-        this.$el.querySelector("button").classList.remove("btn-primary");        
+        this.$el.querySelector('button').classList.add('btn-outline-primary');
+        this.$el.querySelector('button').classList.remove('btn-primary');
       } else {
-        this.$el.querySelector("button").classList.add("btn-primary");
-        this.$el.querySelector("button").classList.remove("btn-outline-primary");
+        this.$el.querySelector('button').classList.add('btn-primary');
+        this.$el
+          .querySelector('button')
+          .classList.remove('btn-outline-primary');
         // alert("removed !")
       }
     },
-  }
+  },
 };
 </script>
 

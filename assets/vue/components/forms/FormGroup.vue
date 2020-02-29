@@ -10,45 +10,46 @@
     > -->
     <input
       :id="formGroup"
-      v-model="model"
       class="form-control"
       :placeholder="placeholder"
+      :value="value"
+      @input="$emit('input', $event.target.value)"
       @readonlyStatus="readonlyStatus"
     >
   </div>
 </template>
-  <!-- Types : text, password, email -->
-
+<!-- Types : text, password, email -->
 
 <script>
 export default {
-  name: "FormGroup",
+  name: 'FormGroup',
   props: {
     text: {
       type: String,
-      required: true
+      required: true,
     },
     typeStatus: {
       type: String,
-      required: true
+      required: true,
     },
     formGroup: {
       type: String,
-      required: true
+      required: true,
     },
     model: {
       type: String,
-      default: ''
+      default: '',
     },
     placeholder: {
       type: String,
-      default: ''
+      default: '',
     },
-    readonlyStatus: Boolean
+    readonlyStatus: Boolean,
   },
   data() {
     return {
-      infosArtistResults: null
+      infosArtistResults: null,
+      value: '',
     };
   },
   computed: {
@@ -57,11 +58,11 @@ export default {
     },
     isReadonly: function() {
       if (this.readonlyStatus) {
-        return "readonly";
+        return 'readonly';
       } else {
-        return "";
+        return '';
       }
-    }
+    },
   },
   // methods: {
   //   typeChange: function() {
@@ -82,17 +83,17 @@ export default {
   methods: {
     typeChange: function() {
       switch (this.typeStatus) {
-      case "email":
-        this.$el.querySelector("input").setAttribute("type", "email");
+      case 'email':
+        this.$el.querySelector('input').setAttribute('type', 'email');
         break;
-      case "password":
-        this.$el.querySelector("input").setAttribute("type", "password");
+      case 'password':
+        this.$el.querySelector('input').setAttribute('type', 'password');
         break;
-      case "text":
-        this.$el.querySelector("input").setAttribute("type", "text");
+      case 'text':
+        this.$el.querySelector('input').setAttribute('type', 'text');
         break;
       default:
-        this.$el.querySelector("input").setAttribute("type", "text");
+        this.$el.querySelector('input').setAttribute('type', 'text');
       }
     },
     // isReadonly: function() {
@@ -115,11 +116,10 @@ export default {
       } catch (err) {
         console.log(err);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>
+<style scoped></style>

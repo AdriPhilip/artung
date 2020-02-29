@@ -65,7 +65,7 @@ export default {
         commit(AUTHENTICATING_SUCCESS, response.data);
         return response.data;
       } catch (error) {
-        commit(AUTHENTICATING_ERROR, error.response.status);
+        commit(AUTHENTICATING_ERROR, error);
         return null;
       }
     },

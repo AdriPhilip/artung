@@ -79,13 +79,16 @@ export default {
         } else {
           console.log("Le rôle n'est pas défini dans l'API");
         }
-      } else if (this.$store.getters['security/error'] == 401) {
-        this.error =
-          "Connexion impossible. Les informations entrées n'ont pas permis l'authentification.";
       } else {
-        this.error =
-          'Connexion impossible. Erreur ' +
-          this.$store.getters['security/error'];
+        let responseError = this.$store.getters['security/error'];
+        if (responseError.response.status == 401) {
+          this.error =
+            "Connexion impossible. Les informations entrées n'ont pas permis l'authentification.";
+        } else {
+          this.error =
+            'Connexion impossible. Erreur ' +
+            this.$store.getters['security/error'];
+        }
       }
     },
   },

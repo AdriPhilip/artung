@@ -16,7 +16,7 @@
       </h2>
       <!-- Bouton de mise en favori ; ne doit s'afficher que quand on est connecté -->
       <button
-        v-show="$route.name!=='Home'"
+        v-if="isAuthenticated"
         class="starIcon"
       >
         <font-awesome-icon
@@ -52,9 +52,14 @@ export default {
     }
   },
   computed: {
+    // Récupère la prop artist pour la renvoyer à l'enfant ArtistThumbnail
     artistProp() {
       return this.artist
-    }
+    },
+    // Récupère si le user est connecté
+    isAuthenticated() {
+      return this.$store.getters["security/isAuthenticated"]
+    },
   }
 };
 </script>

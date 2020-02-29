@@ -1,12 +1,12 @@
 <template>
   <div>
     <nav>
-      <!-- Logo ; permet de retourner au catalogue ; ne s'affiche que dans le parcours fan -->
+      <!-- Logo ; permet de retourner au catalogue -->
       <img
         v-show="$route.name=='Catalog'|$route.name=='ArtistDetails'|$route.name=='FanAccount'"
         src="../../../img/artung_logo.png"
         alt="logo de l'application Artung"
-        @click="$router.push({ name: 'Catalog' })"
+        @click="routerLogo()"
       >
       <!-- Boutons de registration ; ne s'affichent que sur la page Home -->
       <TextButton
@@ -53,9 +53,26 @@ export default {
     LoginButton,
     FavBar,
   },
+  computed: {
+    // Récupère si le user est connecté
+    isAuthenticated() {
+      return this.$store.getters["security/isAuthenticated"]
+    },
+    // récupère le rôle du user connecté
+    role() {
+      if (this.isAuthenticated) return this.$store.getters["security/roles"][0];
+      else return 'NO';
+    }
+  },
   methods: {
+    // Routes de destination des TextButton
     routerPush(name, params) {
       this.$router.push({ name: name, params: params });
+    },
+    // Routes de destination du logo en fonction du rôle
+    routerLogo() {
+      if(this.role === "ROLE_FAN") this.$router.push({ name: "Catalog" });
+      else this.$router.push({ name: "Home" });
     }
   }
 };

@@ -30,6 +30,7 @@ export default {
     };
   },
   created() {
+    // Bus d'événements pour les champs de recherche
     searchBus.$on("input-text", data => {
       this.searchText = data;
     });

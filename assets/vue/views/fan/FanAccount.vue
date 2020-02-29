@@ -24,12 +24,12 @@
     <TextButton
       text="Me déconnecter"
       secondary
-      @onClick="window.location.href = '/api/security/logout'"
+      @onClick="disconnect()"
     />
     <TextButton
       text="Supprimer mon profil"
       secondary
-      @onClick="routerPush('DeleteAccount', '')"
+      @onClick="routerPush('DeleteAccount')"
     />
   </div>
 </template>
@@ -58,13 +58,15 @@ export default {
   },
   methods: {
     // Routes de destination des TextButton
-    routerPush(name, params) {
-      this.$router.push({ name: name, params: params });
+    routerPush(name) {
+      this.$router.push({ name: name });
+    },
+    disconnect() {
+      window.location.href = window.rootUrl+'security/logout'
     }
   }
 };
 </script>
 
 <style lang="scss">
-
 </style>

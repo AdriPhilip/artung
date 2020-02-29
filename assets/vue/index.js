@@ -28,6 +28,7 @@ library.add(faHome, faHeart, farHeart, faMusic, faFacebook, faTwitter, faYoutube
   faSortDown);
 
 export const searchBus = new Vue();
+export const readonlyBus = new Vue();
 
 Vue.config.productionTip = false;
 

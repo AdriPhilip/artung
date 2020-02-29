@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a
+    <button
       href="/Login"
       @click="$emit('onClick')"
     >
@@ -10,7 +10,7 @@
           alt="right arrow"
         >
       </div>
-    </a>
+    </button>
   </div>
 </template>
 

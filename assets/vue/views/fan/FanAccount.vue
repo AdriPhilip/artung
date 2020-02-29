@@ -1,10 +1,35 @@
 <template>
   <div>
     <Header />
-    <FormGroup />
-    <EditIcon />
+
+    <!-- Formulaire de données de profil -->
+    <form @submit.prevent>
+      <EditIcon />
+      <FormGroup
+        form-group="photoInput"
+        type-status="text"
+        text="Photo de profil"
+      />
+    </form>
+
+    <hr>
+
+    <!-- Formulaire de données de connexion -->
     <FormAccount />
-    <TextButton />
+
+    <hr>
+
+    <!-- Boutons se déconnecter et supprimer mon profil -->
+    <TextButton
+      text="Me déconnecter"
+      secondary
+      @onClick="routerPush('Home', '')"
+    />
+    <TextButton
+      text="Supprimer mon profil"
+      secondary
+      @onClick="routerPush('DeleteAccount', '')"
+    />
   </div>
 </template>
 

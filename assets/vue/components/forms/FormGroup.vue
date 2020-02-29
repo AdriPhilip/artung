@@ -1,9 +1,15 @@
 <template>
   <div>
     <label :for="formGroup">{{ text }}</label>
-    <input
+    <!-- La value sera à passer en props -->
+    <!-- <input
       :id="formGroup"
       :value="infosArtistResults.nickname"
+      :placeholder="placeholder"
+      @readonlyStatus="readonlyStatus"
+    > -->
+    <input
+      :id="formGroup"
       :placeholder="placeholder"
       @readonlyStatus="readonlyStatus"
     >
@@ -30,7 +36,7 @@ export default {
     },
     placeholder: {
       type: String,
-      required: true
+      default: ''
     },
     readonlyStatus: Boolean
   },
@@ -41,7 +47,7 @@ export default {
   },
   computed: {
     urlArtist() {
-      return `${window.rootUrl}artists/1`;
+      return `${window.rootUrl}artists/5`;
     },
     isReadonly: function() {
       if (this.readonlyStatus) {

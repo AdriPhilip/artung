@@ -3,7 +3,7 @@
     <input
       class="form-control"
       type="text"
-      placeholder="Rechercher par nom"
+      placeholder="Recherche par nom"
       :value="value"
       @input="emitValue($event)"
     >

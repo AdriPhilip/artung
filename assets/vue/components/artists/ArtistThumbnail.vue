@@ -70,14 +70,14 @@ export default {
   img {
     width: 56px;
     height: 56px;
-    margin-left: 2px;
-    border-bottom-left-radius: 5px;
+    margin-left: var(--spacing-xs);
+    border-bottom-left-radius: var(--spacing-sm);
   }
   .categoryButton {
     cursor: pointer;
     position: absolute;
     top: 0;
-    left: 2px;
+    left: var(--spacing-xs);
     border: 0;
     background-color: transparent;
     width: 0; 
@@ -87,8 +87,8 @@ export default {
   }
   svg {
     position: absolute;
-    top: 1px;
-    left: -26px;
+    top: var(--spacing-xs);
+    left: -24px;
     width: 12px;
     height: 12px;
     color: var(--primary);

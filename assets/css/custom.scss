@@ -14,6 +14,13 @@ $input-border-radius: none;
 $input-border-radius-lg: none;
 $input-border-radius-sm: none;
 
+// Spacing css hors Bootstrap (sur la base de 1em = 10px)
+:root {
+  --spacing-md: 10px;
+  --spacing-sm: 5px;
+  --spacing-xs: 2px;
+}
+
 // Fonts
 @font-face {
   font-family: "Montserrat";
@@ -37,76 +44,41 @@ $input-border-radius-sm: none;
 
 * {
   box-sizing: border-box;
+  font-family: Alegreya Sans;
+  font-size: 10px;
 }
 
 html,
 body {
-  font-size: 10px;
-  color: var(--light);
   margin: 0;
   padding: 0;
+  color: var(--light);
 }
 
 h1 {
-  margin-bottom: 3rem;
-  font-family: Montserrat;
+  font-family: Caveat;
   font-size: 6.103515625em;
-  line-height: 9rem;
-  font-weight: 600;
-  font-style: normal;
-  letter-spacing: 0em;
 }
 
 h2 {
-  margin-bottom: 3rem;
-  font-family: Montserrat;
-  font-size: 4.8828125em;
-  line-height: 6rem;
-  font-weight: 600;
-  font-style: normal;
-  letter-spacing: 0em;
+  font-family: Caveat;
+  font-size: 3em !important;
 }
 
 p {
-  margin-bottom: 3rem;
-  font-family: Lora;
-  font-size: 1.6em;
-  line-height: 3rem;
-  font-weight: 400;
-  font-style: normal;
-  letter-spacing: 0em;
+  font-family: Alegreya Sans;
+  font-size: 18px !important;
 }
 
 @media screen and (max-width: 720px) {
   h1 {
-    margin-bottom: 2rem;
-    font-family: Caveat;
     font-size: 3em;
-    line-height: 3rem;
-    font-weight: 400;
-    font-style: normal;
-    letter-spacing: -0em;
-    color: #f1e7e7;
   }
   h2 {
-    margin-bottom: 2rem;
-    font-family: Caveat;
-    font-size: 2.25em;
-    line-height: 2.25rem;
-    font-weight: 400;
-    font-style: normal;
-    letter-spacing: 0em;
-    color: #f1e7e7;
+    font-size: 2.25em !important;
   }
   p {
-    margin-bottom: 2rem;
-    font-family: Alegreya Sans;
-    font-size: 1.5em;
-    line-height: 2rem;
-    font-weight: 300;
-    font-style: normal;
-    letter-spacing: 0em;
-    color: #f1e7e7;
+    font-size: 16px !important;
   }
 }
 

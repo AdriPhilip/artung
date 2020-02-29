@@ -1,8 +1,21 @@
 <template>
   <div>
-    <FormGroup />
-    <Checkbox />
-    <TextButton />
+    <FormGroup
+      form-group="emailInput"
+      type-status="email"
+      text="Email"
+      placeholder="nom@nom-de-domaine.com"
+    />
+    <FormGroup
+      form-group="passwordInput"
+      type-status="password"
+      text="Mot de passe"
+    />
+    <Checkbox text="Rester connecté" />
+    <TextButton
+      text="Go !"
+      route="Catalog"
+    />
   </div>
 </template>
 

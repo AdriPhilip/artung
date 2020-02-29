@@ -86,14 +86,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .listArtists {
-  display: flex;
-  flex-direction: column;
-  padding-top: 5px;
-}
-@media (min-width: 768px) {
-  .listArtists {
-    flex-direction: row;
-    padding-right: 5px;
-  }
+  padding-top: var(--spacing-md);
 }
 </style>

@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       searchTypes: ["flux", "date"],
-      styleObject: {width: "inherit", marginRight: "5px"}
+      styleObject: {width: "100%"}
     };
   },
   computed: {

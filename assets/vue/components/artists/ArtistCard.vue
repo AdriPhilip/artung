@@ -54,11 +54,13 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .artistCard {
+    display: inline-block;
+    width: 100%;
     min-height: 60px;
     max-height: 240px;
-    margin: 0 5px 5px 5px;
+    margin-bottom: var(--spacing-md);
     background-color: var(--dark);
-    border-radius: 0 5px 5px 5px;
+    border-radius: 0 var(--spacing-sm) var(--spacing-sm) var(--spacing-sm);
     cursor: pointer;
     transition: background-color 400ms;
   }
@@ -67,7 +69,7 @@ export default {
   }
   .artistInfos {
     position: relative;
-    padding-top: 2px;
+    padding-top: var(--spacing-xs);
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
@@ -75,13 +77,12 @@ export default {
 
   .artistNickname {
     color: var(--light);
-    margin-left: 5px;
-    font-size: 1.5rem;
+    margin-left: var(--spacing-sm);
   }
   .starIcon {
     position: absolute;
-    top: 2px;
-    right: 2px;
+    top: var(--spacing-xs);
+    right: var(--spacing-xs);
     background-color: transparent;
     color: var(--primary);
     border: 0;
@@ -90,12 +91,12 @@ export default {
     margin-bottom: auto;
   }
   .artistDescription {
-    padding: 2px;
+    padding: var(--spacing-xs);
   }
   @media (min-width: 768px) {
     .artistCard {
-      width: 50%;
-      margin-right: 0;
+      width: calc(50% - var(--spacing-md));
+      margin-right: var(--spacing-md);
     }
   }
 </style>

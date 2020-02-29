@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import store from './store';
 
 Vue.use(VueRouter);
 
@@ -23,87 +24,130 @@ import Steve from './views/test/Steve';
 // Définition des routes
 const routes = [
   {
-    name: "Logo",
-    path: "/",
-    component: Logo
+    name: 'Logo',
+    path: '/',
+    component: Logo,
   },
   {
-    name: "Home",
-    path: "/home",
-    component: Home
+    name: 'Home',
+    path: '/home',
+    component: Home,
   },
   {
-    name: "Register",
-    path: "/register",
+    name: 'Register',
+    path: '/register',
     component: Register,
-    props: true
+    props: true,
   },
   {
-    name: "DeleteAccount",
-    path: "/delete-account",
-    component: DeleteAccount
+    name: 'DeleteAccount',
+    path: '/delete-account',
+    component: DeleteAccount,
   },
   {
-    name: "Login",
-    path: "/login",
+    name: 'Login',
+    path: '/login',
     component: Login,
-    props: true
+    props: true,
   },
   // Routes Fan
   {
-    name: "Catalog",
-    path: "/fan",
-    component: Catalog
+    name: 'Catalog',
+    path: '/fan',
+    component: Catalog,
+    /*     meta: {
+      requiresAuth: {
+        roles: ['ROLE_FAN'],
+      },
+    }, */
   },
   {
-    name: "ArtistDetails",
-    path: "/fan/artist/:id",
+    name: 'ArtistDetails',
+    path: '/fan/artist/:id',
     component: ArtistDetails,
-    props: true
+    props: true,
+    /*     meta: {
+      requiresAuth: {
+        roles: ['ROLE_FAN'],
+      },
+    }, */
   },
   {
-    name: "FanAccount",
-    path: "/fan/account",
-    component: FanAccount
+    name: 'FanAccount',
+    path: '/fan/account',
+    component: FanAccount,
+    /*     meta: {
+      requiresAuth: {
+        roles: ['ROLE_FAN'],
+      },
+    }, */
   },
   // Routes Artist
   {
-    name: "ArtistAccount",
-    path: "/artist/account",
-    component: ArtistAccount
+    name: 'ArtistAccount',
+    path: '/artist/account',
+    component: ArtistAccount,
+    /*     meta: {
+      requiresAuth: {
+        roles: ['ROLE_ARTIST'],
+      },
+    }, */
   },
   {
-    name: "ArtistPreview",
-    path: "/artist/preview",
-    component: ArtistPreview
+    name: 'ArtistPreview',
+    path: '/artist/preview',
+    component: ArtistPreview,
+    /*     meta: {
+      requiresAuth: {
+        roles: ['ROLE_ARTIST'],
+      },
+    }, */
   },
   // Routes Test
   {
-    name: "Adrien",
-    path: "/adrien",
-    component: Adrien
+    name: 'Adrien',
+    path: '/adrien',
+    component: Adrien,
   },
   {
-    name: "Alice",
-    path: "/alice",
-    component: Alice
+    name: 'Alice',
+    path: '/alice',
+    component: Alice,
   },
   {
-    name: "Aude",
-    path: "/aude",
-    component: Aude
+    name: 'Aude',
+    path: '/aude',
+    component: Aude,
   },
   {
-    name: "Steve",
-    path: "/steve",
-    component: Steve
-  }
+    name: 'Steve',
+    path: '/steve',
+    component: Steve,
+  },
 ];
 
 //Création du routeur.
 const router = new VueRouter({
   mode: 'history',
   routes,
+});
+
+// Test si l'utilisateur est identifié à chaque route
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    if (store.getters['security/isAuthenticated']) {
+      next();
+    } else {
+      next({
+        path: '/login',
+        query: {redirect: to.fullPath},
+      });
+    }
+  } else {
+    next(); // make sure to always call next()!
+  }
 });
 
 export default router;

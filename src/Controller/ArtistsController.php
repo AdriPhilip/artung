@@ -41,29 +41,6 @@ class ArtistsController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="artists_new", methods={"POST"})
-     */
-    public function new(Request $request): Response
-    {
-        $artist = new Artists();
-        $artist->setNickname($request->request->get('nickname'));
-        $artist->setPhoto($request->request->get('photo'));
-        $artist->setCategory($request->request->get('category'));
-        $artist->setDescription($request->request->get('description'));
-        $artist->setFacebookLink($request->request->get('facebook_link'));
-        $artist->setTwitterLink($request->request->get('twitter_link'));
-        $artist->setYoutubeLink($request->request->get('youtube_link'));
-        $artist->setWordpressLink($request->request->get('wordpress_link'));
-
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($artist);
-        $entityManager->flush();
-
-        // Envoi de la réponse
-        return new Response("Profil ajouté", Response::HTTP_OK, []);
-    }
-
-    /**
      * @Route("/{id}", name="artists_show", methods={"GET"})
      */
     public function show(Request $request, ArtistsRepository $artistsRepository, SerializerInterface $serializer): Response
@@ -96,15 +73,18 @@ class ArtistsController extends AbstractController
         $id = $request->get('id');
 
         $artist = $artistsRepository->findOneBy(['id' => $id]);
+
+        $body = json_decode($request->getContent(), true);
+
         // On redéfinit toutes les valeurs de l'artiste
-        $artist->setNickname($request->request->get('nickname'));
-        $artist->setPhoto($request->request->get('photo'));
-        $artist->setCategory($request->request->get('category'));
-        $artist->setDescription($request->request->get('description'));
-        $artist->setFacebookLink($request->request->get('facebook_link'));
-        $artist->setTwitterLink($request->request->get('twitter_link'));
-        $artist->setYoutubeLink($request->request->get('youtube_link'));
-        $artist->setWordpressLink($request->request->get('wordpress_link'));
+        $artist->setNickname($body['nickname']);
+        $artist->setPhoto($body['photo']);
+        $artist->setCategory($body['category']);
+        $artist->setDescription($body['description']);
+        $artist->setFacebookLink($body['facebook_link']);
+        $artist->setTwitterLink($body['twitter_link']);
+        $artist->setYoutubeLink($body['youtube_link']);
+        $artist->setWordpressLink($body['wordpress_link']);
 
         $this->getDoctrine()->getManager()->flush();
 

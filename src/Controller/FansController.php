@@ -42,23 +42,6 @@ class FansController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="fans_new", methods={"POST"})
-     */
-    public function new(Request $request): Response
-    {
-        $fan = new Fans();
-        $fan->setNickname($request->request->get('nickname'));
-        $fan->setPhoto($request->request->get('photo'));
-
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($fan);
-        $entityManager->flush();
-
-        // Envoi de la réponse
-        return new Response("Profil ajouté", Response::HTTP_OK, []);
-    }
-
-    /**
      * @Route("/{id}", name="fans_show", methods={"GET"})
      */
     public function show(Request $request, FansRepository $fansRepository, SerializerInterface $serializer): Response
@@ -84,7 +67,6 @@ class FansController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="fans_edit", methods={"PUT"})
-     * @IsGranted("ROLE_FAN")
      */
     public function edit(Request $request, FansRepository $fansRepository): Response
     {
@@ -92,9 +74,12 @@ class FansController extends AbstractController
         $id = $request->get('id');
 
         $fan = $fansRepository->findOneBy(['id' => $id]);
+
+        $body = json_decode($request->getContent(), true);
+
         // On redéfinit toutes les valeurs du fan
-        $fan->setNickname($request->request->get('nickname'));
-        $fan->setPhoto($request->request->get('photo'));
+        $fan->setNickname($body['nickname']);
+        $fan->setPhoto($body['photo']);
 
         $this->getDoctrine()->getManager()->flush();
 

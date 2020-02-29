@@ -21,8 +21,9 @@ class RegistrationController extends AbstractController
     public function index(Request $request, EntityManagerInterface $manager, SerializerInterface $serializer)
     {
         $user = new User();
-        $user->setLogin($request->request->get("email"));
-        $user->setPlainPassword($request->request->get("password"));
+        $data = json_decode($request->getContent(), true);
+        $user->setLogin($data["username"]);
+        $user->setPlainPassword($data["password"]);
         $user->setRoles(['ROLE_FAN']);
 
         // On récupère le type de compte (artist ou fan) pour définir le role
@@ -30,13 +31,13 @@ class RegistrationController extends AbstractController
         if ($type == 'artist') {
             $user->setRoles(["ROLE_ARTIST"]);
             $artist = new Artists();
-            $artist->setNickname($request->request->get('nickname'));
+            $artist->setNickname($data['nickname']);
             $artist->setUser($user);
             $manager->persist($artist);
         } else if ($type == 'fan') {
             $user->setRoles(["ROLE_FAN"]);
             $fan = new Fans();
-            $fan->setNickname($request->request->get('nickname'));
+            $fan->setNickname($data['nickname']);
             $fan->setUser($user);
             $manager->persist($fan);
         }

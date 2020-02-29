@@ -28,7 +28,7 @@ final class SecurityController extends AbstractController
   }
 
   /**
-   * @Route("/security/login", name="login")
+   * @Route("/login", name="login")
    */
   public function loginAction(SerializerInterface $serializer): JsonResponse
   {
@@ -55,7 +55,7 @@ final class SecurityController extends AbstractController
   /**
    * @throws RuntimeException
    *
-   * @Route("/security/logout", name="logout")
+   * @Route("/logout", name="logout")
    */
   public function logoutAction(): void
   {

@@ -24,7 +24,7 @@
     <TextButton
       text="Me déconnecter"
       secondary
-      @onClick="routerPush('Home', '')"
+      @onClick="window.location.href = '/api/security/logout'"
     />
     <TextButton
       text="Supprimer mon profil"
@@ -56,6 +56,12 @@ export default {
       return this.$store.getters["security/user"];
     }
   },
+  methods: {
+    // Routes de destination des TextButton
+    routerPush(name, params) {
+      this.$router.push({ name: name, params: params });
+    }
+  }
 };
 </script>
 

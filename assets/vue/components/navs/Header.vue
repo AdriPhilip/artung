@@ -24,7 +24,8 @@
       <TextButton
         v-show="$route.name=='ArtistAccount'|$route.name=='ArtistPreview'"
         text="Aperçu de ma page"
-        @onClick="routerPush('ArtistPreview', '')"
+        secondary
+        @onClick="routerPush('ArtistPreview', { artist: user.artist })"
       />
       <!-- Barre de favoris ; ne s'affiche que dans le parcours fan -->
       <FavBar v-show="$route.name=='Catalog'|$route.name=='ArtistDetails'|$route.name=='FanAccount'" />
@@ -62,6 +63,11 @@ export default {
     role() {
       if (this.isAuthenticated) return this.$store.getters["security/roles"][0];
       else return 'NO';
+    },
+    // Récupère les infos du user dans le Store
+    user() {
+      if(this.isAuthenticated) return this.$store.getters["security/user"];
+      else return null;
     }
   },
   methods: {

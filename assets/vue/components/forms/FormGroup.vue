@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="form-group">
     <label :for="formGroup">{{ text }}</label>
     <!-- La value sera à passer en props -->
     <!-- <input
@@ -10,6 +10,8 @@
     > -->
     <input
       :id="formGroup"
+      v-model="model"
+      class="form-control"
       :placeholder="placeholder"
       @readonlyStatus="readonlyStatus"
     >
@@ -33,6 +35,10 @@ export default {
     formGroup: {
       type: String,
       required: true
+    },
+    model: {
+      type: String,
+      default: ''
     },
     placeholder: {
       type: String,

@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="d-flex">
+    <div class="searchBar">
       <div
         v-for="(type, index) in searchTypes"
         :key="index"
-        class="w-50 mx-2"
+        class="searchTypes"
       >
         <SearchBySelect
           v-if="type == 'category'"
@@ -79,4 +79,12 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+.searchBar {
+  display: flex;
+  justify-content: space-between;
+}
+.searchTypes {
+  width: calc(50% - var(--spacing-sm));
+}
+</style>

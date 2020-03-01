@@ -1,5 +1,5 @@
 <template>
-  <div class="input-group m-2">
+  <div class="input-group">
     <select
       class="form-control"
       :value="value"

@@ -70,7 +70,6 @@ export default {
     async performLogin() {
       let payload = { login: this.login, password: this.password };
       await this.$store.dispatch("security/login", payload, { root: true });
-      console.log(this.$store.getters["security/roles"]);
       if (!this.$store.getters["security/hasError"]) {
         let roles = this.$store.getters["security/roles"];
         if (roles.includes("ROLE_ARTIST")) {

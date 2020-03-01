@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Artists;
 use App\Repository\ArtistsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

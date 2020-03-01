@@ -32,10 +32,14 @@ export default {
       };
     },
     roles(state) {
-      return state.user.roles;
+      if (state.user.roles) {
+        return state.user.roles;
+      }
     },
     user(state) {
-      return state.user;
+      if (state.user) {
+        return state.user;
+      }
     },
   },
   mutations: {

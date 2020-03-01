@@ -9,7 +9,7 @@
         form-group="photoInput"
         type-status="text"
         text="Photo de profil"
-        :model="user.artist.photo"
+        :model="user.fan.photo"
       />
     </form>
 
@@ -35,20 +35,20 @@
 </template>
 
 <script>
-import Header from '../../components/navs/Header'
-import FormGroup from '../../components/forms/FormGroup'
-import EditIcon from '../../components/buttons/EditIcon'
-import FormAccount from '../../components/forms/FormAccount'
-import TextButton from '../../components/buttons/TextButton'
+import Header from "../../components/navs/Header";
+import FormGroup from "../../components/forms/FormGroup";
+import EditIcon from "../../components/buttons/EditIcon";
+import FormAccount from "../../components/forms/FormAccount";
+import TextButton from "../../components/buttons/TextButton";
 
 export default {
-  name: 'FanAccount',
+  name: "FanAccount",
   components: {
     Header,
     FormGroup,
     EditIcon,
     FormAccount,
-    TextButton,
+    TextButton
   },
   computed: {
     // Récupère les infos du user dans le Store
@@ -62,7 +62,7 @@ export default {
       this.$router.push({ name: name });
     },
     disconnect() {
-      window.location.href = window.rootUrl+'security/logout'
+      window.location.href = window.rootUrl + "security/logout";
     }
   }
 };

@@ -42,56 +42,57 @@
 </template>
 
 <script>
-import FormGroup from '../components/forms/FormGroup';
-import TextButton from '../components/buttons/TextButton';
+import FormGroup from "../components/forms/FormGroup";
+import TextButton from "../components/buttons/TextButton";
 
 export default {
-  name: 'Login',
+  name: "Login",
   components: {
     FormGroup,
-    TextButton,
+    TextButton
   },
   data() {
     return {
-      login: '',
-      password: '',
-      error: '',
+      login: "",
+      password: "",
+      error: ""
     };
   },
   computed: {
     isLoading() {
-      return this.$store.getters['security/isLoading'];
+      return this.$store.getters["security/isLoading"];
     },
     hasError() {
-      return this.$store.getters['security/hasError'];
-    },
+      return this.$store.getters["security/hasError"];
+    }
   },
   methods: {
     async performLogin() {
-      let payload = {login: this.login, password: this.password};
-      await this.$store.dispatch('security/login', payload, {root: true});
-      if (!this.$store.getters['security/hasError']) {
-        let roles = this.$store.getters['security/roles'];
-        if (roles.includes('ROLE_ARTIST')) {
-          this.$router.push({path: '/artist/account'});
-        } else if (roles.includes('ROLE_FAN')) {
-          this.$router.push({path: '/fan'});
+      let payload = { login: this.login, password: this.password };
+      await this.$store.dispatch("security/login", payload, { root: true });
+      console.log(this.$store.getters["security/roles"]);
+      if (!this.$store.getters["security/hasError"]) {
+        let roles = this.$store.getters["security/roles"];
+        if (roles.includes("ROLE_ARTIST")) {
+          this.$router.push({ path: "/artist/account" });
+        } else if (roles.includes("ROLE_FAN")) {
+          this.$router.push({ path: "/fan" });
         } else {
           console.log("Le rôle n'est pas défini dans l'API");
         }
       } else {
-        let responseError = this.$store.getters['security/error'];
+        let responseError = this.$store.getters["security/error"];
         if (responseError.response.status == 401) {
           this.error =
             "Connexion impossible. Les informations entrées n'ont pas permis l'authentification.";
         } else {
           this.error =
-            'Connexion impossible. Erreur ' +
-            this.$store.getters['security/error'];
+            "Connexion impossible. Erreur " +
+            this.$store.getters["security/error"];
         }
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

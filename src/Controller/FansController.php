@@ -113,9 +113,33 @@ class FansController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/removefav/{artistId}", name="fans_add_fav", methods={"PUT"})
+     * @IsGranted("ROLE_FAN", message="Vous devez être enregistré en tant que fan pour effectuer cette action")
+     */
+    public function removeFav(Request $request, FansRepository $fansRepository, ArtistsRepository $artistsRepository): Response
+    {
+        // Récupération de la valeur de {id} (correspondant au fan) à partir de la route
+        $id = $request->get('id');
+        $artistId = $request->get('artistId');
+
+        $fan = $fansRepository->findOneBy(['id' => $id]);
+        $artist = $artistsRepository->findOneBy(['id' => $artistId]);
+
+        // On redéfinit toutes les valeurs du fan
+        $fan->removeFavori($artist);
+
+        $this->getDoctrine()->getManager()->flush();
+
+        // Envoi de la réponse
+        return new Response("Favoris supprimé", Response::HTTP_OK, []);
+    }
+
+    /**
      * @Route("/{id}", name="fans_delete", methods={"DELETE"})
      * @IsGranted("ROLE_FAN", message="Vous devez être enregistré en tant que fan pour effectuer cette action")
      */
+
+    /*
     public function delete(Request $request, FansRepository $fansRepository): Response
     {
         $id = $request->get('id');
@@ -132,4 +156,5 @@ class FansController extends AbstractController
             return new Response("Echec de la suppression du profil", 500, []);
         }
     }
+    */
 }

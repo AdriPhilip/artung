@@ -4,23 +4,37 @@
       v-for="(post, generateId) of sortedListPostsArray"
       :key="generateId"
     >
+      <!-- Posts Youtube -->
       <div
         v-if="post.typePost=='youtube'"
         class="youtubePost"
       >
-        <iframe
-          width="560"
-          height="315"
-          :src="`https://www.youtube.com/embed/${post.id.videoId}`"
-          frameborder="0"
-          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
+        <font-awesome-icon
+          :icon="['fab', 'youtube']"
+          size="2x"
         />
+        <span>{{ post.date }}</span>
+        <div class="video">
+          <iframe
+            width="560"
+            height="315"
+            :src="`https://www.youtube.com/embed/${post.id.videoId}`"
+            frameborder="0"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          />
+        </div>
       </div>
+      <!-- Posts Wordpress -->
       <div
         v-if="post.typePost=='wordpress'"
         class="wordpressPost"
       >
+        <font-awesome-icon
+          :icon="['fab', 'wordpress']"
+          size="2x"
+        />
+        <span>{{ post.date }}</span>
         <h3>{{ post.title.rendered }}</h3>
         <!-- eslint-disable-next-line vue/no-v-html -->
         <p v-html="post.content.rendered" />
@@ -38,7 +52,7 @@ export default {
   props: {
     artist: {
       type: Object,
-      required: true
+      default: null
     }
   },
   data() {
@@ -49,6 +63,7 @@ export default {
     }
   },
   computed: {
+    // S'assurer que l'url fournie finit par / et est une adresse Wordpress valide
     urlWordpress() {
       return `${this.artist.wordpressLink}wp-json/wp/v2/posts`;
     },
@@ -69,6 +84,7 @@ export default {
     this.getInfosYoutube();
   },
   methods: {
+    // Récupère les données de l'API de Wordpress
     async getInfosWordpress() {
       try {
         const response = await fetch(this.urlWordpress);
@@ -79,6 +95,7 @@ export default {
         console.log(err);
       }
     },
+    // Récupère les données de l'API de Youtube
     async getInfosYoutube() {
       try {
         const response = await fetch(this.urlYoutube);
@@ -89,20 +106,23 @@ export default {
         console.log(err);
       }
     },
+    // Pousse les données Youtube dans le tableau listPostArray, génère un "generateId", ajoute une donnée "typePost" et crée la donnée "date" à partir de "publishedAt" en prenant les 10 premiers caractères
     pushYoutubePosts() {
       let i=0;
       this.youtubeResults.forEach(element => {
         element.generateId=i;
         element.typePost="youtube";
-        element.date=element.snippet.publishedAt;
+        element.date=element.snippet.publishedAt.substring(0,10);
         this.listPostsArray.push(element);
         i++;
       });
     },
+    // Pousse les données Wordpress dans le tableau listPostArray, crée un "generateId" à partir de "id", ajoute une donnée "typePost" et modifie la donnée "date" en prenant uniquement les 10 premiers caractères
     pushWordpressPosts() {
       this.wordpressResults.forEach(element => {
         element.generateId=element.id;
         element.typePost="wordpress";
+        element.date=element.date.substring(0,10);
         this.listPostsArray.push(element);
       })
     }
@@ -112,5 +132,27 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.listPosts {
+  margin-top: var(--spacing-md);
+}
+svg, span {
+  color: var(--light);
+}
+.youtubePost {
+  margin-bottom: var(--spacing-md);
+}
+.video {
+  display: flex;
+  justify-content: center;
+  max-width: 100%;
+}
+.wordpressPost {
+  margin-bottom: var(--spacing-md);
+}
+/* >>> : sélecteur css pour sélectionner du html généré à partir du v-html de Vue */
+.wordpressPost >>> img {
+  display: block;
+  max-width: 90%;
+  margin: 0 auto;
+}
 </style>

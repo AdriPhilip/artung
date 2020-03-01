@@ -2,11 +2,11 @@
   <div>
     <Header />
     <ArtistCard
-      :artist="artistProp"
+      :artist="artist"
       :style="styleObject"
     />
     <SearchBar :search-types="searchTypes" />
-    <ListPosts :artist="artistProp" />
+    <ListPosts :artist="artist" />
   </div>
 </template>
 
@@ -26,13 +26,33 @@ export default {
   },
   data() {
     return {
+      infosArtistResults: null,
       searchTypes: ["flux", "date"],
       styleObject: {width: "100%"}
     };
   },
   computed: {
-    artistProp() {
-      return this.$route.params.artist;
+    urlArtist() {
+      return `${window.rootUrl}artists/${this.$route.params.id}`;
+    },
+    artist() {
+      if(this.$route.params.artist) return this.$route.params.artist;
+      else return this.infosArtistResults;
+    }
+  },
+  created() {
+    if(!this.artist) this.getInfosArtist();
+  },
+  methods: {
+    // retourne le artist JSON qui sort de l'API
+    async getInfosArtist() {
+      try {
+        const response = await fetch(this.urlArtist);
+        const result = await response.json();
+        this.infosArtistResults = result;
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
 };

@@ -16,7 +16,7 @@
       <span v-case="'wordpress'">
         <font-awesome-icon :icon="['fab', 'wordpress']" />
       </span>
-      <span v-default>rien</span>
+      <span v-default>"''"</span>
     </span>
     &nbsp;
     <input id="contenu">

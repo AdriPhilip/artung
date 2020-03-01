@@ -5,16 +5,28 @@
     </div>
     <span v-switch="icon">
       <span v-case="'facebook'">
-        <font-awesome-icon :icon="['fab', 'facebook']" />
+        <font-awesome-icon
+          :icon="['fab', 'facebook']"
+          size="2x"
+        />
       </span>
       <span v-case="'twitter'">
-        <font-awesome-icon :icon="['fab', 'twitter']" />
+        <font-awesome-icon
+          :icon="['fab', 'twitter']"
+          size="2x"
+        />
       </span>
       <span v-case="'youtube'">
-        <font-awesome-icon :icon="['fab', 'youtube']" />
+        <font-awesome-icon
+          :icon="['fab', 'youtube']"
+          size="2x"
+        />
       </span>
       <span v-case="'wordpress'">
-        <font-awesome-icon :icon="['fab', 'wordpress']" />
+        <font-awesome-icon
+          :icon="['fab', 'wordpress']"
+          size="2x"
+        />
       </span>
       <span v-default>"''"</span>
     </span>
@@ -73,7 +85,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 svg {
-  color: white;
-  font-size: 150%;
+  color: var(--light);
+  /*font-size: 150%;*/
 }
 </style>

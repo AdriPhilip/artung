@@ -1,7 +1,7 @@
 <template>
   <div class="listPosts">
     <div
-      v-for="(post, generateId) of listPostsArray"
+      v-for="(post, generateId) of sortedListPostsArray"
       :key="generateId"
     >
       <div
@@ -54,6 +54,14 @@ export default {
     },
     urlYoutube() {
       return `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${this.artist.youtubeLink}&order=date&type=video&videoEmbeddable=true&videoSyndicated=true&key=${window.youtubeApi}`;
+    },
+    // Trie les posts par ordre antéchronologique
+    sortedListPostsArray() {
+      const sortByMapped = (map,compareFn) => (a,b) => compareFn(map(a.date),map(b.date));
+      const toDate = e => new Date(e).getTime();
+      const byValue = (a,b) => b - a;
+      const byDate = sortByMapped(toDate,byValue);
+      return [...this.listPostsArray].sort(byDate);
     }
   },
   created() {

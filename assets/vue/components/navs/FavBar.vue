@@ -8,7 +8,7 @@
         :artist="fav"
       />
     </div>
-    <p v-show="!favs">
+    <p v-show="favs.length === 0">
       Vous n'avez pas encore d'artistes favoris
     </p>
   </div>

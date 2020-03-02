@@ -1,7 +1,9 @@
 <template>
   <div>
-    <Header />
-    <SearchBar :search-types="searchTypes" />
+    <div class="topBar">
+      <Header />
+      <SearchBar :search-types="searchTypes" />
+    </div>
     <ListArtists
       :search-by-category="searchCategory"
       :search-by-text="searchText"

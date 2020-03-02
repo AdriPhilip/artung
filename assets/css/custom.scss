@@ -69,6 +69,15 @@ p {
   font-family: Alegreya Sans;
 }
 
+// Style de la topBar qui s'affiche sur plusieurs pages
+.topBar {
+  position: fixed;
+  z-index: 1;
+  background-color: var(--black);
+  width: calc(100% - 2 * var(--spacing-md));
+  padding-bottom: var(--spacing-md);
+}
+
 // Exemple de personnalisation des variables :
 /*
 $theme-colors: (

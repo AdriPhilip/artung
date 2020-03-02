@@ -1,11 +1,13 @@
 <template>
   <div>
-    <Header />
-    <ArtistCard
-      :artist="artistProp"
-      :style="styleObject"
-    />
-    <SearchBar :search-types="searchTypes" />
+    <div class="topBar">
+      <Header />
+      <ArtistCard
+        :artist="artistProp"
+        :style="styleObject"
+      />
+      <SearchBar :search-types="searchTypes" />
+    </div>
     <ListPosts :artist="artistProp" />
   </div>
 </template>
@@ -39,5 +41,4 @@ export default {
 </script>
 
 <style lang="scss">
-
 </style>

@@ -1,6 +1,8 @@
 <template>
   <div>
-    <Header />
+    <div class="topBar">
+      <Header />
+    </div>
 
     <!-- Formulaire de données de profil -->
     <form @submit.prevent>

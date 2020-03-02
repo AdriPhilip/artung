@@ -12,18 +12,21 @@
       <TextButton
         v-if="!isAuthenticated"
         text="Je suis artiste"
+        class="marginButton"
         secondary
         @onClick="routerPush('Register', {role: 'artist'})"
       />
       <TextButton
         v-if="!isAuthenticated"
         text="Je veux suivre des artistes"
+        class="marginButton"
         @onClick="routerPush('Register', {role: 'fan'})"
       />
       <!-- Bouton d'aperçu de la page pour un artiste ; ne s'affiche que dans le parcours artiste -->
       <TextButton
         v-show="$route.name=='ArtistAccount' || $route.name=='ArtistPreview'"
         text="Aperçu de ma page"
+        class="marginButton"
         secondary
         @onClick="routerPush('ArtistPreview', { artist: user.artist })"
       />
@@ -32,11 +35,13 @@
       <!-- Bouton de profil ; ne s'affiche que si connecté -->
       <AccountButton
         v-if="isAuthenticated"
+        class="accountButton"
         @onClick="goToAccount()"
       />
       <!-- Bouton de login ; ne s'affiche que si non connecté -->
       <LoginButton
         v-if="!isAuthenticated"
+        class="loginButton"
         @onClick="routerPush('Login', '')"
       />
     </nav>
@@ -99,11 +104,20 @@ export default {
 nav {
   display: flex;
   align-items: center;
-  padding: 5px;
 }
 nav img {
   width: 56px;
   height: 56px;
   cursor: pointer;
+}
+/* Espacement entre les boutons du Header */
+.marginButton {
+  margin-right: var(--spacing-md);
+}
+.accountButton {
+  margin-left: var(--spacing-md);
+}
+.loginButton {
+  margin-left: auto;
 }
 </style>

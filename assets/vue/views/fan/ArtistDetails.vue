@@ -1,11 +1,13 @@
 <template>
   <div>
-    <Header />
-    <ArtistCard
-      :artist="artist"
-      :style="styleObject"
-    />
-    <SearchBar :search-types="searchTypes" />
+    <div class="topBar">
+      <Header />
+      <ArtistCard
+        :artist="artist"
+        :style="styleObject"
+      />
+      <SearchBar :search-types="searchTypes" />
+    </div>
     <ListPosts :artist="artist" />
   </div>
 </template>

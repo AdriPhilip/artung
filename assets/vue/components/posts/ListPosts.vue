@@ -190,6 +190,10 @@ h3 {
   max-width: 90%;
   margin: 0 auto;
 }
+.wordpressPost >>> p {
+  background-color: var(--dark);
+  padding: var(--spacing-sm);
+}
 .wordpressPost >>> p, .wordpressPost >>> a, .wordpressPost >>> strong {
   font-size: 1.2em;
 }

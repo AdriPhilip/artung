@@ -152,7 +152,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .listPosts {
-  padding-top: 220px;
+  padding-top: 280px;
 }
 hr {
   height: var(--spacing-xs);
@@ -198,6 +198,9 @@ h3 {
   font-size: 1.2em;
 }
 @media (min-width: 768px) {
+  .listPosts {
+    padding-top: 260px;
+  }
   .youtubePost, .wordpressPost {
     max-width: 60%;
     margin: 0 auto;

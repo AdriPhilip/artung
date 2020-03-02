@@ -104,9 +104,11 @@ export default {
 nav {
   display: flex;
   align-items: center;
+  margin: var(--spacing-sm) 0;
 }
 nav img {
   width: 56px;
+  padding: var(--spacing-md);
   height: 56px;
   cursor: pointer;
 }

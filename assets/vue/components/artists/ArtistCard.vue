@@ -85,7 +85,7 @@ export default {
     align-items: center;
   }
   .artistNickname {
-    font-size: 2.5em;
+    font-size: 2rem;
     color: var(--light);
     margin-left: var(--spacing-sm);
   }
@@ -103,13 +103,16 @@ export default {
   .artistDescription {
     padding: var(--spacing-xs);
   }
+  .artistDescription p {
+    color: var(--light);
+  }
   @media (min-width: 768px) {
     .artistCard {
-      width: calc(50% - var(--spacing-md) / 2);
+      width: calc(50% - var(--spacing-sm));
       margin-right: var(--spacing-md);
     }
     .artistNickname {
-      font-size: 3.25em;
+      font-size: 2.5rem;
     }
   }
 </style>

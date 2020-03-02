@@ -1,8 +1,9 @@
 <template>
-  <div>
-    <div>
-      <label for="contenu">{{ text }}</label>
-    </div>
+  <div class="form-group">
+    <label
+      :for="formGroupInline"
+      class="formGroupInlineCss"
+    >{{ text }}</label>
     <span v-switch="icon">
       <span v-case="'facebook'">
         <font-awesome-icon
@@ -31,12 +32,19 @@
       <span v-default>"''"</span>
     </span>
     &nbsp;
-    <input id="contenu">
+    <input
+      :id="formGroupInline"
+      v-model="model"
+      class="form-control"
+      :placeholder="placeholder"
+      @input="$emit('input', model)"
+    >
   </div>
 </template>
 
 <script>
 import { vSwitch, vCase, vDefault } from "v-switch-case";
+import { readonlyBus } from "../../index.js";
 
 export default {
   name: "FormGroupInline",
@@ -53,7 +61,31 @@ export default {
     iconStatus: {
       type: String,
       required: true
+    },
+    model: {
+      type: String,
+      default: ''
+    },
+    placeholder: {
+      type: String,
+      default: ''
+    },
+    readonlyStatus: Boolean,
+  },
+  data() {
+    return {
+      readonlyValue: true
+    };
+  },
+  watch: {
+    readonlyValue: function() {
+      this.$el.querySelector("input").toggleAttribute("readonly");
     }
+  },
+  created() {
+    readonlyBus.$on("readonlyStatus", data => {
+      this.readonlyValue = data;
+    });
   },
   mounted() {
     this.iconChange();
@@ -87,5 +119,10 @@ export default {
 svg {
   color: var(--light);
   /*font-size: 150%;*/
+}
+.formGroupInlineCss { 
+  font-size: 3em;
+  color: var(--light);
+  font-family: "Caveat";
 }
 </style>

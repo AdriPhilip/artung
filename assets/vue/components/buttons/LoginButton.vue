@@ -27,4 +27,9 @@ export default {
   border-radius: 50%;
   border: 2px solid #db5c4d;
 }
+
+#loginButton > img{
+  margin-left: -3px;
+}
+
 </style>

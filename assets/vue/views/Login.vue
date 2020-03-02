@@ -75,7 +75,7 @@ export default {
         if (roles.includes("ROLE_ARTIST")) {
           this.$router.push({ path: "/artist/account" });
         } else if (roles.includes("ROLE_FAN")) {
-          this.$router.push({ path: "/fan" });
+          this.$router.push({ path: "/home" });
         } else {
           console.log("Le rôle n'est pas défini dans l'API");
         }

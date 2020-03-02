@@ -3,10 +3,10 @@
     <nav>
       <!-- Logo ; permet de retourner au catalogue -->
       <img
-        v-show="$route.name=='Home'|$route.name=='Catalog'|$route.name=='ArtistDetails'|$route.name=='FanAccount'"
+        v-show="$route.name=='Home'|$route.name=='ArtistDetails'|$route.name=='FanAccount'"
         src="../../../img/artung_logo.png"
         alt="logo de l'application Artung"
-        @click="routerLogo()"
+        @click="routerPush('Home', '')"
       >
       <!-- Boutons de registration ; ne s'affichent que si non connecté -->
       <TextButton
@@ -82,11 +82,6 @@ export default {
     // Routes de destination des TextButton
     routerPush(name, params) {
       this.$router.push({ name: name, params: params });
-    },
-    // Routes de destination du logo en fonction du rôle
-    routerLogo() {
-      if (this.role === "ROLE_FAN") this.$router.push({ name: "Catalog" });
-      else this.$router.push({ name: "Home" });
     },
     goToAccount() {
       if (this.role === "ROLE_FAN") {

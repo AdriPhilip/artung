@@ -1,5 +1,5 @@
 <template>
-  <div class="input-group my-2 mr-2">
+  <div class="input-group">
     <input
       class="form-control"
       type="text"

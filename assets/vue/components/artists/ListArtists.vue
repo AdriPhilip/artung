@@ -9,8 +9,13 @@
       />
     </div>
     <!-- Si la recherche retourne aucun artiste -->
-    <p v-show="filteredArtists.length == 0">
+    <p
+      v-show="filteredArtists && filteredArtists.length == 0"
+    >
       Aucun artiste ne correspond à votre recherche.
+    </p>
+    <p v-if="loading">
+      Chargement des artistes...
     </p>
   </div>
 </template>
@@ -35,7 +40,8 @@ export default {
   },
   data() {
     return {
-      infosArtistResults: null
+      infosArtistResults: null,
+      loading: false
     };
   },
   computed: {
@@ -45,12 +51,16 @@ export default {
     },
     // filtre les résultats, par texte, par catégorie, ou pas du tout
     filteredArtists: function() {
-      if (this.searchByText !== "") {
-        return this.infosArtistResults.filter(this.filterArtistsByText);
-      } else if (this.searchByCategory !== "") {
-        return this.infosArtistResults.filter(this.filterArtistsByCategory);
+      if (this.loading == false) {
+        if (this.searchByText !== "") {
+          return this.infosArtistResults.filter(this.filterArtistsByText);
+        } else if (this.searchByCategory !== "") {
+          return this.infosArtistResults.filter(this.filterArtistsByCategory);
+        } else {
+          return this.infosArtistResults;
+        }
       } else {
-        return this.infosArtistResults;
+        return null;
       }
     }
   },
@@ -60,10 +70,12 @@ export default {
   methods: {
     // retourne le JSON qui sort de l'API
     async getInfosArtist() {
+      this.loading = true;
       try {
         const response = await fetch(this.urlArtist);
         const result = await response.json();
         this.infosArtistResults = result;
+        this.loading = false;
       } catch (err) {
         console.log(err);
       }

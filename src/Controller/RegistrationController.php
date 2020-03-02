@@ -24,7 +24,6 @@ class RegistrationController extends AbstractController
         $data = json_decode($request->getContent(), true);
         $user->setLogin($data["username"]);
         $user->setPlainPassword($data["password"]);
-        $user->setRoles(['ROLE_FAN']);
 
         // On récupère le type de compte (artist ou fan) pour définir le role
         $type = $request->get('type');
@@ -40,6 +39,8 @@ class RegistrationController extends AbstractController
             $fan->setNickname($data['nickname']);
             $fan->setUser($user);
             $manager->persist($fan);
+        } else if ($type == 'admin') {
+            $user->setRoles(['ROLE_ADMIN']);
         }
 
         $manager->persist($user);

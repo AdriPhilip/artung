@@ -16,7 +16,9 @@
     <EditIcon />
     <LoginButton />
     <AccountButton />
-  </div>
+    <p />
+    <FormAccount />
+  </div>  
 </template>
 
 <script>
@@ -27,6 +29,7 @@ import FormGroupInline from "../../components/forms/FormGroupInline";
 import EditIcon from "../../components/buttons/EditIcon";
 import LoginButton from "../../components/buttons/LoginButton"
 import AccountButton from "../../components/buttons/AccountButton"
+import FormAccount from "../../components/forms/FormAccount"
 
 export default {
   name: "Steve",
@@ -37,7 +40,8 @@ export default {
     FormGroupInline,
     EditIcon,
     LoginButton,
-    AccountButton
+    AccountButton,
+    FormAccount
   },
   data() {
     return {

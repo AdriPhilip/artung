@@ -6,10 +6,10 @@
     <!-- On clique sur la card pour accéder à la page détails de l'artiste -->
     <div
       class="artistInfos"
-      @click.self="$router.push({ name: 'ArtistDetails', params: { id: artist.id, artist: artistProp }})"
+      @click.self="$router.push({ name: 'ArtistDetails', params: { id: artist.id, artist: artist }})"
     >
       <!-- Photo de miniature à laquelle on envoie l'objet artist -->
-      <ArtistThumbnail :artist="artistProp" />
+      <ArtistThumbnail :artist="artist" />
       <!-- Nom de l'artiste -->
       <h2 class="artistNickname">
         {{ artist.nickname }}
@@ -48,14 +48,10 @@ export default {
   props: {
     artist: {
       type: Object,
-      required: true
+      default: null
     }
   },
   computed: {
-    // Récupère la prop artist pour la renvoyer à l'enfant ArtistThumbnail
-    artistProp() {
-      return this.artist
-    },
     // Récupère si le user est connecté
     isAuthenticated() {
       return this.$store.getters["security/isAuthenticated"]

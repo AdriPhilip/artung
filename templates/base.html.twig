@@ -6,7 +6,7 @@
     {{ encore_entry_link_tags('app') }}
 </head>
 <body>
-    <div id="app"></div>
+    <div id="app" data-is-authenticated="{{ isAuthenticated }}" data-user="{{ user }}"></div>
     {{ encore_entry_script_tags('app') }}
 
     <div id="body">{% block body %}{% endblock %}</div>

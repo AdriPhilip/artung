@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Artists;
 use App\Repository\ArtistsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -66,6 +65,7 @@ class ArtistsController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="artists_edit", methods={"PUT"})
+     * @IsGranted("ROLE_ARTIST", message="Vous devez être enregistré en tant qu'artiste pour effectuer cette action")
      */
     public function edit(Request $request, ArtistsRepository $artistsRepository): Response
     {
@@ -94,7 +94,9 @@ class ArtistsController extends AbstractController
 
     /**
      * @Route("/{id}", name="artists_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ARTIST", message="Vous devez être enregistré en tant qu'artiste pour effectuer cette action")
      */
+    /*
     public function delete(Request $request, ArtistsRepository $artistsRepository): Response
     {
         $id = $request->get('id');
@@ -111,4 +113,5 @@ class ArtistsController extends AbstractController
             return new Response("Echec de la suppression du profil", 500, []);
         }
     }
+    */
 }

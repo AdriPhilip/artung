@@ -95,18 +95,27 @@ export default {
       switch (this.iconStatus) {
       case "facebook":
         this.icon = "facebook";
+        this.$el.querySelector('input').setAttribute('pattern', '(?:(?:http|https)://)?(?:www.)?facebook.com/(?:(?:w)*#!/)?(?:pages/)?([w-]*)?');
+        // Regex initial avant erreur compil escape chars : (?:(?:http|https):\/\/)?(?:www.)?facebook.com\/(?:(?:\w)*#!\/)?(?:pages\/)?([\w\-]*)?
         break;
       case "twitter":
         this.icon = "twitter";
+        this.$el.querySelector('input').setAttribute('pattern', '/http(?:s)?://(?:www.)?twitter.com/([a-zA-Z0-9_]+)/');
+        // Regex initial avant erreur compil escape chars : /http(?:s)?:\/\/(?:www\.)?twitter\.com\/([a-zA-Z0-9_]+)/
         break;
       case "youtube":
         this.icon = "youtube";
+        this.$el.querySelector('input').setAttribute('pattern', 'http(?:s?)://(?:www.)?youtu(?:be.com/watch?v=|.be/)([w-_]*)(&(amp;)?[w?=]*)?');
+        // Regex initial avant erreur compil escape chars : http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?[\w\?=]*)?
         break;
       case "wordpress":
         this.icon = "wordpress";
+        this.$el.querySelector('input').setAttribute('pattern', '^https?://.*/$');
+        // Regex initial avant erreur compil escape chars : ^https?:\/\/.*\/$
         break;
       default:
         this.icon = "";
+        this.$el.querySelector('input').setAttribute('pattern', '.*');
       }
       this.$forceUpdate();
     }
@@ -121,7 +130,7 @@ svg {
   /*font-size: 150%;*/
 }
 .formGroupInlineCss { 
-  font-size: 3em;
+  font-size: 2em;
   color: var(--light);
   font-family: "Caveat";
 }

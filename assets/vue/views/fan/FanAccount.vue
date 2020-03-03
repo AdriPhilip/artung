@@ -78,6 +78,6 @@ export default {
 .profil {
   font-size: 3em;
   color: var(--light);
-  padding-top: 92px;
+  padding-top: 102px;
 }
 </style>

@@ -1,11 +1,9 @@
 <template>
-  <div>
+  <div class="accountButton">
     <button
-      id="AccountButton"
       @click="$emit('onClick')"
     >
       <img
-        id="AccountButtonImg"
         :src="photo"
         :alt="`photo de profil de ${ accountInfo.nickname }`"
       >
@@ -19,16 +17,12 @@ export default {
   data() {
     return {
       accountInfo: ""
-      /* fan: {
-        nickname: "OSS117",
-        photo: "https://image.flaticon.com/icons/svg/1177/1177568.svg"
-      } */
     };
   },
   computed: {
     photo() {
       if (this.accountInfo.photo == null) {
-        return "https://image.flaticon.com/icons/svg/1177/1177568.svg";
+        return "https://www.sebastienvelly.com/wp-content/themes/sebastienvelly/img/artung_logo-1.png";
       } else {
         return this.accountInfo.photo;
       }
@@ -55,15 +49,20 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#AccountButton {
+.accountButton {
+  border: var(--spacing-xs) solid var(--primary);
+  border-radius: 50%;
+}
+button {
   width: 54px;
   height: 54px;
-  background-color: #131b23;
+  background-color: transparent;
+  border-radius: 50%;
+  border: 0;
   display: flex;
   justify-content: center;
 }
-
-#AccountButtonImg {
+img {
   max-width: 54px;
   max-height: 54px;
 }

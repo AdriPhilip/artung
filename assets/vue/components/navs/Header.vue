@@ -35,13 +35,13 @@
       <!-- Bouton de profil ; ne s'affiche que si connecté -->
       <AccountButton
         v-if="isAuthenticated"
-        class="accountButton"
+        class="accountMarginButton"
         @onClick="goToAccount()"
       />
       <!-- Bouton de login ; ne s'affiche que si non connecté -->
       <LoginButton
         v-if="!isAuthenticated"
-        class="loginButton"
+        class="loginMarginButton"
         @onClick="routerPush('Login', '')"
       />
     </nav>
@@ -104,9 +104,11 @@ export default {
 nav {
   display: flex;
   align-items: center;
+  margin: var(--spacing-sm) 0;
 }
 nav img {
   width: 56px;
+  padding: var(--spacing-md);
   height: 56px;
   cursor: pointer;
 }
@@ -114,10 +116,10 @@ nav img {
 .marginButton {
   margin-right: var(--spacing-md);
 }
-.accountButton {
+.accountMarginButton {
   margin-left: var(--spacing-md);
 }
-.loginButton {
+.loginMarginButton {
   margin-left: auto;
 }
 </style>

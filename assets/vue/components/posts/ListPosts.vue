@@ -18,6 +18,8 @@
           <TextButton
             text="Source"
             secondary
+            icon
+            @onClick="openSource(post.typePost, post.id.videoId)"
           />
         </div>
         <div class="video">
@@ -46,6 +48,8 @@
           <TextButton
             text="Source"
             secondary
+            icon
+            @onClick="openSource(post.typePost, post.link)"
           />
         </div>
         <h3>{{ post.title.rendered }}</h3>
@@ -103,6 +107,15 @@ export default {
     this.getInfosYoutube();
   },
   methods: {
+    // Ouvre la source dans une nouvelle fenêtre
+    openSource(type, url) {
+      if (type === 'youtube') {
+        window.open("https://www.youtube.com/watch?v=" + url);
+      }
+      else if (type === 'wordpress') {
+        window.open(url);
+      }
+    },
     // Récupère les données de l'API de Wordpress
     async getInfosWordpress() {
       try {
@@ -152,7 +165,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .listPosts {
-  padding-top: 220px;
+  padding-top: 280px;
 }
 hr {
   height: var(--spacing-xs);
@@ -198,6 +211,9 @@ h3 {
   font-size: 1.2em;
 }
 @media (min-width: 768px) {
+  .listPosts {
+    padding-top: 260px;
+  }
   .youtubePost, .wordpressPost {
     max-width: 60%;
     margin: 0 auto;

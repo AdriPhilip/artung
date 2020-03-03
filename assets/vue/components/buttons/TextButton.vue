@@ -6,6 +6,11 @@
       @click="$emit('onClick')"
     >
       {{ text }}
+      <font-awesome-icon
+        v-show="icon"
+        class="icon"
+        icon="external-link-alt"
+      />
     </button>
   </div>
 </template>
@@ -21,9 +26,9 @@ export default {
     },
     secondary: Boolean,
     form: Boolean,
+    icon: Boolean
   },
   mounted() {
-    // this.isSecondary();
     this.checkForm();
     this.addSecondaryClass();
   },
@@ -41,18 +46,20 @@ export default {
         this.$el.querySelector('button').classList.remove('btn-primary');
       } else {
         this.$el.querySelector('button').classList.add('btn-primary');
-        this.$el
-          .querySelector('button')
-          .classList.remove('btn-outline-primary');
-        // alert("removed !")
+        this.$el.querySelector('button').classList.remove('btn-outline-primary');
       }
-    },
+    }
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.btn {
+  padding: 0.5rem 1rem;
+  line-height: 1;
+  border-radius: var(--spacing-sm);
+}
 .btn-primary {
   font-family: Caveat;
   color: var(--black);
@@ -62,5 +69,13 @@ export default {
 }
 .btn-outline-primary {
   font-family: Caveat;
+}
+.icon {
+  margin-left: var(--spacing-sm);
+}
+@media (max-width: 480px) {
+  .btn {
+    padding: 0.25rem 0.5rem;
+  }
 }
 </style>

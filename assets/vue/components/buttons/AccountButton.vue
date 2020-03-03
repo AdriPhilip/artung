@@ -19,10 +19,6 @@ export default {
   data() {
     return {
       accountInfo: ""
-      /* fan: {
-        nickname: "OSS117",
-        photo: "https://image.flaticon.com/icons/svg/1177/1177568.svg"
-      } */
     };
   },
   computed: {
@@ -59,6 +55,8 @@ export default {
   width: 54px;
   height: 54px;
   background-color: #131b23;
+  border-radius: 50%;
+  border: 2px solid #131b23;
   display: flex;
   justify-content: center;
 }

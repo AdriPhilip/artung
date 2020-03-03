@@ -64,6 +64,7 @@ library.add(
 
 export const searchBus = new Vue();
 export const readonlyBus = new Vue();
+export const favBus = new Vue();
 
 Vue.config.productionTip = false;
 

@@ -41,7 +41,7 @@
       <!-- Bouton de login ; ne s'affiche que si non connecté -->
       <LoginButton
         v-if="!isAuthenticated"
-        class="loginButton"
+        class="loginMarginButton"
         @onClick="routerPush('Login', '')"
       />
     </nav>
@@ -119,7 +119,7 @@ nav img {
 .accountButton {
   margin-left: var(--spacing-md);
 }
-.loginButton {
+.loginMarginButton {
   margin-left: auto;
 }
 </style>

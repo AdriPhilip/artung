@@ -15,18 +15,44 @@
 </template>
 
 <script>
-import ArtistThumbnail from '../artists/ArtistThumbnail'
+import ArtistThumbnail from '../artists/ArtistThumbnail';
+import { favBus } from "../../index.js";
 
 export default {
   name: 'FavBar',
   components: {
     ArtistThumbnail,
   },
-  computed: {
-    // Récupère les favoris du user dans le Store
-    favs() {
-      return this.$store.getters["security/user"].fan.favoris;
+  data() {
+    return {
+      favs: []
     }
+  },
+  computed: {
+    // Url de l'API pour récupérer le fan connecté
+    urlFan() {
+      return `${window.rootUrl}fans/${this.$store.getters["security/user"].fan.id}`;
+    },
+  },
+  created() {
+    this.getFanFavs(this.urlFan);
+    //Bus d'événement pour la mise à jour des favoris
+    favBus.$on("reloadFav", data => {
+      let urlFanReload = `${window.rootUrl}fans/${data}`
+      this.getFanFavs(urlFanReload);
+    });
+  },
+  methods: {
+    // retourne les favoris JSON qui sortent de l'API
+    async getFanFavs(url) {
+      try {
+        const response = await fetch(url);
+        const result = await response.json();
+        this.favs = result.favoris;
+      } catch (err) {
+        console.log(err);
+      }
+    },
   }
 };
 </script>

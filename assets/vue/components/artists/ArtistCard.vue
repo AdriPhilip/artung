@@ -39,7 +39,8 @@
 </template>
 
 <script>
-import ArtistThumbnail from './ArtistThumbnail'
+import ArtistThumbnail from './ArtistThumbnail';
+import { favBus } from "../../index.js";
 
 export default {
   name: 'ArtistCard',
@@ -92,6 +93,7 @@ export default {
     async addFav() {
       try {
         await fetch(this.urlFav, { method: "PUT" });
+        favBus.$emit("reloadFav", this.user.fan.id);
         this.fav = !this.fav;
         if(this.fav) {
           this.favIcon = ['fa', 'star'];

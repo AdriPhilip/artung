@@ -24,6 +24,7 @@ import {
   faEdit,
   faCheckSquare,
   faSortDown,
+  faExternalLinkAlt
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faHeart as farHeart,
@@ -59,7 +60,8 @@ library.add(
   faQuestion,
   faEdit,
   faCheckSquare,
-  faSortDown
+  faSortDown,
+  faExternalLinkAlt
 );
 
 export const searchBus = new Vue();

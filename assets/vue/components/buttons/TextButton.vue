@@ -6,6 +6,11 @@
       @click="$emit('onClick')"
     >
       {{ text }}
+      <font-awesome-icon
+        v-show="icon"
+        class="icon"
+        icon="external-link-alt"
+      />
     </button>
   </div>
 </template>
@@ -21,9 +26,9 @@ export default {
     },
     secondary: Boolean,
     form: Boolean,
+    icon: Boolean
   },
   mounted() {
-    // this.isSecondary();
     this.checkForm();
     this.addSecondaryClass();
   },
@@ -41,12 +46,9 @@ export default {
         this.$el.querySelector('button').classList.remove('btn-primary');
       } else {
         this.$el.querySelector('button').classList.add('btn-primary');
-        this.$el
-          .querySelector('button')
-          .classList.remove('btn-outline-primary');
-        // alert("removed !")
+        this.$el.querySelector('button').classList.remove('btn-outline-primary');
       }
-    },
+    }
   },
 };
 </script>
@@ -67,6 +69,9 @@ export default {
 }
 .btn-outline-primary {
   font-family: Caveat;
+}
+.icon {
+  margin-left: var(--spacing-sm);
 }
 @media (max-width: 480px) {
   .btn {

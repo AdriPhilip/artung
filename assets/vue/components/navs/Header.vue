@@ -35,7 +35,7 @@
       <!-- Bouton de profil ; ne s'affiche que si connecté -->
       <AccountButton
         v-if="isAuthenticated"
-        class="accountButton"
+        class="accountMarginButton"
         @onClick="goToAccount()"
       />
       <!-- Bouton de login ; ne s'affiche que si non connecté -->
@@ -116,7 +116,7 @@ nav img {
 .marginButton {
   margin-right: var(--spacing-md);
 }
-.accountButton {
+.accountMarginButton {
   margin-left: var(--spacing-md);
 }
 .loginMarginButton {

@@ -17,7 +17,7 @@
         type-status="password"
         text="Mot de passe"
       />
-      <div class="d-flex justify-content-center">
+      <div class="d-flex justify-content-center pt-5">
         <TextButton
           text="Go !"
           form

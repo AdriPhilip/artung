@@ -36,12 +36,13 @@
       >
         {{ error }}
       </div>
-      <TextButton
-        class="submitButton"
-        text="Go !"
-        form
-        @onClick="register()"
-      />
+      <div class="d-flex justify-content-center pt-5">
+        <TextButton
+          text="Go !"
+          form
+          @onClick="register()"
+        />
+      </div>
       <div v-if="loading">
         <p class="text-light">
           Connexion en cours...
@@ -157,9 +158,4 @@ export default {
 </script>
 
 <style lang="scss">
-.submitButton {
-  display: flex;
-  justify-content: center;
-  padding-top: 2rem;
-}
 </style>

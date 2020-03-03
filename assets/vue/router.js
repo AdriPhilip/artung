@@ -22,92 +22,94 @@ import Steve from './views/test/Steve';
 
 // Définition des routes
 const routes = [
+  // Routes Artist
   {
-    name: "Logo",
-    path: "/",
-    component: Logo
+    name: 'ArtistAccount',
+    path: '/artist/account',
+    component: ArtistAccount,
+    /*     meta: {
+      requiresAuth: {
+        roles: ['ROLE_ARTIST'],
+      },
+    }, */
   },
   {
-    name: "Home",
-    path: "/home",
-    component: Home
+    name: 'ArtistPreview',
+    path: '/artist/preview',
+    component: ArtistPreview,
+    /*     meta: {
+      requiresAuth: {
+        roles: ['ROLE_ARTIST'],
+      },
+    }, */
+  },
+  // Routes générales
+  {
+    name: 'Logo',
+    path: '/',
+    component: Logo,
   },
   {
-    name: "ArtistDetails",
-    path: "/artist/:id",
+    name: 'Home',
+    path: '/home',
+    component: Home,
+  },
+  {
+    name: 'ArtistDetails',
+    path: '/artist/:id',
     component: ArtistDetails,
-    props: true
+    props: true,
   },
   {
-    name: "Register",
-    path: "/register",
+    name: 'Register',
+    path: '/register',
     component: Register,
-    props: true
+    props: true,
   },
   {
-    name: "DeleteAccount",
-    path: "/delete-account",
-    component: DeleteAccount
+    name: 'DeleteAccount',
+    path: '/delete-account',
+    component: DeleteAccount,
   },
   {
-    name: "Login",
-    path: "/login",
+    name: 'Login',
+    path: '/login',
     component: Login,
-    props: true
+    props: true,
   },
   // Routes Fan
   {
-    name: "FanAccount",
-    path: "/fan/account",
-    component: FanAccount
+    name: 'FanAccount',
+    path: '/fan/account',
+    component: FanAccount,
     /*     meta: {
       requiresAuth: {
         roles: ['ROLE_FAN'],
       },
     }, */
   },
-  // Routes Artist
-  {
-    name: "ArtistAccount",
-    path: "/artist/account",
-    component: ArtistAccount
-    /*     meta: {
-      requiresAuth: {
-        roles: ['ROLE_ARTIST'],
-      },
-    }, */
-  },
-  {
-    name: "ArtistPreview",
-    path: "/artist/preview",
-    component: ArtistPreview
-    /*     meta: {
-      requiresAuth: {
-        roles: ['ROLE_ARTIST'],
-      },
-    }, */
-  },
+
   // Routes Test
   {
-    name: "Adrien",
-    path: "/adrien",
-    component: Adrien
+    name: 'Adrien',
+    path: '/adrien',
+    component: Adrien,
   },
   {
-    name: "Alice",
-    path: "/alice",
-    component: Alice
+    name: 'Alice',
+    path: '/alice',
+    component: Alice,
   },
   {
-    name: "Aude",
-    path: "/aude",
-    component: Aude
+    name: 'Aude',
+    path: '/aude',
+    component: Aude,
   },
   {
-    name: "Steve",
-    path: "/steve",
-    component: Steve
-  }
+    name: 'Steve',
+    path: '/steve',
+    component: Steve,
+  },
 ];
 
 //Création du routeur.

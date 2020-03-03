@@ -1,6 +1,9 @@
 <template>
   <div>
-    <form @submit.prevent>
+    <form
+      class="mx-5 p-5"
+      @submit.prevent
+    >
       <FormGroup
         v-model="login"
         form-group="emailInput"

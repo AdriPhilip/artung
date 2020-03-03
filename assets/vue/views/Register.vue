@@ -1,7 +1,7 @@
 <template>
   <div>
     <form
-      class="m-5 p-5"
+      class="mx-5 p-5"
       @submit.prevent
     >
       <FormGroup
@@ -37,6 +37,7 @@
         {{ error }}
       </div>
       <TextButton
+        class="submitButton"
         text="Go !"
         form
         @onClick="register()"
@@ -156,4 +157,9 @@ export default {
 </script>
 
 <style lang="scss">
+.submitButton {
+  display: flex;
+  justify-content: center;
+  padding-top: 2rem;
+}
 </style>

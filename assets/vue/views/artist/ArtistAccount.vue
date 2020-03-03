@@ -4,8 +4,15 @@
       <Header />
     </div>
 
+    <h2 class="profil">
+      Mon profil
+    </h2>
+    
     <!-- Formulaire de données de profil -->
-    <form @submit.prevent>
+    <form
+      class="mx-5 px-5"
+      @submit.prevent
+    >
       <EditIcon />
       <FormGroup
         form-group="photoInput"
@@ -58,7 +65,10 @@
 
     <!-- Paramètrer mes flux -->
     <span>Paramétrer mes flux</span>
-    <form @submit.prevent>
+    <form
+      class="mx-5 px-5"
+      @submit.prevent
+    >
       <EditIcon />
       <FormGroupInline icon-status="facebook" />
       <FormGroupInline icon-status="twitter" />
@@ -124,6 +134,11 @@ export default {
 </script>
 
 <style lang="scss">
+.profil {
+  font-size: 3em;
+  color: var(--light);
+  padding-top: 102px;
+}
 hr {
   height: var(--spacing-xs);
   background-color: var(--dark);

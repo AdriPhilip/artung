@@ -9,7 +9,10 @@
     </h2>
 
     <!-- Formulaire de données de profil -->
-    <form @submit.prevent>
+    <form
+      class="mx-5 px-5"
+      @submit.prevent
+    >
       <EditIcon />
       <FormGroup
         form-group="photoInput"

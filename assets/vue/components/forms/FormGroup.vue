@@ -2,7 +2,6 @@
   <div class="form-group">
     <label
       :for="formGroup"
-      class="formGroupCss"
     >{{ text }}</label>
     <!-- La value sera à passer en props -->
     <!-- <input
@@ -124,9 +123,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-.formGroupCss { 
-  font-size: 3em;
+label { 
+  font-size: 2em;
   color: var(--light);
   font-family: "Caveat";
 }

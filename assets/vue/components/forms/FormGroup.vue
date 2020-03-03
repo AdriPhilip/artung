@@ -1,8 +1,6 @@
 <template>
   <div class="form-group">
-    <label
-      :for="formGroup"
-    >{{ text }}</label>
+    <label :for="formGroup">{{ text }}</label>
     <!-- La value sera à passer en props -->
     <!-- <input
       :id="formGroup"
@@ -28,29 +26,29 @@
 <script>
 import { readonlyBus } from "../../index.js";
 export default {
-  name: 'FormGroup',
+  name: "FormGroup",
   props: {
     text: {
       type: String,
-      required: true,
+      required: true
     },
     typeStatus: {
       type: String,
-      required: true,
+      required: true
     },
     formGroup: {
       type: String,
-      required: true,
+      required: true
     },
     model: {
       type: String,
-      default: '',
+      default: ""
     },
     placeholder: {
       type: String,
-      default: '',
+      default: ""
     },
-    readonlyStatus: Boolean,
+    readonlyStatus: Boolean
   },
   data() {
     return {
@@ -69,7 +67,6 @@ export default {
     }
   },
 
-
   created() {
     this.getInfosArtist();
     readonlyBus.$on("readonlyStatus", data => {
@@ -82,17 +79,21 @@ export default {
   methods: {
     typeChange() {
       switch (this.typeStatus) {
-      case 'email':
-        this.$el.querySelector('input').setAttribute('type', 'email');
+      case "email":
+        this.$el.querySelector("input").setAttribute("type", "email");
+        this.$el.querySelector("input").setAttribute("maxlength", "40");
         break;
-      case 'password':
-        this.$el.querySelector('input').setAttribute('type', 'password');
+      case "password":
+        this.$el.querySelector("input").setAttribute("type", "password");
+        this.$el.querySelector("input").setAttribute("maxlength", "30");
         break;
-      case 'text':
-        this.$el.querySelector('input').setAttribute('type', 'text');
+      case "text":
+        this.$el.querySelector("input").setAttribute("type", "text");
+        this.$el.querySelector("input").setAttribute("maxlength", "30");
         break;
       default:
-        this.$el.querySelector('input').setAttribute('type', 'text');
+        this.$el.querySelector("input").setAttribute("type", "text");
+        this.$el.querySelector('input').setAttribute('maxlength', '30');
       }
     },
 
@@ -116,14 +117,14 @@ export default {
       } catch (err) {
         console.log(err);
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-label { 
+label {
   font-size: 2em;
   color: var(--light);
   font-family: "Caveat";

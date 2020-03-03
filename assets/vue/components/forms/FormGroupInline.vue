@@ -43,47 +43,47 @@
 </template>
 
 <script>
-import { vSwitch, vCase, vDefault } from "v-switch-case";
-import { readonlyBus } from "../../index.js";
+import {vSwitch, vCase, vDefault} from 'v-switch-case';
+import {readonlyBus} from '../../index.js';
 
 export default {
-  name: "FormGroupInline",
+  name: 'FormGroupInline',
   directives: {
     switch: vSwitch,
     case: vCase,
-    default: vDefault
+    default: vDefault,
   },
   props: {
     text: {
       type: String,
-      required: true
+      default: '',
     },
     iconStatus: {
       type: String,
-      required: true
+      required: true,
     },
     model: {
       type: String,
-      default: ''
+      default: '',
     },
     placeholder: {
       type: String,
-      default: ''
+      default: '',
     },
     readonlyStatus: Boolean,
   },
   data() {
     return {
-      readonlyValue: true
+      readonlyValue: true,
     };
   },
   watch: {
     readonlyValue: function() {
-      this.$el.querySelector("input").toggleAttribute("readonly");
-    }
+      this.$el.querySelector('input').toggleAttribute('readonly');
+    },
   },
   created() {
-    readonlyBus.$on("readonlyStatus", data => {
+    readonlyBus.$on('readonlyStatus', data => {
       this.readonlyValue = data;
     });
   },
@@ -93,24 +93,24 @@ export default {
   methods: {
     iconChange: function() {
       switch (this.iconStatus) {
-      case "facebook":
-        this.icon = "facebook";
+      case 'facebook':
+        this.icon = 'facebook';
         break;
-      case "twitter":
-        this.icon = "twitter";
+      case 'twitter':
+        this.icon = 'twitter';
         break;
-      case "youtube":
-        this.icon = "youtube";
+      case 'youtube':
+        this.icon = 'youtube';
         break;
-      case "wordpress":
-        this.icon = "wordpress";
+      case 'wordpress':
+        this.icon = 'wordpress';
         break;
       default:
-        this.icon = "";
+        this.icon = '';
       }
       this.$forceUpdate();
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -120,9 +120,9 @@ svg {
   color: var(--light);
   /*font-size: 150%;*/
 }
-.formGroupInlineCss { 
+.formGroupInlineCss {
   font-size: 3em;
   color: var(--light);
-  font-family: "Caveat";
+  font-family: 'Caveat';
 }
 </style>

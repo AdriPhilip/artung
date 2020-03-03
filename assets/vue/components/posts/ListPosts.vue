@@ -6,7 +6,7 @@
     >
       <!-- Posts Youtube -->
       <div
-        v-if="post.typePost==='youtube'"
+        v-if="post.typePost === 'youtube'"
         class="youtubePost"
       >
         <div class="headerPost">
@@ -36,7 +36,7 @@
       </div>
       <!-- Posts Wordpress -->
       <div
-        v-if="post.typePost==='wordpress'"
+        v-if="post.typePost === 'wordpress'"
         class="wordpressPost"
       >
         <div class="headerPost">
@@ -57,6 +57,28 @@
         <p v-html="post.content.rendered" />
         <hr>
       </div>
+      <!-- Posts Facebook -->
+      <div
+        v-if="post.typePost === 'facebook'"
+        class="facebookPost"
+      >
+        <div class="headerPost">
+          <font-awesome-icon
+            :icon="['fab', 'facebook']"
+            size="3x"
+          />
+          <span>{{ post.date }}</span>
+          <TextButton
+            text="Source"
+            secondary
+          />
+        </div>
+        <h3>Post Facebook</h3>
+        <!-- eslint-disable-next-line vue/no-v-html -->
+        <p>{{ post.message }}</p>
+        <img :src="post.picture">
+        <hr>
+      </div>
     </div>
     <p v-show="listPostsArray.length == 0">
       Cet artiste n'a pas d'actualités.
@@ -65,25 +87,26 @@
 </template>
 
 <script>
-import TextButton from '../buttons/TextButton'
+import TextButton from '../buttons/TextButton';
 
 export default {
   name: 'ListPosts',
   components: {
-    TextButton
+    TextButton,
   },
   props: {
     artist: {
       type: Object,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
       wordpressResults: null,
       youtubeResults: null,
-      listPostsArray: []
-    }
+      facebookResults: null,
+      listPostsArray: [],
+    };
   },
   computed: {
     // S'assurer que l'url fournie finit par / et est une adresse Wordpress valide
@@ -93,26 +116,32 @@ export default {
     urlYoutube() {
       return `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${this.artist.youtubeLink}&order=date&type=video&videoEmbeddable=true&videoSyndicated=true&key=${window.youtubeApi}`;
     },
+    urlFacebook() {
+      return '107779020786055';
+      // Récupère la valeur après le dernier slash, i. e. l'ID de la page
+      //return /[^/]*$/.exec(this.artist.facebookLink);
+    },
     // Trie les posts par ordre antéchronologique
     sortedListPostsArray() {
-      const sortByMapped = (map,compareFn) => (a,b) => compareFn(map(a.date),map(b.date));
+      const sortByMapped = (map, compareFn) => (a, b) =>
+        compareFn(map(a.date), map(b.date));
       const toDate = e => new Date(e).getTime();
-      const byValue = (a,b) => b - a;
-      const byDate = sortByMapped(toDate,byValue);
+      const byValue = (a, b) => b - a;
+      const byDate = sortByMapped(toDate, byValue);
       return [...this.listPostsArray].sort(byDate);
-    }
+    },
   },
   created() {
     this.getInfosWordpress();
     this.getInfosYoutube();
+    //this.getInfosFacebook();
   },
   methods: {
     // Ouvre la source dans une nouvelle fenêtre
     openSource(type, url) {
       if (type === 'youtube') {
-        window.open("https://www.youtube.com/watch?v=" + url);
-      }
-      else if (type === 'wordpress') {
+        window.open('https://www.youtube.com/watch?v=' + url);
+      } else if (type === 'wordpress') {
         window.open(url);
       }
     },
@@ -138,13 +167,37 @@ export default {
         console.log(err);
       }
     },
+    /* async getInfosFacebook() {
+      let url = '/' + this.urlFacebook + '/posts';
+      console.log(window.appAccessToken);
+      try {
+        window.FB.api(
+          url,
+          'GET',
+          {
+            //fields:
+            //  "posts{event,picture,attachments,comments,created_time,message}",
+            access_token: window.appAccessToken,
+          },
+          page => {
+            console.log(page);
+            console.log(page.data);
+            this.facebookResults = page.posts.data;
+            this.pushFacebookPosts();
+          }
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    }, */
+
     // Pousse les données Youtube dans le tableau listPostArray, génère un "generateId", ajoute une donnée "typePost" et crée la donnée "date" à partir de "publishedAt" en prenant les 10 premiers caractères
     pushYoutubePosts() {
-      let i=0;
+      let i = 0;
       this.youtubeResults.forEach(element => {
-        element.generateId=i;
-        element.typePost="youtube";
-        element.date=element.snippet.publishedAt.substring(0,10);
+        element.generateId = i;
+        element.typePost = 'youtube';
+        element.date = element.snippet.publishedAt.substring(0, 10);
         this.listPostsArray.push(element);
         i++;
       });
@@ -152,13 +205,20 @@ export default {
     // Pousse les données Wordpress dans le tableau listPostArray, crée un "generateId" à partir de "id", ajoute une donnée "typePost" et modifie la donnée "date" en prenant uniquement les 10 premiers caractères
     pushWordpressPosts() {
       this.wordpressResults.forEach(element => {
-        element.generateId=element.id;
-        element.typePost="wordpress";
-        element.date=element.date.substring(0,10);
+        element.generateId = element.id;
+        element.typePost = 'wordpress';
+        element.date = element.date.substring(0, 10);
         this.listPostsArray.push(element);
-      })
-    }
-  }
+      });
+    },
+    pushFacebookPosts() {
+      this.facebookResults.forEach(element => {
+        element.typePost = 'facebook';
+        element.date = element.created_time.substring(0, 10);
+        this.listPostsArray.push(element);
+      });
+    },
+  },
 };
 </script>
 
@@ -186,7 +246,10 @@ hr {
 .headerPost > div {
   margin-left: auto;
 }
-svg, span, p, h3 {
+svg,
+span,
+p,
+h3 {
   color: var(--light);
 }
 h3 {
@@ -207,14 +270,17 @@ h3 {
   background-color: var(--dark);
   padding: var(--spacing-sm);
 }
-.wordpressPost >>> p, .wordpressPost >>> a, .wordpressPost >>> strong {
+.wordpressPost >>> p,
+.wordpressPost >>> a,
+.wordpressPost >>> strong {
   font-size: 1.2em;
 }
 @media (min-width: 768px) {
   .listPosts {
     padding-top: 260px;
   }
-  .youtubePost, .wordpressPost {
+  .youtubePost,
+  .wordpressPost {
     max-width: 60%;
     margin: 0 auto;
   }

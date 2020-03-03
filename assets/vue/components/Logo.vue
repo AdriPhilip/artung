@@ -23,12 +23,12 @@ export default {
   min-height: 100vh;
 }
 .logo img {
-  width: 70%;
+  width: 60%;
   cursor: pointer;
 }
 @media (min-width: 768px) {
   .logo img {
-    width: 50%;
+    width: 40%;
   }
 }
 </style>

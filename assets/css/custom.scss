@@ -14,8 +14,9 @@ $input-border-radius: none;
 $input-border-radius-lg: none;
 $input-border-radius-sm: none;
 
-// Spacing css hors Bootstrap (sur la base de 1em = 10px)
+// Spacing css hors Bootstrap (sur la base de 1rem = 10px)
 :root {
+  --spacing-lg: 20px;
   --spacing-md: 10px;
   --spacing-sm: 5px;
   --spacing-xs: 2px;
@@ -47,7 +48,6 @@ $font-size-base: 1rem;
 * {
   box-sizing: border-box;
   font-family: Alegreya Sans;
-  font-size: 10px;
 }
 
 html,
@@ -67,6 +67,15 @@ h2 {
 
 p {
   font-family: Alegreya Sans;
+}
+
+// Style de la topBar qui s'affiche sur plusieurs pages
+.topBar {
+  position: fixed;
+  z-index: 1;
+  background-color: var(--black);
+  width: calc(100% - 2 * var(--spacing-md));
+  padding-bottom: var(--spacing-md);
 }
 
 // Exemple de personnalisation des variables :

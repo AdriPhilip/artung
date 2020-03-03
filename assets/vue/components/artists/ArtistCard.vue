@@ -18,9 +18,10 @@
       <button
         v-if="isAuthenticated"
         class="starIcon"
+        @click="addFav()"
       >
         <font-awesome-icon
-          :icon="['far', 'star']"
+          :icon="favIcon"
           size="2x"
         />
       </button>
@@ -51,11 +52,58 @@ export default {
       default: null
     }
   },
+  data() {
+    return {
+      fav: false,
+      favIcon: ['far', 'star'],
+      favRequest: "addfav"
+    }
+  },
   computed: {
     // Récupère si le user est connecté
     isAuthenticated() {
-      return this.$store.getters["security/isAuthenticated"]
+      return this.$store.getters["security/isAuthenticated"];
     },
+    // Récupère le user
+    user() {
+      if(this.isAuthenticated) return this.$store.getters["security/user"];
+      else return null;
+    },
+    urlFav() {
+      return window.rootUrl + 'fans/' + this.user.fan.id +'/' + this.favRequest + '/' + this.artist.id;
+    }
+  },
+  created() {
+    this.checkFav();
+  },
+  methods: {
+    // Check au chargement de la page si le fan a l'artist en favori, si oui, modifie le corps de la requête et l'icone 
+    checkFav() {
+      for (const element of this.user.fan.favoris) {
+        if(element.id === this.artist.id) {
+          this.favIcon = ['fa', 'star'];
+          this.favRequest = "removefav";
+          this.fav = true;
+        }
+        if(this.fav) return;
+      }
+    },
+    // Au clic sur le bouton, change l'icone et la requête, et envoie la requête de mise en favori
+    async addFav() {
+      try {
+        await fetch(this.urlFav, { method: "PUT" });
+        this.fav = !this.fav;
+        if(this.fav) {
+          this.favIcon = ['fa', 'star'];
+          this.favRequest = "removefav";
+        } else {
+          this.favIcon = ['far', 'star'];
+          this.favRequest = "addfav";
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
   }
 };
 </script>
@@ -85,7 +133,7 @@ export default {
     align-items: center;
   }
   .artistNickname {
-    font-size: 2.5em;
+    font-size: 2rem;
     color: var(--light);
     margin-left: var(--spacing-sm);
   }
@@ -103,13 +151,16 @@ export default {
   .artistDescription {
     padding: var(--spacing-xs);
   }
+  .artistDescription p {
+    color: var(--light);
+  }
   @media (min-width: 768px) {
     .artistCard {
-      width: calc(50% - var(--spacing-md) / 2);
+      width: calc(50% - var(--spacing-sm));
       margin-right: var(--spacing-md);
     }
     .artistNickname {
-      font-size: 3.25em;
+      font-size: 2.5rem;
     }
   }
 </style>

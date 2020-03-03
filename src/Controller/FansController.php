@@ -113,7 +113,7 @@ class FansController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/removefav/{artistId}", name="fans_add_fav", methods={"PUT"})
+     * @Route("/{id}/removefav/{artistId}", name="fans_remove_fav", methods={"PUT"})
      * @IsGranted("ROLE_FAN", message="Vous devez être enregistré en tant que fan pour effectuer cette action")
      */
     public function removeFav(Request $request, FansRepository $fansRepository, ArtistsRepository $artistsRepository): Response

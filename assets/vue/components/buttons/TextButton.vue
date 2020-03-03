@@ -53,6 +53,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.btn {
+  padding: 0.5rem 1rem;
+  line-height: 1;
+  border-radius: var(--spacing-sm);
+}
 .btn-primary {
   font-family: Caveat;
   color: var(--black);
@@ -62,5 +67,10 @@ export default {
 }
 .btn-outline-primary {
   font-family: Caveat;
+}
+@media (max-width: 480px) {
+  .btn {
+    padding: 0.25rem 0.5rem;
+  }
 }
 </style>

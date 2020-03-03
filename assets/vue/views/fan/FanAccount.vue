@@ -1,6 +1,12 @@
 <template>
   <div>
-    <Header />
+    <div class="topBar">
+      <Header />
+    </div>
+
+    <h2 class="profil">
+      Mon profil
+    </h2>
 
     <!-- Formulaire de données de profil -->
     <form @submit.prevent>
@@ -69,4 +75,9 @@ export default {
 </script>
 
 <style lang="scss">
+.profil {
+  font-size: 3em;
+  color: var(--light);
+  padding-top: 102px;
+}
 </style>

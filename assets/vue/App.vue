@@ -41,7 +41,7 @@ export default {
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
 #app {
   min-height: 100vh;
-  padding: var(--spacing-md);
+  padding: 0 var(--spacing-md);
   background-color: var(--black);
 }
 </style>

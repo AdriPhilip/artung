@@ -8,7 +8,7 @@
         :artist="fav"
       />
     </div>
-    <p v-show="!favs">
+    <p v-show="favs.length === 0">
       Vous n'avez pas encore d'artistes favoris
     </p>
   </div>
@@ -39,9 +39,8 @@ export default {
   overflow-x: auto;
   min-height: 56px;
   max-height: 76px;
-  margin-left: var(--spacing-md);
-  margin-right: auto;
   padding: 0 var(--spacing-md);
+  margin: var(--spacing-md) auto var(--spacing-md) var(--spacing-md);
   border-left: var(--spacing-xs) solid var(--light);
   border-right: var(--spacing-xs) solid var(--light);
 }

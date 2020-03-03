@@ -1,6 +1,9 @@
 <template>
   <div class="form-group">
-    <label :for="formGroup">{{ text }}</label>
+    <label
+      :for="formGroup"
+      class="formGroupCss"
+    >{{ text }}</label>
     <!-- La value sera à passer en props -->
     <!-- <input
       :id="formGroup"
@@ -16,6 +19,7 @@
       v-model="model"
       class="form-control"
       :placeholder="placeholder"
+      required
       @input="$emit('input', model)"
     >
   </div>
@@ -66,16 +70,7 @@ export default {
     }
   },
 
-  // methods: {
-  //   typeChange: function() {
-  //     if (this.typeStatus == "email") {
-  //       this.$el.querySelector("input").setAttribute("type", "email");
-  //     } else if (this.typeStatus == "password") {
-  //       this.$el.querySelector("input").setAttribute("type", "password");
-  //     } else {
-  //       this.$el.querySelector("input").setAttribute("type", "text");
-  //     }
-  //   },
+
   created() {
     this.getInfosArtist();
     readonlyBus.$on("readonlyStatus", data => {
@@ -128,4 +123,11 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+
+.formGroupCss { 
+  font-size: 3em;
+  color: var(--light);
+  font-family: "Caveat";
+}
+</style>

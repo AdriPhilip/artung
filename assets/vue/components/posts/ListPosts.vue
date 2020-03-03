@@ -6,14 +6,20 @@
     >
       <!-- Posts Youtube -->
       <div
-        v-if="post.typePost=='youtube'"
+        v-if="post.typePost==='youtube'"
         class="youtubePost"
       >
-        <font-awesome-icon
-          :icon="['fab', 'youtube']"
-          size="2x"
-        />
-        <span>{{ post.date }}</span>
+        <div class="headerPost">
+          <font-awesome-icon
+            :icon="['fab', 'youtube']"
+            size="3x"
+          />
+          <span>{{ post.date }}</span>
+          <TextButton
+            text="Source"
+            secondary
+          />
+        </div>
         <div class="video">
           <iframe
             width="560"
@@ -24,20 +30,28 @@
             allowfullscreen
           />
         </div>
+        <hr>
       </div>
       <!-- Posts Wordpress -->
       <div
-        v-if="post.typePost=='wordpress'"
+        v-if="post.typePost==='wordpress'"
         class="wordpressPost"
       >
-        <font-awesome-icon
-          :icon="['fab', 'wordpress']"
-          size="2x"
-        />
-        <span>{{ post.date }}</span>
+        <div class="headerPost">
+          <font-awesome-icon
+            :icon="['fab', 'wordpress']"
+            size="3x"
+          />
+          <span>{{ post.date }}</span>
+          <TextButton
+            text="Source"
+            secondary
+          />
+        </div>
         <h3>{{ post.title.rendered }}</h3>
         <!-- eslint-disable-next-line vue/no-v-html -->
         <p v-html="post.content.rendered" />
+        <hr>
       </div>
     </div>
     <p v-show="listPostsArray.length == 0">
@@ -47,8 +61,13 @@
 </template>
 
 <script>
+import TextButton from '../buttons/TextButton'
+
 export default {
   name: 'ListPosts',
+  components: {
+    TextButton
+  },
   props: {
     artist: {
       type: Object,
@@ -133,26 +152,58 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .listPosts {
-  margin-top: var(--spacing-md);
+  padding-top: 280px;
 }
-svg, span {
+hr {
+  height: var(--spacing-xs);
+  margin-top: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+  background-color: var(--dark);
+  border-top: 0;
+}
+.headerPost {
+  display: flex;
+  align-items: center;
+}
+/* Marge gauche sur la date */
+.headerPost span {
+  margin-left: var(--spacing-sm);
+}
+/* Met le bouton "source" tout à droite */
+.headerPost > div {
+  margin-left: auto;
+}
+svg, span, p, h3 {
   color: var(--light);
 }
-.youtubePost {
-  margin-bottom: var(--spacing-md);
+h3 {
+  font-size: 3em;
 }
 .video {
   display: flex;
   justify-content: center;
   max-width: 100%;
 }
-.wordpressPost {
-  margin-bottom: var(--spacing-md);
-}
 /* >>> : sélecteur css pour sélectionner du html généré à partir du v-html de Vue */
 .wordpressPost >>> img {
   display: block;
   max-width: 90%;
   margin: 0 auto;
+}
+.wordpressPost >>> p {
+  background-color: var(--dark);
+  padding: var(--spacing-sm);
+}
+.wordpressPost >>> p, .wordpressPost >>> a, .wordpressPost >>> strong {
+  font-size: 1.2em;
+}
+@media (min-width: 768px) {
+  .listPosts {
+    padding-top: 260px;
+  }
+  .youtubePost, .wordpressPost {
+    max-width: 60%;
+    margin: 0 auto;
+  }
 }
 </style>

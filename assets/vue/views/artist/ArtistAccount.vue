@@ -4,7 +4,10 @@
       <Header />
     </div>
 
-    <h2 class="profil ml-5">
+    <h2
+      class="profil ml-5"
+      :style="styleObject"
+    >
       Mon profil
     </h2>
     
@@ -117,11 +120,20 @@ export default {
     FormAccount,
     TextButton,
   },
+  data() {
+    return {
+      styleObject: null
+    }
+  },
   computed: {
     // Récupère les infos du user dans le Store
     user() {
       return this.$store.getters["security/user"];
     }
+  },
+  mounted() {
+    this.resize();
+    window.addEventListener("resize", this.resize());
   },
   methods: {
     // Routes de destination des TextButton
@@ -130,6 +142,18 @@ export default {
     },
     disconnect() {
       window.location.href = window.rootUrl+'security/logout'
+    },
+    // Permet de changer dynamiquement le padding-top du contenu de la page en fonction de la hauteur du Header
+    resize() {
+      if(ResizeObserver) {
+        const divTopBar = document.querySelector('.topBar');
+        const resizeObserver = new ResizeObserver(entry => {
+          this.styleObject = {paddingTop: entry[0].borderBoxSize.blockSize + 'px'}
+        });
+        resizeObserver.observe(divTopBar);
+      } else {
+        console.log('Resize observer not supported!');
+      }
     }
   }
 };
@@ -139,7 +163,6 @@ export default {
 .profil {
   font-size: 3em;
   color: var(--light);
-  padding-top: 102px;
 }
 hr {
   height: var(--spacing-xs);

@@ -104,9 +104,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.listArtists {
-  padding-top: 142px;
-}
 div:nth-child(2n) {
   margin-right: 0;
 }

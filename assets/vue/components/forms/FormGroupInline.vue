@@ -4,7 +4,7 @@
       :for="formGroupInline"
       class="formGroupInlineCss"
     >{{ text }}</label>
-    <span v-switch="icon">
+    <span v-switch="iconStatus">
       <span v-case="'facebook'">
         <font-awesome-icon
           :icon="['fab', 'facebook']"
@@ -29,7 +29,10 @@
           size="2x"
         />
       </span>
-      <span v-default>"''"</span>
+      <span v-default><font-awesome-icon
+        icon="question"
+        size="2x"
+      /></span>
     </span>
     &nbsp;
     <input
@@ -37,6 +40,7 @@
       v-model="model"
       class="form-control"
       :placeholder="placeholder"
+      :readonly="readonly"
       @input="$emit('input', model)"
     >
   </div>
@@ -69,7 +73,8 @@ export default {
     placeholder: {
       type: String,
       default: ''
-    },
+    },    
+    readonly: Boolean,    
     readonlyStatus: Boolean,
   },
   data() {
@@ -94,30 +99,24 @@ export default {
     iconChange: function() {
       switch (this.iconStatus) {
       case "facebook":
-        this.icon = "facebook";
         this.$el.querySelector('input').setAttribute('pattern', '(?:(?:http|https)://)?(?:www.)?facebook.com/(?:(?:w)*#!/)?(?:pages/)?([w-]*)?');
         // Regex initial avant erreur compil escape chars : (?:(?:http|https):\/\/)?(?:www.)?facebook.com\/(?:(?:\w)*#!\/)?(?:pages\/)?([\w\-]*)?
         break;
       case "twitter":
-        this.icon = "twitter";
-        this.$el.querySelector('input').setAttribute('pattern', '/http(?:s)?://(?:www.)?twitter.com/([a-zA-Z0-9_]+)/');
+        this.$el.querySelector('input').setAttribute('pattern', 'http(?:s)?://(?:www.)?twitter.com/([a-zA-Z0-9_]+)');
         // Regex initial avant erreur compil escape chars : /http(?:s)?:\/\/(?:www\.)?twitter\.com\/([a-zA-Z0-9_]+)/
         break;
       case "youtube":
-        this.icon = "youtube";
         this.$el.querySelector('input').setAttribute('pattern', 'http(?:s?)://(?:www.)?youtu(?:be.com/watch?v=|.be/)([w-_]*)(&(amp;)?[w?=]*)?');
         // Regex initial avant erreur compil escape chars : http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?[\w\?=]*)?
         break;
       case "wordpress":
-        this.icon = "wordpress";
         this.$el.querySelector('input').setAttribute('pattern', '^https?://.*/$');
         // Regex initial avant erreur compil escape chars : ^https?:\/\/.*\/$
         break;
       default:
-        this.icon = "";
         this.$el.querySelector('input').setAttribute('pattern', '.*');
       }
-      this.$forceUpdate();
     }
   }
 };

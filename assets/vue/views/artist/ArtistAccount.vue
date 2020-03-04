@@ -4,7 +4,7 @@
       <Header />
       <div class="profil mx-5">
         <h2>Mon profil</h2>
-        <EditIcon @onClick="submit()" />
+        <EditIcon @onClick="customReadonly = !customReadonly; submit()" />
       </div>
     </div>
 
@@ -21,14 +21,15 @@
         type="text"
         text="Photo de profil"
         required
-        readonly
+        :readonly="customReadonly"
       />
       <div class="form-group">
         <label for="category">Catégorie</label>
         <select
           id="category"
-          v-model="user.artist.category"
-          class="form-control"
+          v-model="formArtistCategory"
+          class="custom-form form-control"
+          :disabled="customReadonly"
         >
           <option value="architecture">
             Architecture
@@ -56,9 +57,12 @@
           <label for="description">Description</label>
           <textarea
             id="description"
-            v-model="user.artist.description"
-            class="form-control"
+            v-model="formArtistDescription"
+            class="custom-form form-control"
             rows="3"
+            maxlength="230"
+            placeholder="Décrivez-vous et donnez envie aux fans de vous suivre ! Maximum 230 caractères."
+            :readonly="customReadonly"
           />
         </div>
       </div>
@@ -68,31 +72,27 @@
       <!-- Paramètrer mes flux -->
       <h2>Paramétrer mes flux</h2>
 
-      <div class="d-flex">
-        <p class="flex-grow-1">
-          Pour lier votre page Facebook à l'application, veuillez vous connecter
-          :
-        </p>
-        <facebook-login
-          class="button"
-          app-id="113324356787500"
-          version="v5.0"
-          :login-options="loginOptions"
-          :login-label="loginLabel"
-          :logout-label="logoutLabel"
-          @sdk-loaded="sdkLoaded"
-        />
-      </div>
+      <facebook-login
+        class="facebookLogin"
+        app-id="113324356787500"
+        version="v5.0"
+        :login-options="loginOptions"
+        :login-label="loginLabel"
+        :logout-label="logoutLabel"
+        @sdk-loaded="sdkLoaded"
+      />
 
       <FormGroupInline
         v-model="formYoutubeLink"
         icon-status="youtube"
         placeholder="Votre ID de chaîne"
+        :readonly="customReadonly"
       />
       <FormGroupInline
         v-model="formWordpressLink"
         icon-status="wordpress"
         placeholder="http://www.votrenomdomaine.com/"
+        :readonly="customReadonly"
       />
 
       <hr>
@@ -104,15 +104,16 @@
         type="email"
         text="Email"
         required
-        readonly
+        :readonly="customReadonly"
       />
       <FormGroup
         v-model="formArtistNickname"
         form-group="nicknameInput"
         type="text"
         text="Nom d'utilisateur"
+        maxlength="20"
         required
-        readonly
+        :readonly="customReadonly"
       />
     </form>
 
@@ -142,6 +143,8 @@ import FormGroupInline from "../../components/forms/FormGroupInline";
 import TextButton from "../../components/buttons/TextButton";
 import facebookLogin from "../../components/facebook/facebook-login";
 
+import { readonlyBus } from "../../index.js";
+
 export default {
   name: "ArtistAccount",
   components: {
@@ -155,6 +158,8 @@ export default {
   data() {
     return {
       styleObject: null,
+      customReadonly: true,
+      // Données pour le Facebook Login
       loginOptions: {
         // Ici on précise les autorisations qu'on veut demander à l'utilisateur
         scope: "public_profile, email, manage_pages"
@@ -163,6 +168,8 @@ export default {
       logoutLabel: "Enlever la page Facebook",
       // Données de formulaires
       formArtistPhoto: "",
+      formArtistCategory: "",
+      formArtistDescription: "",
       formArtistEmail: "",
       formArtistNickname: "",
       formYoutubeLink: "",
@@ -175,12 +182,21 @@ export default {
       return this.$store.getters["security/user"];
     }
   },
+  created() {
+    readonlyBus.$on("readonlyStatus", data => {
+      this.customReadonly = data;
+    });
+  },
   mounted() {
     // Remplit les infos des formulaires avec les infos du user
     if(this.user.artist.photo) this.formArtistPhoto = this.user.artist.photo;
     else this.formArtistPhoto = "https://www.sebastienvelly.com/wp-content/themes/sebastienvelly/img/artung_logo-1.png";
     this.formArtistEmail = this.user.username;
     this.formArtistNickname = this.user.artist.nickname;
+    this.formArtistCategory = this.user.artist.category;
+    this.formArtistDescription = this.user.artist.description;
+    this.formArtistYoutubeLink = this.user.artist.youtube_link;
+    this.formArtistWordpressLink = this.user.artist.wordpress_link;
     // Appelle la fonction resize() une 1ère fois puis à chaque redimensionnement de fenêtre
     this.resize();
     window.addEventListener("resize", this.resize());
@@ -212,12 +228,14 @@ export default {
       this.FB = payload.FB;
     },
     async submit() {
+      this.customReadonly = !this.customReadonly;
       // Update le user
       let urlUser = window.rootUrl + 'user/' + this.user.id +'/edit';
       let dataUser = {
         username: this.formArtistEmail,
         nickname: this.formArtistNickname
       };
+      console.log(dataUser)
       try {
         await fetch(urlUser, {
           method: "PUT",
@@ -234,7 +252,11 @@ export default {
       let urlArtist = window.rootUrl + 'artists/' + this.user.artist.id +'/edit';
       let dataArtist = {
         nickname: this.formArtistNickname,
-        photo: this.formArtistPhoto
+        photo: this.formArtistPhoto,
+        category: this.formArtistCategory,
+        description: this.formArtistDescription,
+        youtube_link: this.formYoutubeLink,
+        wordpress_link: this.formWordpressLink
       };
       try {
         await fetch(urlArtist, {
@@ -266,6 +288,16 @@ label {
   font-size: 2em;
   color: var(--light);
   font-family: "Caveat";
+}
+.form-control-plaintext {
+  color: var(--light);
+}
+.form-control:disabled, .form-control[readonly] {
+  background-color: var(--black);
+  color: var(--light);
+}
+.facebookLogin {
+  margin: var(--spacing-lg) 0;
 }
 hr {
   height: var(--spacing-xs);

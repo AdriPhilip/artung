@@ -44,6 +44,7 @@
         form-group="nicknameInput"
         type="text"
         text="Nom d'utilisateur"
+        maxlength="20"
         required
         readonly
       />

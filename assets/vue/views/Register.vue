@@ -10,18 +10,23 @@
         type="email"
         text="Email"
         placeholder="de type votrenom@domaine.com"
+        required
       />
       <FormGroup
         v-model="nickname"
         form-group="nicknameInput"
         type="text"
         text="Nom d'utilisateur"
+        placeholder="20 caractères maximum"
+        maxlength="20"
+        required
       />
       <FormGroup
         v-model="password"
         form-group="passwordInput"
         type="password"
         text="Mot de passe"
+        required
       />
 
       <FormGroup
@@ -29,6 +34,7 @@
         form-group="confirmPasswordInput"
         type="password"
         text="Confirmer le mot de passe"
+        required
       />
       <div
         v-if="error"

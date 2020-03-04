@@ -16,7 +16,7 @@
       </h2>
       <!-- Bouton de mise en favori ; ne doit s'afficher que quand on est connecté -->
       <button
-        v-if="isAuthenticated"
+        v-if="isAuthenticated && $route.name!='ArtistPreview'"
         class="starIcon"
         @click="addFav()"
       >

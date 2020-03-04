@@ -36,7 +36,6 @@ export default {
       else {
         this.icon = "check-square";
       }
-      
     }
   }
 };

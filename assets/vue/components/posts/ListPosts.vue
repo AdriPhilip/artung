@@ -132,16 +132,9 @@ export default {
     }
   },
   created() {
-    // Chargement de Facebook :
-    //window.userAccessToken =
-    //  "EAABnEWIH3SwBABdZAQjl4xl8PfW3WVfOtCUwxTufMPV6GhABeZBivZAqkxk7IwGLh3ZCbynHrWREDyLsmtyMJDGh6fZCS3jZCRZCm3ztYiRGK7PD7y1feUseRUj1Wojt4jJjquwnAxPXCTyXSkF1kAOPnwOavBNfLkZD";
-    window.userAccessToken =
-      "EAABnEWIH3SwBAGZAbimKVftPQs161V1bZBuEKNP4jY6BXPWL0n43bJUvelHhhfAYCRUAyv0nggtMZCfZCaktf5FqcZBAGFjUZCogwEZCYVkZClcy6ZAVIm06hLWQwGbB4zflvCBWCBLBK1gWC2yyyZBd6ZBO7XeD8Y6EHQZD";
-    //window.appAccessToken =
-    //"113324356787500" + "|" + "a37482071c19a6e0555b5476d7a84d49";
-    this.getInfosFacebook();
     this.getInfosWordpress();
     this.getInfosYoutube();
+    this.getInfosFacebook();
   },
   methods: {
     // Ouvre la source dans une nouvelle fenêtre
@@ -182,119 +175,25 @@ export default {
     },
     async getInfosFacebook() {
       console.log("Fonction getInfosFacebook");
-      // Génération du token de page :
-      this.getPageAccessToken();
-
-      /*
-      let url = "/" + this.urlFacebook + "/feed";
+      let url = "/" + this.urlFacebook;
       console.log(window.appAccessToken);
       try {
         window.FB.api(
           url,
           "GET",
           {
-            //fields:
-            //  "posts{event,picture,attachments,comments,created_time,message}",
-            access_token: window.appAccessToken
+            fields:
+              "posts{event,picture,attachments,comments,created_time,message}"
           },
           page => {
             console.log(page);
             console.log(page.data);
-            this.facebookResults = page.posts.data;
-            this.pushFacebookPosts();
-          }
-        );
-      } catch (err) {
-        console.log(err);
-      }
-      */
-    },
-
-    async getPageAccessToken() {
-      //let url = "/" + this.urlFacebook;
-      // Long lived user token
-      let longLivedUserAccessToken = null;
-      let appToken = null;
-      try {
-        let appId = "113324356787500";
-        let appSecret = "a37482071c19a6e0555b5476d7a84d49";
-        // Génération de l'appToken
-        let url =
-          "https://graph.facebook.com/oauth/access_token?client_id=" +
-          appId +
-          "&client_secret=" +
-          appSecret +
-          "&grant_type=client_credentials";
-        let response = await fetch(url);
-        let result = await response.json();
-        console.log(result);
-        appToken = result.access_token;
-        /*
-        let userShortToken =
-          "EAABnEWIH3SwBAGZAbimKVftPQs161V1bZBuEKNP4jY6BXPWL0n43bJUvelHhhfAYCRUAyv0nggtMZCfZCaktf5FqcZBAGFjUZCogwEZCYVkZClcy6ZAVIm06hLWQwGbB4zflvCBWCBLBK1gWC2yyyZBd6ZBO7XeD8Y6EHQZD";
-        let response = await fetch(
-          "https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=" +
-            appId +
-            "&client_secret=" +
-            appSecret +
-            "&fb_exchange_token=" +
-            userShortToken
-        ); */
-        /*
-        let response = await fetch(
-          "https://graph.facebook.com/" +
-            this.urlFacebook +
-            "?access_token=" +
-            window.appAccessToken +
-            "&fields=access_token"
-        );
-        const result = await response.json();
-        console.log(result);
-        longLivedUserAccessToken = result.access_token;
-        */
-      } catch (err) {
-        console.log(
-          "Erreur lors de la demande d'un long lived user token : " + err
-        );
-      }
-
-      // Token de page
-      let pageToken = null;
-      try {
-        let test =
-          "https://graph.facebook.com/" +
-          this.urlFacebook +
-          "?access_token=" +
-          appToken +
-          "&fields=access_token";
-        let response = await fetch(test);
-        console.log(response);
-        console.log(response.url);
-        let response2 = await fetch(response.url);
-        console.log(response2);
-        let result = await response.json();
-        console.log(result);
-        pageToken = result.access_token;
-      } catch (err) {
-        console.log(err);
-      }
-      console.log(pageToken);
-
-      // Contenu de la page
-      let url = "/" + this.urlFacebook;
-      try {
-        window.FB.api(
-          url,
-          "GET",
-          {
-            access_token: longLivedUserAccessToken,
-            field: "access_token"
-          },
-          page => {
-            console.log(page);
-            console.log(page.data);
-            this.facebookResults = page.posts.data;
-            //this.pushFacebookPosts();
+            if (page) {
+              this.facebookResults = page.posts.data;
+              this.pushFacebookPosts();
+            } else {
+              console.log("La page Facebook n'a pas été trouvée");
+            }
           }
         );
       } catch (err) {

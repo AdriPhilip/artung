@@ -16,9 +16,9 @@ export default {
   },
   created() {
     this.manageAuthOnRefresh();
-    this.loadFbSdk("113324356787500", "v5.0").then(loadingResult => {
+    /* this.loadFbSdk("113324356787500", "v5.0").then(loadingResult => {
       console.log(loadingResult);
-    });
+    }); */
   },
   methods: {
     manageAuthOnRefresh() {
@@ -38,9 +38,9 @@ export default {
           throw err;
         });
       });
-    },
+    }
     // On charge le SDK facebook pour accéder à window.FB de n'importe où dans l'appli
-    loadFbSdk(appId, version) {
+    /* loadFbSdk(appId, version) {
       //window.appAccessToken =
       //  "113324356787500|a37482071c19a6e0555b5476d7a84d49";
 
@@ -69,7 +69,7 @@ export default {
           fjs.parentNode.insertBefore(js, fjs);
         })(document, "script", "facebook-jssdk");
       });
-    }
+    } */
   }
 };
 </script>

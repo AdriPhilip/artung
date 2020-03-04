@@ -79,17 +79,15 @@
           Pour lier votre page Facebook à l'application, veuillez vous connecter
           :
         </p>
-        <!-- <facebook-login
+        <facebook-login
           class="button"
           app-id="113324356787500"
           version="v5.0"
           :login-options="loginOptions"
           :login-label="loginLabel"
           :logout-label="logoutLabel"
-          @login="onLogin"
-          @logout="onLogout"
           @sdk-loaded="sdkLoaded"
-        />-->
+        />
       </div>
       <FormGroupInline icon-status="twitter" />
       <FormGroupInline icon-status="youtube" />
@@ -126,7 +124,7 @@ import EditIcon from "../../components/buttons/EditIcon";
 import FormGroupInline from "../../components/forms/FormGroupInline";
 import FormAccount from "../../components/forms/FormAccount";
 import TextButton from "../../components/buttons/TextButton";
-//import facebookLogin from "../../components/facebook/facebook-login";
+import facebookLogin from "../../components/facebook/facebook-login";
 
 export default {
   name: "ArtistAccount",
@@ -136,8 +134,8 @@ export default {
     EditIcon,
     FormGroupInline,
     FormAccount,
-    TextButton
-    //facebookLogin
+    TextButton,
+    facebookLogin
   },
   data() {
     return {
@@ -181,11 +179,11 @@ export default {
       } else {
         console.log("Resize observer not supported!");
       }
-    }
-    /* sdkLoaded(payload) {
+    },
+    sdkLoaded(payload) {
       //this.isConnected = payload.isConnected;
       this.FB = payload.FB;
-    }, */
+    }
   }
 };
 </script>

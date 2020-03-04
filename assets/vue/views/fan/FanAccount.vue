@@ -4,19 +4,20 @@
       <Header />
     </div>
 
-    <h2
-      class="profil ml-5"
+    <div
+      class="profil mx-5"
       :style="styleObject"
     >
-      Mon profil
-    </h2>
+      <h2>Mon profil</h2>
+      <EditIcon @onClick="submit()" />
+    </div>
 
-    <!-- Formulaire de données de profil -->
+    <!-- Formulaire -->
     <form
-      class="mx-5 px-5"
+      class="mx-5"
       @submit.prevent
     >
-      <EditIcon @onClick="submit()" />
+      <!-- Données de profil -->
       <FormGroup
         v-model="formFanPhoto"
         form-group="photoInput"
@@ -25,17 +26,33 @@
         required
         readonly
       />
+
+      <hr>
+
+      <!-- Données de connexion -->
+      <FormGroup
+        v-model="formFanEmail"
+        form-group="emailInput"
+        type="email"
+        text="Email"
+        required
+        readonly
+      />
+
+      <FormGroup
+        v-model="formFanNickname"
+        form-group="nicknameInput"
+        type="text"
+        text="Nom d'utilisateur"
+        required
+        readonly
+      />
     </form>
 
     <hr class="mx-5">
 
-    <!-- Formulaire de données de connexion -->
-
-
-    <hr class="mx-5">
-
     <!-- Boutons se déconnecter et supprimer mon profil -->
-    <div class="buttonGroup mx-5 px-5">
+    <div class="buttonGroup mx-5">
       <TextButton
         text="Me déconnecter"
         secondary
@@ -67,7 +84,9 @@ export default {
   data() {
     return {
       styleObject: null,
-      formFanPhoto: ""
+      formFanPhoto: "",
+      formFanEmail: "",
+      formFanNickname: ""
     }
   },
   computed: {
@@ -80,6 +99,8 @@ export default {
     // Remplit les infos des formulaires avec les infos du user
     if(this.user.fan.photo) this.formFanPhoto = this.user.fan.photo;
     else this.formFanPhoto = "https://www.sebastienvelly.com/wp-content/themes/sebastienvelly/img/artung_logo-1.png";
+    this.formFanEmail = this.user.username;
+    this.formFanNickname = this.user.fan.nickname;
     // Appelle la fonction resize() une 1ère fois puis à chaque redimensionnement de fenêtre
     this.resize();
     window.addEventListener("resize", this.resize());
@@ -106,14 +127,16 @@ export default {
     },
     async submit() {
       // Update le user
-      let urlUser = window.rootUrl + '/' + this.user.id +'/edit';
+      let urlUser = window.rootUrl + 'user/' + this.user.id +'/edit';
       let dataUser = {
-        username: this.user.login,
-        nickname: this.user.fan.nickname
+        username: this.formFanEmail,
+        nickname: this.formFanNickname
       };
+      console.log(urlUser)
+      console.log(dataUser)
       try {
         await fetch(urlUser, {
-          method: "POST",
+          method: "PUT",
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json"
@@ -148,7 +171,11 @@ export default {
 
 <style lang="scss">
 .profil {
-  font-size: 3em;
+  display: flex;
+  justify-content: space-between;
+}
+h2 {
+  font-size: 3rem;
   color: var(--light);
 }
 hr {

@@ -1,11 +1,14 @@
 <template>
   <div class="form-group">
-    <label :for="formGroup">{{ text }}</label>
+    <label
+      :for="formGroup"
+    >{{ text }}</label>
     <input
       :id="formGroup"
       v-model="value"
       class="form-control"
       :placeholder="placeholder"
+      autocomplete="off"
       :required="required"
       :type="type"
       :maxlength="maxlength"
@@ -69,9 +72,7 @@ export default {
         this.$el.querySelector("input").classList.add("form-control-plaintext");
       } else {
         this.$el.querySelector("input").classList.add("form-control");
-        this.$el
-          .querySelector("input")
-          .classList.remove("form-control-plaintext");
+        this.$el.querySelector("input").classList.remove("form-control-plaintext");
       }
     }
   }

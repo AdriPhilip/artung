@@ -22,6 +22,7 @@
         type-status="text"
         text="Photo de profil"
         :model="user.fan.photo"
+        readonly
       />
     </form>
 

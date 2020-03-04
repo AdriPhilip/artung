@@ -1,16 +1,6 @@
 <template>
   <div class="form-group">
     <label :for="formGroup">{{ text }}</label>
-    <!-- La value sera à passer en props -->
-    <!-- <input
-      :id="formGroup"
-      :value="infosArtistResults.nickname"
-      :placeholder="placeholder"
-      @readonlyStatus="readonlyStatus"
-
-      Remettre le :readonly dans l'input si le watch n'est pas utilisé !!!
-      :readonly="readonlyValue"      
-    >-->
     <input
       :id="formGroup"
       v-model="model"
@@ -24,7 +14,6 @@
     >
   </div>
 </template>
-<!-- Types : text, password, email -->
 
 <script>
 import { readonlyBus } from "../../index.js";
@@ -39,10 +28,6 @@ export default {
       type: String,
       required: true
     },
-    // typeStatus: {
-    //   type: String,
-    //   required: true
-    // },
     model: {
       type: String,
       default: ""
@@ -62,74 +47,10 @@ export default {
     },
     readonly: Boolean
   },
-  data() {
-    return {
-      infosArtistResults: null,
-      readonlyValue: true
-    };
-  },
-  computed: {
-    urlArtist() {
-      return `${window.rootUrl}artists/5`;
-    }
-  },
-  watch: {
-    readonlyValue: function() {
-      this.$el.querySelector("input").toggleAttribute("readonly");
-    }
-  },
-
   created() {
-    this.getInfosArtist();
     readonlyBus.$on("readonlyStatus", data => {
-      this.readonlyValue = data;
+      this.readonly = data;
     });
-  },
-  mounted() {
-    this.typeChange();
-  },
-  methods: {
-    // typeChange() {
-    //   switch (this.typeStatus) {
-    //   case "email":
-    //     this.$el.querySelector("input").setAttribute("type", "email");
-    //     this.$el.querySelector("input").setAttribute("maxlength", "40");
-    //     break;
-    //   case "password":
-    //     this.$el.querySelector("input").setAttribute("type", "password");
-    //     this.$el.querySelector("input").setAttribute("maxlength", "30");
-    //     break;
-    //   case "text":
-    //     this.$el.querySelector("input").setAttribute("type", "text");
-    //     this.$el.querySelector("input").setAttribute("maxlength", "30");
-    //     break;
-    //   default:
-    //     this.$el.querySelector("input").setAttribute("type", "text");
-    //     this.$el.querySelector('input').setAttribute('maxlength', '30');
-    //   }
-    // },
-
-    // isReadonly() {
-    //   if (this.readonlyValue == true) {
-    //     this.$el.querySelector("input").toggleAttribute("readonly");
-    //     this.$el.querySelector("input").classList.add("form-control-plaintext");
-    //   } else {
-    //     this.$el.querySelector("input").toggleAttribute("readonly");
-    //     this.$el
-    //       .querySelector("input")
-    //       .classList.remove("form-control-plaintext");
-    //   }
-    // },
-
-    // async getInfosArtist() {
-    //   try {
-    //     const response = await fetch(this.urlArtist);
-    //     const result = await response.json();
-    //     this.infosArtistResults = result;
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // }
   }
 };
 </script>

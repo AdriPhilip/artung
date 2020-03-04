@@ -27,10 +27,16 @@ export default {
   },
   methods: {
     editable() {
-      readonlyBus.$emit("readonlyStatus", this.isEdit);
       this.isEdit = !this.isEdit;
+      readonlyBus.$emit("readonlyStatus", this.isEdit);
       if (this.isEdit) this.icon = "edit";
-      else this.icon = "check-square";
+      else {
+        this.icon = "check-square";
+        this.submit();
+      }
+    },
+    submit() {
+
     }
   }
 };

@@ -16,7 +16,10 @@
       v-model="model"
       class="form-control"
       :placeholder="placeholder"
-      required
+      :required="required"
+      :type="type"
+      :maxlength="maxlength"
+      :readonly="readonly"
       @input="$emit('input', model)"
     >
   </div>
@@ -27,12 +30,8 @@
 import { readonlyBus } from "../../index.js";
 export default {
   name: "FormGroup",
-  props: {
+  props: {    
     text: {
-      type: String,
-      required: true
-    },
-    typeStatus: {
       type: String,
       required: true
     },
@@ -40,15 +39,28 @@ export default {
       type: String,
       required: true
     },
+    // typeStatus: {
+    //   type: String,
+    //   required: true
+    // },
     model: {
       type: String,
       default: ""
-    },
+    },    
     placeholder: {
       type: String,
       default: ""
     },
-    readonlyStatus: Boolean
+    required: Boolean,    
+    type: {
+      type: String,
+      required: true
+    },
+    maxlength: {
+      type: String,
+      default: ""
+    },
+    readonly: Boolean
   },
   data() {
     return {
@@ -77,25 +89,25 @@ export default {
     this.typeChange();
   },
   methods: {
-    typeChange() {
-      switch (this.typeStatus) {
-      case "email":
-        this.$el.querySelector("input").setAttribute("type", "email");
-        this.$el.querySelector("input").setAttribute("maxlength", "40");
-        break;
-      case "password":
-        this.$el.querySelector("input").setAttribute("type", "password");
-        this.$el.querySelector("input").setAttribute("maxlength", "30");
-        break;
-      case "text":
-        this.$el.querySelector("input").setAttribute("type", "text");
-        this.$el.querySelector("input").setAttribute("maxlength", "30");
-        break;
-      default:
-        this.$el.querySelector("input").setAttribute("type", "text");
-        this.$el.querySelector('input').setAttribute('maxlength', '30');
-      }
-    },
+    // typeChange() {
+    //   switch (this.typeStatus) {
+    //   case "email":
+    //     this.$el.querySelector("input").setAttribute("type", "email");
+    //     this.$el.querySelector("input").setAttribute("maxlength", "40");
+    //     break;
+    //   case "password":
+    //     this.$el.querySelector("input").setAttribute("type", "password");
+    //     this.$el.querySelector("input").setAttribute("maxlength", "30");
+    //     break;
+    //   case "text":
+    //     this.$el.querySelector("input").setAttribute("type", "text");
+    //     this.$el.querySelector("input").setAttribute("maxlength", "30");
+    //     break;
+    //   default:
+    //     this.$el.querySelector("input").setAttribute("type", "text");
+    //     this.$el.querySelector('input').setAttribute('maxlength', '30');
+    //   }
+    // },
 
     // isReadonly() {
     //   if (this.readonlyValue == true) {
@@ -109,15 +121,15 @@ export default {
     //   }
     // },
 
-    async getInfosArtist() {
-      try {
-        const response = await fetch(this.urlArtist);
-        const result = await response.json();
-        this.infosArtistResults = result;
-      } catch (err) {
-        console.log(err);
-      }
-    }
+    // async getInfosArtist() {
+    //   try {
+    //     const response = await fetch(this.urlArtist);
+    //     const result = await response.json();
+    //     this.infosArtistResults = result;
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // }
   }
 };
 </script>

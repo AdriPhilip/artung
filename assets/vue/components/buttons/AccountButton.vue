@@ -52,12 +52,12 @@ export default {
 .accountButton {
   border: var(--spacing-xs) solid var(--primary);
   border-radius: 50%;
+  overflow:hidden;
 }
 button {
   width: 54px;
   height: 54px;
   background-color: transparent;
-  border-radius: 50%;
   border: 0;
   display: flex;
   justify-content: center;

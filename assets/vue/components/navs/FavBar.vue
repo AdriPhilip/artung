@@ -29,13 +29,14 @@ export default {
     }
   },
   computed: {
-    // Url de l'API pour récupérer le fan connecté
-    urlFan() {
-      return `${window.rootUrl}fans/${this.$store.getters["security/user"].fan.id}`;
+    // Récupère dans le store les favoris du fan connecté
+    firstFavs() {
+      return this.$store.getters["security/user"].fan.favoris;
     },
   },
   created() {
-    this.getFanFavs(this.urlFan);
+    // Au chargement le tableau de favoris est chargé depuis le store
+    this.favs = this.firstFavs;
     //Bus d'événement pour la mise à jour des favoris
     favBus.$on("reloadFav", data => {
       let urlFanReload = `${window.rootUrl}fans/${data}`

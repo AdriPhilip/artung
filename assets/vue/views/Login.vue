@@ -1,6 +1,9 @@
 <template>
   <div>
-    <form @submit.prevent>
+    <form
+      class="mx-5 p-5"
+      @submit.prevent
+    >
       <FormGroup
         v-model="login"
         form-group="emailInput"
@@ -14,7 +17,7 @@
         type-status="password"
         text="Mot de passe"
       />
-      <div class="d-flex justify-content-center">
+      <div class="d-flex justify-content-center pt-5">
         <TextButton
           text="Go !"
           form

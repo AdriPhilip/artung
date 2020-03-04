@@ -4,8 +4,18 @@
       <Header />
     </div>
 
+    <h2
+      class="profil ml-5"
+      :style="styleObject"
+    >
+      Mon profil
+    </h2>
+
     <!-- Formulaire de données de profil -->
-    <form @submit.prevent>
+    <form
+      class="mx-5 px-5"
+      @submit.prevent
+    >
       <EditIcon />
       <FormGroup
         form-group="photoInput"
@@ -54,11 +64,14 @@
       </div>
     </form>
 
-    <hr>
+    <hr class="mx-5">
 
     <!-- Paramètrer mes flux -->
     <span>Paramétrer mes flux</span>
-    <form @submit.prevent>
+    <form
+      class="mx-5 px-5"
+      @submit.prevent
+    >
       <EditIcon />
       <FormGroupInline icon-status="facebook" />
       <div class="d-flex">
@@ -83,24 +96,26 @@
       <FormGroupInline icon-status="wordpress" />
     </form>
 
-    <hr>
+    <hr class="mx-5">
 
     <!-- Formulaire de données de connexion -->
     <FormAccount />
 
-    <hr>
+    <hr class="mx-5">
 
     <!-- Boutons se déconnecter et supprimer mon profil -->
-    <TextButton
-      text="Me déconnecter"
-      secondary
-      @onClick="disconnect()"
-    />
-    <TextButton
-      text="Supprimer mon profil"
-      secondary
-      @onClick="routerPush('DeleteAccount')"
-    />
+    <div class="buttonGroup mx-5 px-5">
+      <TextButton
+        text="Me déconnecter"
+        secondary
+        @onClick="disconnect()"
+      />
+      <TextButton
+        text="Supprimer mon profil"
+        secondary
+        @onClick="routerPush('DeleteAccount')"
+      />
+    </div>
   </div>
 </template>
 
@@ -126,6 +141,7 @@ export default {
   },
   data() {
     return {
+      styleObject: null,
       loginOptions: {
         // Ici on précise les autorisations qu'on veut demander à l'utilisateur
         scope: "public_profile, email, manage_pages"
@@ -140,6 +156,10 @@ export default {
       return this.$store.getters["security/user"];
     }
   },
+  mounted() {
+    this.resize();
+    window.addEventListener("resize", this.resize());
+  },
   methods: {
     // Routes de destination des TextButton
     routerPush(name) {
@@ -147,6 +167,20 @@ export default {
     },
     disconnect() {
       window.location.href = window.rootUrl + "security/logout";
+    },
+    // Permet de changer dynamiquement le padding-top du contenu de la page en fonction de la hauteur du Header
+    resize() {
+      if (ResizeObserver) {
+        const divTopBar = document.querySelector(".topBar");
+        const resizeObserver = new ResizeObserver(entry => {
+          this.styleObject = {
+            paddingTop: entry[0].borderBoxSize.blockSize + "px"
+          };
+        });
+        resizeObserver.observe(divTopBar);
+      } else {
+        console.log("Resize observer not supported!");
+      }
     }
     /* sdkLoaded(payload) {
       //this.isConnected = payload.isConnected;
@@ -157,9 +191,16 @@ export default {
 </script>
 
 <style lang="scss">
+.profil {
+  font-size: 3em;
+  color: var(--light);
+}
 hr {
   height: var(--spacing-xs);
   background-color: var(--dark);
   border-top: 0;
+}
+.buttonGroup button {
+  margin-bottom: var(--spacing-md);
 }
 </style>

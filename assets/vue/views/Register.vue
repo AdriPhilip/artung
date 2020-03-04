@@ -1,7 +1,7 @@
 <template>
   <div>
     <form
-      class="m-5 p-5"
+      class="mx-5 p-5"
       @submit.prevent
     >
       <FormGroup
@@ -36,11 +36,13 @@
       >
         {{ error }}
       </div>
-      <TextButton
-        text="Go !"
-        form
-        @onClick="register()"
-      />
+      <div class="d-flex justify-content-center pt-5">
+        <TextButton
+          text="Go !"
+          form
+          @onClick="register()"
+        />
+      </div>
       <div v-if="loading">
         <p class="text-light">
           Connexion en cours...

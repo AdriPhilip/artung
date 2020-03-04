@@ -1,7 +1,7 @@
 <template>
   <div class="fond">
     <FormGroupInline
-      icon-status="youtube"
+      icon-status="twitter"
     />
     <FormGroup
       type-status="text"

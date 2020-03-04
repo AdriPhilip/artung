@@ -134,8 +134,6 @@ export default {
         username: this.formFanEmail,
         nickname: this.formFanNickname
       };
-      console.log(urlUser)
-      console.log(dataUser)
       try {
         await fetch(urlUser, {
           method: "PUT",
@@ -175,6 +173,7 @@ export default {
 .profil {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 h2 {
   font-size: 3rem;

@@ -26,7 +26,7 @@
       <TextButton
         v-show="$route.name=='ArtistAccount' || $route.name=='ArtistPreview'"
         text="Aperçu de ma page"
-        class="marginButton"
+        class="apercuMarginButton"
         secondary
         @onClick="routerPush('ArtistPreview', { artist: user.artist })"
       />
@@ -121,5 +121,8 @@ nav img {
 }
 .loginMarginButton {
   margin-left: auto;
+}
+.apercuMarginButton {
+  margin-right: auto;
 }
 </style>

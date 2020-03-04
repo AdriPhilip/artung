@@ -197,8 +197,8 @@ export default {
     if(this.user.artist.nickname) this.formArtistNickname = this.user.artist.nickname;
     if(this.user.artist.category) this.formArtistCategory = this.user.artist.category;
     if(this.user.artist.description) this.formArtistDescription = this.user.artist.description;
-    if(this.user.artist.youtube_link) this.formArtistYoutubeLink = this.user.artist.youtube_link;
-    if(this.user.artist.wordpress_link) this.formArtistWordpressLink = this.user.artist.wordpress_link;
+    if(this.user.artist.youtubeLink) this.formYoutubeLink = this.user.artist.youtubeLink;
+    if(this.user.artist.wordpressLink) this.formWordpressLink = this.user.artist.wordpressLink;
     // Appelle la fonction resize() une 1ère fois puis à chaque redimensionnement de fenêtre
     this.resize();
     window.addEventListener("resize", this.resize());
@@ -282,6 +282,7 @@ export default {
 .profil {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 h2 {
   font-size: 3rem;

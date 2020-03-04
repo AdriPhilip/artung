@@ -131,10 +131,10 @@ export default {
       return [...this.listPostsArray].sort(byDate);
     }
   },
-  created() {
-    this.getInfosWordpress();
-    this.getInfosYoutube();
-    this.getInfosFacebook();
+  mounted() {
+    if(this.artist && this.artist.wordpressLink !== "") this.getInfosWordpress();
+    if(this.artist && this.artist.youtubeLink !== "") this.getInfosYoutube();
+    if(this.artist && this.artist.FacebookLink !== "") this.getInfosFacebook();
   },
   methods: {
     // Ouvre la source dans une nouvelle fenêtre
@@ -148,13 +148,11 @@ export default {
     // Récupère les données de l'API de Wordpress
     async getInfosWordpress() {
       try {
-        if (this.urlWordpress != "wp-json/wp/v2/posts") {
-          const response = await fetch(this.urlWordpress);
-          const wpResult = await response.json();
-          if (wpResult) {
-            this.wordpressResults = wpResult;
-            this.pushWordpressPosts();
-          }
+        const response = await fetch(this.urlWordpress);
+        const wpResult = await response.json();
+        if (wpResult) {
+          this.wordpressResults = wpResult;
+          this.pushWordpressPosts();
         }
       } catch (err) {
         console.log(err);

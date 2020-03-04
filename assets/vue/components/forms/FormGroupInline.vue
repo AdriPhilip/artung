@@ -12,11 +12,13 @@
     </label>
     <input
       :id="formGroup"
-      v-model="model"
+      v-model="value"
+      type="text"
       class="col-9 col-sm-10 col-md-11 form-control"
       :placeholder="placeholder"
+      autocomplete="off"
       :readonly="readonly"
-      @input="$emit('input', model)"
+      @change="$emit('change', value)"
     >
   </div>
 </template>
@@ -34,11 +36,11 @@ export default {
     case: vCase,
     default: vDefault
   },
+  model: {
+    prop: 'value',
+    event: 'change'
+  },
   props: {
-    text: {
-      type: String,
-      default: ""
-    },
     formGroup: {
       type: String,
       required: true
@@ -47,7 +49,7 @@ export default {
       type: String,
       required: true
     },
-    model: {
+    value: {
       type: String,
       default: ""
     },
@@ -110,15 +112,15 @@ export default {
           );
         // Regex initial avant erreur compil escape chars : /http(?:s)?:\/\/(?:www\.)?twitter\.com\/([a-zA-Z0-9_]+)/
         break;
-      case "youtube":
-        this.$el
-          .querySelector("input")
-          .setAttribute(
-            "pattern",
-            "http(?:s?)://(?:www.)?youtu(?:be.com/watch?v=|.be/)([w-_]*)(&(amp;)?[w?=]*)?"
-          );
-        // Regex initial avant erreur compil escape chars : http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?[\w\?=]*)?
-        break;
+      // case "youtube":
+      //   this.$el
+      //     .querySelector("input")
+      //     .setAttribute(
+      //       "pattern",
+      //       "http(?:s?)://(?:www.)?youtu(?:be.com/watch?v=|.be/)([w-_]*)(&(amp;)?[w?=]*)?"
+      //     );
+      //   // Regex initial avant erreur compil escape chars : http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?[\w\?=]*)?
+      //   break;
       case "wordpress":
         this.$el
           .querySelector("input")
@@ -126,7 +128,7 @@ export default {
         // Regex initial avant erreur compil escape chars : ^https?:\/\/.*\/$
         break;
       default:
-        this.$el.querySelector("input").setAttribute("pattern", ".*");
+        this.$el.querySelector("input").setAttribute("pattern", "");
       }
     },
     addFormControlPlaintext: function() {

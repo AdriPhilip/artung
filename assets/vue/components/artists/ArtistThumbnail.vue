@@ -1,10 +1,12 @@
 <template>
   <div class="artistThumbnail">
+    <!-- On clique sur l'image pour accéder à la page détails de l'artiste -->
     <img
       :src="artist.photo"
       :alt="`Photo de ${ artist.nickname }`"
       @click="$router.push({ name: 'ArtistDetails', params: { id: artist.id, artist: artist }})"
     >
+    <!-- L'icone envoie la catégorie au bus d'événement pour tri des cards -->
     <div
       class="categoryButton"
       @click="emitValue(artist.category)"
@@ -23,7 +25,7 @@ export default {
   props: {
     artist: {
       type: Object,
-      required: true
+      default: null
     }
   },
   computed: {

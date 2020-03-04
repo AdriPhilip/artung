@@ -9,7 +9,7 @@
         form-group="emailInput"
         type="email"
         text="Email"
-        placeholder="nom@nom-de-domaine.com"
+        placeholder="de type votrenom@domaine.com"
       />
       <FormGroup
         v-model="nickname"
@@ -117,7 +117,7 @@ export default {
       if (this.$route.params.role === "artist")
         this.$router.push({ name: "ArtistAccount", params: "" });
       else if (this.$route.params.role === "fan")
-        this.$router.push({ name: "Catalog", params: "" });
+        this.$router.push({ name: "Home", params: "" });
     },
     checkPassword() {
       if (this.password == "" || this.passwordConfirm == "") {

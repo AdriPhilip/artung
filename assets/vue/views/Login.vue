@@ -9,7 +9,7 @@
         form-group="emailInput"
         type="email"
         text="Email"
-        placeholder="nom@nom-de-domaine.com"
+        placeholder="Votre adresse e-mail"
       />
       <FormGroup
         v-model="password"

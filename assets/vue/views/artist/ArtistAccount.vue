@@ -84,12 +84,14 @@
 
       <FormGroupInline
         v-model="formYoutubeLink"
+        form-group="youtubeInput"
         icon-status="youtube"
         placeholder="Votre ID de chaîne"
         :readonly="customReadonly"
       />
       <FormGroupInline
         v-model="formWordpressLink"
+        form-group="wordpressInput"
         icon-status="wordpress"
         placeholder="http://www.votrenomdomaine.com/"
         :readonly="customReadonly"
@@ -191,12 +193,12 @@ export default {
     // Remplit les infos des formulaires avec les infos du user
     if(this.user.artist.photo) this.formArtistPhoto = this.user.artist.photo;
     else this.formArtistPhoto = "https://www.sebastienvelly.com/wp-content/themes/sebastienvelly/img/artung_logo-1.png";
-    this.formArtistEmail = this.user.username;
-    this.formArtistNickname = this.user.artist.nickname;
-    this.formArtistCategory = this.user.artist.category;
-    this.formArtistDescription = this.user.artist.description;
-    this.formArtistYoutubeLink = this.user.artist.youtube_link;
-    this.formArtistWordpressLink = this.user.artist.wordpress_link;
+    if(this.user.username) this.formArtistEmail = this.user.username;
+    if(this.user.artist.nickname) this.formArtistNickname = this.user.artist.nickname;
+    if(this.user.artist.category) this.formArtistCategory = this.user.artist.category;
+    if(this.user.artist.description) this.formArtistDescription = this.user.artist.description;
+    if(this.user.artist.youtube_link) this.formArtistYoutubeLink = this.user.artist.youtube_link;
+    if(this.user.artist.wordpress_link) this.formArtistWordpressLink = this.user.artist.wordpress_link;
     // Appelle la fonction resize() une 1ère fois puis à chaque redimensionnement de fenêtre
     this.resize();
     window.addEventListener("resize", this.resize());
@@ -258,6 +260,7 @@ export default {
         youtube_link: this.formYoutubeLink,
         wordpress_link: this.formWordpressLink
       };
+      console.log(dataArtist)
       try {
         await fetch(urlArtist, {
           method: "PUT",

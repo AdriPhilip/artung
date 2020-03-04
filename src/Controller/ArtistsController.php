@@ -65,7 +65,6 @@ class ArtistsController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="artists_edit", methods={"PUT"})
-     * @IsGranted("ROLE_ARTIST", message="Vous devez être enregistré en tant qu'artiste pour effectuer cette action")
      */
     public function edit(Request $request, ArtistsRepository $artistsRepository): Response
     {

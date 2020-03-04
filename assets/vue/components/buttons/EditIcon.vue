@@ -2,20 +2,14 @@
   <div>
     <button
       type="submit"
-      @click="isEdit = !isEdit; editable();"
+      @click="editable()"
     >
-      <!-- Affichage du bouton edit -->
-      <span v-show="isEdit">
-        <span class="edit">
-          <font-awesome-icon :icon="['fa', 'edit']" />
-        </span>
-      </span>
-      <!-- Affichage du bouton check -->
-      <span v-show="!isEdit">
-        <span class="check">
-          <font-awesome-icon :icon="['fa', 'check-square']" />
-        </span>
-      </span>
+      <!-- Affichage du bouton edit ou check -->
+      <font-awesome-icon
+        class="edit"
+        size="2x"
+        :icon="icon"
+      />
     </button>
   </div>
 </template>
@@ -25,22 +19,18 @@ import { readonlyBus } from "../../index.js";
 
 export default {
   name: "EditIcon",
-  props: {
-    isEdit: Boolean
-  },
-  mounted() {
-    this.editable()
+  data() {
+    return {
+      icon: "edit",
+      isEdit: true
+    }
   },
   methods: {
     editable() {
-      if (this.isEdit) {
-        readonlyBus.$emit("readonlyStatus", false);
-        // alert("EditIcon -> readonly=" + !this.isEdit);
-
-      } else {
-        readonlyBus.$emit("readonlyStatus", true);
-        // alert("EditIcon -> readonly=" + this.isEdit);
-      }
+      readonlyBus.$emit("readonlyStatus", this.isEdit);
+      this.isEdit = !this.isEdit;
+      if (this.isEdit) this.icon = "edit";
+      else this.icon = "check-square";
     }
   }
 };
@@ -49,20 +39,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .edit {
-  background: transparent;
-  border: none !important;
-  color: #f3eff5;
-  font-size: 1.8em;
+  color: var(--light);
 }
-.check {
-  background: transparent;
-  border: none !important;
-  color: #f3eff5;
-  font-size: 1.8em;
-}
-
 button {
   background: transparent;
-  border: none !important;
+  border: 0;
 }
 </style>

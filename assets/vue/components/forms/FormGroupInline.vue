@@ -1,46 +1,19 @@
 <template>
-  <div class="form-group">
+  <div class="form-group row">
     <label
-      :for="formGroupInline"
-      class="formGroupInlineCss"
-    >{{ text }}</label>
-    <span v-switch="iconStatus">
-      <span v-case="'facebook'">
-        <font-awesome-icon
-          :icon="['fab', 'facebook']"
-          size="2x"
-        />
-      </span>
-      <span v-case="'twitter'">
-        <font-awesome-icon
-          :icon="['fab', 'twitter']"
-          size="2x"
-        />
-      </span>
-      <span v-case="'youtube'">
-        <font-awesome-icon
-          :icon="['fab', 'youtube']"
-          size="2x"
-        />
-      </span>
-      <span v-case="'wordpress'">
-        <font-awesome-icon
-          :icon="['fab', 'wordpress']"
-          size="2x"
-        />
-      </span>
-      <span v-default>
-        <font-awesome-icon
-          icon="question"
-          size="2x"
-        />
-      </span>
-    </span>
-    &nbsp;
+      class="col-3 col-sm-2 col-md-1 col-form-label"
+      :for="formGroup"
+    >
+      <font-awesome-icon
+        :icon="logoReseauSocial"
+        size="2x"
+      />
+      
+    </label>
     <input
-      :id="formGroupInline"
+      :id="formGroup"
       v-model="model"
-      class="form-control"
+      class="col-9 col-sm-10 col-md-11 form-control"
       :placeholder="placeholder"
       :readonly="readonly"
       @input="$emit('input', model)"
@@ -49,6 +22,8 @@
 </template>
 
 <script>
+/* eslint-disable no-unreachable */
+
 import { vSwitch, vCase, vDefault } from "v-switch-case";
 import { readonlyBus } from "../../index.js";
 
@@ -64,6 +39,10 @@ export default {
       type: String,
       default: ""
     },
+    formGroup: {
+      type: String,
+      required: true
+    },
     iconStatus: {
       type: String,
       required: true
@@ -76,26 +55,39 @@ export default {
       type: String,
       default: ""
     },
-    readonly: Boolean,
-    readonlyStatus: Boolean
+    readonly: Boolean
   },
-  data() {
-    return {
-      readonlyValue: true
-    };
-  },
-  watch: {
-    readonlyValue: function() {
-      this.$el.querySelector("input").toggleAttribute("readonly");
+  computed: {
+    logoReseauSocial() {
+      switch (this.iconStatus) {
+      case "facebook":
+        return ['fab', 'facebook'];
+        break;
+      case "twitter":
+        return ['fab', 'twitter'];
+        break;
+      case "youtube":
+        return ['fab', 'youtube'];
+        break;
+      case "wordpress":
+        return ['fab', 'wordpress'];
+        break;
+      default:
+        return "question";
+      }
     }
-  },
-  created() {
-    readonlyBus.$on("readonlyStatus", data => {
-      this.readonlyValue = data;
-    });
   },
   mounted() {
     this.iconChange();
+    this.addFormControlPlaintext();
+  },
+  updated() {
+    this.addFormControlPlaintext();
+  },
+  created() {
+    readonlyBus.$on("readonlyStatus", data => {
+      this.readonly = data;
+    });
   },
   methods: {
     iconChange: function() {
@@ -136,6 +128,17 @@ export default {
       default:
         this.$el.querySelector("input").setAttribute("pattern", ".*");
       }
+    },
+    addFormControlPlaintext: function() {
+      if (this.readonly) {
+        this.$el.querySelector("input").classList.remove("form-control");
+        this.$el.querySelector("input").classList.add("form-control-plaintext");
+      } else {
+        this.$el.querySelector("input").classList.add("form-control");
+        this.$el
+          .querySelector("input")
+          .classList.remove("form-control-plaintext");
+      }
     }
   }
 };
@@ -151,5 +154,9 @@ svg {
   font-size: 2em;
   color: var(--light);
   font-family: "Caveat";
+}
+
+.form-control-plaintext {
+  color: var(--light);
 }
 </style>

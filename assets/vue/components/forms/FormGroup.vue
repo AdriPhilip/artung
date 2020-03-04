@@ -35,12 +35,12 @@ export default {
     value: {
       type: String,
       default: ""
-    },    
+    },
     placeholder: {
       type: String,
       default: ""
     },
-    required: Boolean,    
+    required: Boolean,
     type: {
       type: String,
       required: true
@@ -51,10 +51,29 @@ export default {
     },
     readonly: Boolean
   },
+  mounted() {
+    this.addFormControlPlaintext();
+  },
+  updated() {
+    this.addFormControlPlaintext();
+  },
   created() {
     readonlyBus.$on("readonlyStatus", data => {
       this.readonly = data;
     });
+  },
+  methods: {
+    addFormControlPlaintext: function() {
+      if (this.readonly) {
+        this.$el.querySelector("input").classList.remove("form-control");
+        this.$el.querySelector("input").classList.add("form-control-plaintext");
+      } else {
+        this.$el.querySelector("input").classList.add("form-control");
+        this.$el
+          .querySelector("input")
+          .classList.remove("form-control-plaintext");
+      }
+    }
   }
 };
 </script>
@@ -65,5 +84,9 @@ label {
   font-size: 2em;
   color: var(--light);
   font-family: "Caveat";
+}
+
+.form-control-plaintext {
+  color: var(--light);
 }
 </style>

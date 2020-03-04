@@ -84,23 +84,21 @@
     <!-- Formulaire de données de connexion -->
 
     <FormGroup
-      :id="formGroup"
       v-model="model"
-      form-group="email"
-      class="form-control"
-      :required="required"
-      :type="email"
-      :readonly="true"
+      form-group="email"      
+      type="email"
+      text="Email"
+      required
+      readonly
     />
 
     <FormGroup
-      :id="formGroup"
       v-model="model"
       form-group="username"
-      class="form-control"
-      :required="required"
-      :type="text"
-      :readonly="true"
+      type="text"
+      text="Nom d'utilisateur"
+      required      
+      readonly
     />
 
     <hr class="mx-5">

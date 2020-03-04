@@ -7,7 +7,6 @@
       <!-- Affichage du bouton edit ou check -->
       <font-awesome-icon
         class="edit"
-        size="2x"
         :icon="icon"
       />
     </button>
@@ -29,14 +28,14 @@ export default {
     editable() {
       this.isEdit = !this.isEdit;
       readonlyBus.$emit("readonlyStatus", this.isEdit);
-      if (this.isEdit) this.icon = "edit";
+      if (this.isEdit) {
+        this.icon = "edit";
+        this.$emit('onClick');
+      }
       else {
         this.icon = "check-square";
-        this.submit();
       }
-    },
-    submit() {
-
+      
     }
   }
 };

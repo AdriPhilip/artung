@@ -19,7 +19,7 @@
       <EditIcon />
       <FormGroup
         form-group="photoInput"
-        type-status="text"
+        type="text"
         text="Photo de profil"
         :model="user.artist.photo"
       />
@@ -97,7 +97,24 @@
     <hr class="mx-5">
 
     <!-- Formulaire de données de connexion -->
-    <FormAccount />
+
+    <FormGroup
+      v-model="model"
+      form-group="email"
+      type="email"
+      text="Email"
+      required
+      readonly
+    />
+
+    <FormGroup
+      v-model="model"
+      form-group="username"
+      type="text"
+      text="Nom d'utilisateur"
+      required
+      readonly
+    />
 
     <hr class="mx-5">
 
@@ -122,7 +139,6 @@ import Header from "../../components/navs/Header";
 import FormGroup from "../../components/forms/FormGroup";
 import EditIcon from "../../components/buttons/EditIcon";
 import FormGroupInline from "../../components/forms/FormGroupInline";
-import FormAccount from "../../components/forms/FormAccount";
 import TextButton from "../../components/buttons/TextButton";
 import facebookLogin from "../../components/facebook/facebook-login";
 
@@ -133,7 +149,6 @@ export default {
     FormGroup,
     EditIcon,
     FormGroupInline,
-    FormAccount,
     TextButton,
     facebookLogin
   },

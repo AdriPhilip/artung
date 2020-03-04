@@ -1,16 +1,19 @@
 <template>
   <div class="form-group">
-    <label :for="formGroup">{{ text }}</label>
+    <label
+      :for="formGroup"
+    >{{ text }}</label>
     <input
       :id="formGroup"
-      v-model="model"
+      v-model="value"
       class="form-control"
       :placeholder="placeholder"
+      autocomplete="off"
       :required="required"
       :type="type"
       :maxlength="maxlength"
       :readonly="readonly"
-      @input="$emit('input', model)"
+      @change="$emit('change', value)"
     >
   </div>
 </template>
@@ -19,6 +22,10 @@
 import { readonlyBus } from "../../index.js";
 export default {
   name: "FormGroup",
+  model: {
+    prop: 'value',
+    event: 'change'
+  },
   props: {    
     text: {
       type: String,
@@ -28,15 +35,15 @@ export default {
       type: String,
       required: true
     },
-    model: {
+    value: {
       type: String,
       default: ""
-    },    
+    },
     placeholder: {
       type: String,
       default: ""
     },
-    required: Boolean,    
+    required: Boolean,
     type: {
       type: String,
       required: true
@@ -47,10 +54,27 @@ export default {
     },
     readonly: Boolean
   },
+  mounted() {
+    this.addFormControlPlaintext();
+  },
+  updated() {
+    this.addFormControlPlaintext();
+  },
   created() {
     readonlyBus.$on("readonlyStatus", data => {
       this.readonly = data;
     });
+  },
+  methods: {
+    addFormControlPlaintext: function() {
+      if (this.readonly) {
+        this.$el.querySelector("input").classList.remove("form-control");
+        this.$el.querySelector("input").classList.add("form-control-plaintext");
+      } else {
+        this.$el.querySelector("input").classList.add("form-control");
+        this.$el.querySelector("input").classList.remove("form-control-plaintext");
+      }
+    }
   }
 };
 </script>
@@ -61,5 +85,9 @@ label {
   font-size: 2em;
   color: var(--light);
   font-family: "Caveat";
+}
+
+.form-control-plaintext {
+  color: var(--light);
 }
 </style>

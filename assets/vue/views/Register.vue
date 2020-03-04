@@ -7,27 +7,27 @@
       <FormGroup
         v-model="login"
         form-group="emailInput"
-        type-status="email"
+        type="email"
         text="Email"
-        placeholder="nom@nom-de-domaine.com"
+        placeholder="de type votrenom@domaine.com"
       />
       <FormGroup
         v-model="nickname"
         form-group="nicknameInput"
-        type-status="text"
+        type="text"
         text="Nom d'utilisateur"
       />
       <FormGroup
         v-model="password"
         form-group="passwordInput"
-        type-status="password"
+        type="password"
         text="Mot de passe"
       />
 
       <FormGroup
         v-model="passwordConfirm"
         form-group="confirmPasswordInput"
-        type-status="password"
+        type="password"
         text="Confirmer le mot de passe"
       />
       <div
@@ -117,7 +117,7 @@ export default {
       if (this.$route.params.role === "artist")
         this.$router.push({ name: "ArtistAccount", params: "" });
       else if (this.$route.params.role === "fan")
-        this.$router.push({ name: "Catalog", params: "" });
+        this.$router.push({ name: "Home", params: "" });
     },
     checkPassword() {
       if (this.password == "" || this.passwordConfirm == "") {

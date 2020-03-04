@@ -17,7 +17,6 @@ class UserController extends AbstractController
 {
   /**
    * @Route("/{id}/edit", name="user_edit", methods={"PUT"})
-   *
    */
   public function edit(Request $request, UserRepository $userRepository): Response
   {
@@ -30,7 +29,7 @@ class UserController extends AbstractController
 
     // On redéfinit les valeurs du user
     $user->setLogin($body['username']);
-    $user->setPlainPassword($body['password']);
+    //$user->setPlainPassword($body['password']);
     if ($user->getFan()) {
       $fan = $user->getFan();
       $fan->setNickname($body['nickname']);
@@ -47,7 +46,7 @@ class UserController extends AbstractController
 
   /**
    * @Route("/{id}", name="user_delete", methods={"DELETE"})
-   * @IsGranted({"ROLE_ARTIST", "ROLE_FAN"}, message="Vous devez être enregistré en tant qu'artiste ou fan pour effectuer cette action")
+   * 
    */
   public function delete(Request $request, UserRepository $userRepository): Response
   {

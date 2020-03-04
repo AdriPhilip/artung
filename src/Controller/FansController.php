@@ -44,7 +44,6 @@ class FansController extends AbstractController
 
     /**
      * @Route("/{id}", name="fans_show", methods={"GET"})
-     * 
      */
     public function show(Request $request, FansRepository $fansRepository, SerializerInterface $serializer): Response
     {
@@ -92,7 +91,6 @@ class FansController extends AbstractController
 
     /**
      * @Route("/{id}/addfav/{artistId}", name="fans_add_fav", methods={"PUT"})
-     * 
      */
     public function addFav(Request $request, FansRepository $fansRepository, ArtistsRepository $artistsRepository): Response
     {
@@ -114,7 +112,6 @@ class FansController extends AbstractController
 
     /**
      * @Route("/{id}/removefav/{artistId}", name="fans_remove_fav", methods={"PUT"})
-     * 
      */
     public function removeFav(Request $request, FansRepository $fansRepository, ArtistsRepository $artistsRepository): Response
     {

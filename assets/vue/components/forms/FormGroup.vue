@@ -3,14 +3,14 @@
     <label :for="formGroup">{{ text }}</label>
     <input
       :id="formGroup"
-      v-model="model"
+      v-model="value"
       class="form-control"
       :placeholder="placeholder"
       :required="required"
       :type="type"
       :maxlength="maxlength"
       :readonly="readonly"
-      @input="$emit('input', model)"
+      @change="$emit('change', value)"
     >
   </div>
 </template>
@@ -19,6 +19,10 @@
 import { readonlyBus } from "../../index.js";
 export default {
   name: "FormGroup",
+  model: {
+    prop: 'value',
+    event: 'change'
+  },
   props: {    
     text: {
       type: String,
@@ -28,7 +32,7 @@ export default {
       type: String,
       required: true
     },
-    model: {
+    value: {
       type: String,
       default: ""
     },    

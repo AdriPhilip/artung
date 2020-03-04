@@ -7,14 +7,14 @@
       <FormGroup
         v-model="login"
         form-group="emailInput"
-        type-status="email"
+        type="email"
         text="Email"
         placeholder="nom@nom-de-domaine.com"
       />
       <FormGroup
         v-model="password"
         form-group="passwordInput"
-        type-status="password"
+        type="password"
         text="Mot de passe"
       />
       <div class="d-flex justify-content-center pt-5">

@@ -16,12 +16,13 @@
       class="mx-5 px-5"
       @submit.prevent
     >
-      <EditIcon />
+      <EditIcon @onClick="submit()" />
       <FormGroup
+        v-model="formFanPhoto"
         form-group="photoInput"
-        type-status="text"
+        type="text"
         text="Photo de profil"
-        :model="user.fan.photo"
+        required
         readonly
       />
     </form>
@@ -29,7 +30,7 @@
     <hr class="mx-5">
 
     <!-- Formulaire de données de connexion -->
-    <FormAccount />
+
 
     <hr class="mx-5">
 
@@ -53,7 +54,6 @@
 import Header from "../../components/navs/Header";
 import FormGroup from "../../components/forms/FormGroup";
 import EditIcon from "../../components/buttons/EditIcon";
-import FormAccount from "../../components/forms/FormAccount";
 import TextButton from "../../components/buttons/TextButton";
 
 export default {
@@ -62,12 +62,12 @@ export default {
     Header,
     FormGroup,
     EditIcon,
-    FormAccount,
     TextButton
   },
   data() {
     return {
-      styleObject: null
+      styleObject: null,
+      formFanPhoto: ""
     }
   },
   computed: {
@@ -77,6 +77,10 @@ export default {
     }
   },
   mounted() {
+    // Remplit les infos des formulaires avec les infos du user
+    if(this.user.fan.photo) this.formFanPhoto = this.user.fan.photo;
+    else this.formFanPhoto = "https://www.sebastienvelly.com/wp-content/themes/sebastienvelly/img/artung_logo-1.png";
+    // Appelle la fonction resize() une 1ère fois puis à chaque redimensionnement de fenêtre
     this.resize();
     window.addEventListener("resize", this.resize());
   },
@@ -98,6 +102,44 @@ export default {
         resizeObserver.observe(divTopBar);
       } else {
         console.log('Resize observer not supported!');
+      }
+    },
+    async submit() {
+      // Update le user
+      let urlUser = window.rootUrl + '/' + this.user.id +'/edit';
+      let dataUser = {
+        username: this.user.login,
+        nickname: this.user.fan.nickname
+      };
+      try {
+        await fetch(urlUser, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(dataUser)
+        });
+      } catch (err) {
+        console.log(err);
+      }
+      // Update le fan associé
+      let urlFan = window.rootUrl + 'fans/' + this.user.fan.id +'/edit';
+      let dataFan = {
+        nickname: this.user.fan.nickname,
+        photo: this.formFanPhoto
+      };
+      try {
+        await fetch(urlFan, {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(dataFan)
+        });
+      } catch (err) {
+        console.log(err);
       }
     }
   }

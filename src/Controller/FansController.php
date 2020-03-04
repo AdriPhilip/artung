@@ -44,7 +44,7 @@ class FansController extends AbstractController
 
     /**
      * @Route("/{id}", name="fans_show", methods={"GET"})
-     * @IsGranted("ROLE_FAN", message="Vous devez être enregistré en tant que fan pour accéder à ces données")
+     * 
      */
     public function show(Request $request, FansRepository $fansRepository, SerializerInterface $serializer): Response
     {
@@ -92,7 +92,7 @@ class FansController extends AbstractController
 
     /**
      * @Route("/{id}/addfav/{artistId}", name="fans_add_fav", methods={"PUT"})
-     * @IsGranted("ROLE_FAN", message="Vous devez être enregistré en tant que fan pour effectuer cette action")
+     * 
      */
     public function addFav(Request $request, FansRepository $fansRepository, ArtistsRepository $artistsRepository): Response
     {
@@ -114,7 +114,7 @@ class FansController extends AbstractController
 
     /**
      * @Route("/{id}/removefav/{artistId}", name="fans_remove_fav", methods={"PUT"})
-     * @IsGranted("ROLE_FAN", message="Vous devez être enregistré en tant que fan pour effectuer cette action")
+     * 
      */
     public function removeFav(Request $request, FansRepository $fansRepository, ArtistsRepository $artistsRepository): Response
     {

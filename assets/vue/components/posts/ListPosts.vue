@@ -87,25 +87,25 @@
 </template>
 
 <script>
-import TextButton from '../buttons/TextButton';
+import TextButton from "../buttons/TextButton";
 
 export default {
-  name: 'ListPosts',
+  name: "ListPosts",
   components: {
-    TextButton,
+    TextButton
   },
   props: {
     artist: {
       type: Object,
-      default: null,
-    },
+      default: null
+    }
   },
   data() {
     return {
       wordpressResults: null,
       youtubeResults: null,
       facebookResults: null,
-      listPostsArray: [],
+      listPostsArray: []
     };
   },
   computed: {
@@ -117,7 +117,7 @@ export default {
       return `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${this.artist.youtubeLink}&order=date&type=video&videoEmbeddable=true&videoSyndicated=true&key=${window.youtubeApi}`;
     },
     urlFacebook() {
-      return '107779020786055';
+      return "107779020786055";
       // Récupère la valeur après le dernier slash, i. e. l'ID de la page
       //return /[^/]*$/.exec(this.artist.facebookLink);
     },
@@ -129,29 +129,40 @@ export default {
       const byValue = (a, b) => b - a;
       const byDate = sortByMapped(toDate, byValue);
       return [...this.listPostsArray].sort(byDate);
-    },
+    }
   },
   created() {
+    // Chargement de Facebook :
+    //window.userAccessToken =
+    //  "EAABnEWIH3SwBABdZAQjl4xl8PfW3WVfOtCUwxTufMPV6GhABeZBivZAqkxk7IwGLh3ZCbynHrWREDyLsmtyMJDGh6fZCS3jZCRZCm3ztYiRGK7PD7y1feUseRUj1Wojt4jJjquwnAxPXCTyXSkF1kAOPnwOavBNfLkZD";
+    window.userAccessToken =
+      "EAABnEWIH3SwBAGZAbimKVftPQs161V1bZBuEKNP4jY6BXPWL0n43bJUvelHhhfAYCRUAyv0nggtMZCfZCaktf5FqcZBAGFjUZCogwEZCYVkZClcy6ZAVIm06hLWQwGbB4zflvCBWCBLBK1gWC2yyyZBd6ZBO7XeD8Y6EHQZD";
+    //window.appAccessToken =
+    //"113324356787500" + "|" + "a37482071c19a6e0555b5476d7a84d49";
+    this.getInfosFacebook();
     this.getInfosWordpress();
     this.getInfosYoutube();
-    //this.getInfosFacebook();
   },
   methods: {
     // Ouvre la source dans une nouvelle fenêtre
     openSource(type, url) {
-      if (type === 'youtube') {
-        window.open('https://www.youtube.com/watch?v=' + url);
-      } else if (type === 'wordpress') {
+      if (type === "youtube") {
+        window.open("https://www.youtube.com/watch?v=" + url);
+      } else if (type === "wordpress") {
         window.open(url);
       }
     },
     // Récupère les données de l'API de Wordpress
     async getInfosWordpress() {
       try {
-        const response = await fetch(this.urlWordpress);
-        const wpResult = await response.json();
-        this.wordpressResults = wpResult;
-        this.pushWordpressPosts();
+        if (this.urlWordpress != "wp-json/wp/v2/posts") {
+          const response = await fetch(this.urlWordpress);
+          const wpResult = await response.json();
+          if (wpResult) {
+            this.wordpressResults = wpResult;
+            this.pushWordpressPosts();
+          }
+        }
       } catch (err) {
         console.log(err);
       }
@@ -161,23 +172,30 @@ export default {
       try {
         const response = await fetch(this.urlYoutube);
         const ytResult = await response.json();
-        this.youtubeResults = ytResult.items;
-        this.pushYoutubePosts();
+        if (!ytResult.error) {
+          this.youtubeResults = ytResult.items;
+          this.pushYoutubePosts();
+        }
       } catch (err) {
         console.log(err);
       }
     },
-    /* async getInfosFacebook() {
-      let url = '/' + this.urlFacebook + '/posts';
+    async getInfosFacebook() {
+      console.log("Fonction getInfosFacebook");
+      // Génération du token de page :
+      this.getPageAccessToken();
+
+      /*
+      let url = "/" + this.urlFacebook + "/feed";
       console.log(window.appAccessToken);
       try {
         window.FB.api(
           url,
-          'GET',
+          "GET",
           {
             //fields:
             //  "posts{event,picture,attachments,comments,created_time,message}",
-            access_token: window.appAccessToken,
+            access_token: window.appAccessToken
           },
           page => {
             console.log(page);
@@ -189,14 +207,107 @@ export default {
       } catch (err) {
         console.log(err);
       }
-    }, */
+      */
+    },
+
+    async getPageAccessToken() {
+      //let url = "/" + this.urlFacebook;
+      // Long lived user token
+      let longLivedUserAccessToken = null;
+      let appToken = null;
+      try {
+        let appId = "113324356787500";
+        let appSecret = "a37482071c19a6e0555b5476d7a84d49";
+        // Génération de l'appToken
+        let url =
+          "https://graph.facebook.com/oauth/access_token?client_id=" +
+          appId +
+          "&client_secret=" +
+          appSecret +
+          "&grant_type=client_credentials";
+        let response = await fetch(url);
+        let result = await response.json();
+        console.log(result);
+        appToken = result.access_token;
+        /*
+        let userShortToken =
+          "EAABnEWIH3SwBAGZAbimKVftPQs161V1bZBuEKNP4jY6BXPWL0n43bJUvelHhhfAYCRUAyv0nggtMZCfZCaktf5FqcZBAGFjUZCogwEZCYVkZClcy6ZAVIm06hLWQwGbB4zflvCBWCBLBK1gWC2yyyZBd6ZBO7XeD8Y6EHQZD";
+        let response = await fetch(
+          "https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=" +
+            appId +
+            "&client_secret=" +
+            appSecret +
+            "&fb_exchange_token=" +
+            userShortToken
+        ); */
+        /*
+        let response = await fetch(
+          "https://graph.facebook.com/" +
+            this.urlFacebook +
+            "?access_token=" +
+            window.appAccessToken +
+            "&fields=access_token"
+        );
+        const result = await response.json();
+        console.log(result);
+        longLivedUserAccessToken = result.access_token;
+        */
+      } catch (err) {
+        console.log(
+          "Erreur lors de la demande d'un long lived user token : " + err
+        );
+      }
+
+      // Token de page
+      let pageToken = null;
+      try {
+        let test =
+          "https://graph.facebook.com/" +
+          this.urlFacebook +
+          "?access_token=" +
+          appToken +
+          "&fields=access_token";
+        let response = await fetch(test);
+        console.log(response);
+        console.log(response.url);
+        let response2 = await fetch(response.url);
+        console.log(response2);
+        let result = await response.json();
+        console.log(result);
+        pageToken = result.access_token;
+      } catch (err) {
+        console.log(err);
+      }
+      console.log(pageToken);
+
+      // Contenu de la page
+      let url = "/" + this.urlFacebook;
+      try {
+        window.FB.api(
+          url,
+          "GET",
+          {
+            access_token: longLivedUserAccessToken,
+            field: "access_token"
+          },
+          page => {
+            console.log(page);
+            console.log(page.data);
+            this.facebookResults = page.posts.data;
+            //this.pushFacebookPosts();
+          }
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    },
 
     // Pousse les données Youtube dans le tableau listPostArray, génère un "generateId", ajoute une donnée "typePost" et crée la donnée "date" à partir de "publishedAt" en prenant les 10 premiers caractères
     pushYoutubePosts() {
       let i = 0;
       this.youtubeResults.forEach(element => {
         element.generateId = i;
-        element.typePost = 'youtube';
+        element.typePost = "youtube";
         element.date = element.snippet.publishedAt.substring(0, 10);
         this.listPostsArray.push(element);
         i++;
@@ -206,19 +317,19 @@ export default {
     pushWordpressPosts() {
       this.wordpressResults.forEach(element => {
         element.generateId = element.id;
-        element.typePost = 'wordpress';
+        element.typePost = "wordpress";
         element.date = element.date.substring(0, 10);
         this.listPostsArray.push(element);
       });
     },
     pushFacebookPosts() {
       this.facebookResults.forEach(element => {
-        element.typePost = 'facebook';
+        element.typePost = "facebook";
         element.date = element.created_time.substring(0, 10);
         this.listPostsArray.push(element);
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -276,9 +387,6 @@ h3 {
   font-size: 1.2em;
 }
 @media (min-width: 768px) {
-  .listPosts {
-    padding-top: 260px;
-  }
   .youtubePost,
   .wordpressPost {
     max-width: 60%;

@@ -31,21 +31,19 @@
       v-show="$route.name=='ArtistDetails'|$route.name=='ArtistPreview'"
       class="artistDescription"
     >
-      <p>
-        {{ artist.description }}
-      </p>
+      <p>{{ artist.description }}</p>
     </div>
   </div>
 </template>
 
 <script>
-import ArtistThumbnail from './ArtistThumbnail';
+import ArtistThumbnail from "./ArtistThumbnail";
 import { favBus } from "../../index.js";
 
 export default {
-  name: 'ArtistCard',
+  name: "ArtistCard",
   components: {
-    ArtistThumbnail,
+    ArtistThumbnail
   },
   props: {
     artist: {
@@ -56,9 +54,9 @@ export default {
   data() {
     return {
       fav: false,
-      favIcon: ['far', 'star'],
+      favIcon: ["far", "star"],
       favRequest: "addfav"
-    }
+    };
   },
   computed: {
     // Récupère si le user est connecté
@@ -67,26 +65,36 @@ export default {
     },
     // Récupère le user
     user() {
-      if(this.isAuthenticated) return this.$store.getters["security/user"];
+      if (this.isAuthenticated) return this.$store.getters["security/user"];
       else return null;
     },
     urlFav() {
-      return window.rootUrl + 'fans/' + this.user.fan.id +'/' + this.favRequest + '/' + this.artist.id;
+      return (
+        window.rootUrl +
+        "fans/" +
+        this.user.fan.id +
+        "/" +
+        this.favRequest +
+        "/" +
+        this.artist.id
+      );
     }
   },
   created() {
     this.checkFav();
   },
   methods: {
-    // Check au chargement de la page si le fan a l'artist en favori, si oui, modifie le corps de la requête et l'icone 
+    // Check au chargement de la page si le fan a l'artist en favori, si oui, modifie le corps de la requête et l'icone
     checkFav() {
-      for (const element of this.user.fan.favoris) {
-        if(element.id === this.artist.id) {
-          this.favIcon = ['fa', 'star'];
-          this.favRequest = "removefav";
-          this.fav = true;
+      if (this.user) {
+        for (const element of this.user.fan.favoris) {
+          if (element.id === this.artist.id) {
+            this.favIcon = ["fa", "star"];
+            this.favRequest = "removefav";
+            this.fav = true;
+          }
+          if (this.fav) return;
         }
-        if(this.fav) return;
       }
     },
     // Au clic sur le bouton, change l'icone et la requête, et envoie la requête de mise en favori
@@ -95,11 +103,11 @@ export default {
         await fetch(this.urlFav, { method: "PUT" });
         favBus.$emit("reloadFav", this.user.fan.id);
         this.fav = !this.fav;
-        if(this.fav) {
-          this.favIcon = ['fa', 'star'];
+        if (this.fav) {
+          this.favIcon = ["fa", "star"];
           this.favRequest = "removefav";
         } else {
-          this.favIcon = ['far', 'star'];
+          this.favIcon = ["far", "star"];
           this.favRequest = "addfav";
         }
       } catch (err) {
@@ -112,57 +120,57 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.artistCard {
+  display: inline-block;
+  width: 100%;
+  min-height: 60px;
+  max-height: 240px;
+  margin-bottom: var(--spacing-md);
+  padding-left: var(--spacing-xs);
+  background-color: var(--dark);
+  border-radius: 0 var(--spacing-sm) var(--spacing-sm) var(--spacing-sm);
+  cursor: pointer;
+  transition: background-color 400ms;
+}
+.artistCard:hover {
+  background-color: var(--light-transparent);
+}
+.artistInfos {
+  position: relative;
+  padding-top: var(--spacing-xs);
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+.artistNickname {
+  font-size: 2rem;
+  color: var(--light);
+  margin-left: var(--spacing-sm);
+}
+.starIcon {
+  position: absolute;
+  top: var(--spacing-xs);
+  right: var(--spacing-xs);
+  background-color: transparent;
+  color: var(--primary);
+  border: 0;
+  padding: 0;
+  margin-left: auto;
+  margin-bottom: auto;
+}
+.artistDescription {
+  padding: var(--spacing-xs);
+}
+.artistDescription p {
+  color: var(--light);
+}
+@media (min-width: 768px) {
   .artistCard {
-    display: inline-block;
-    width: 100%;
-    min-height: 60px;
-    max-height: 240px;
-    margin-bottom: var(--spacing-md);
-    padding-left: var(--spacing-xs);
-    background-color: var(--dark);
-    border-radius: 0 var(--spacing-sm) var(--spacing-sm) var(--spacing-sm);
-    cursor: pointer;
-    transition: background-color 400ms;
-  }
-  .artistCard:hover {
-    background-color: var(--light-transparent);
-  }
-  .artistInfos {
-    position: relative;
-    padding-top: var(--spacing-xs);
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
+    width: calc(50% - var(--spacing-sm));
+    margin-right: var(--spacing-md);
   }
   .artistNickname {
-    font-size: 2rem;
-    color: var(--light);
-    margin-left: var(--spacing-sm);
+    font-size: 2.5rem;
   }
-  .starIcon {
-    position: absolute;
-    top: var(--spacing-xs);
-    right: var(--spacing-xs);
-    background-color: transparent;
-    color: var(--primary);
-    border: 0;
-    padding: 0;
-    margin-left: auto;
-    margin-bottom: auto;
-  }
-  .artistDescription {
-    padding: var(--spacing-xs);
-  }
-  .artistDescription p {
-    color: var(--light);
-  }
-  @media (min-width: 768px) {
-    .artistCard {
-      width: calc(50% - var(--spacing-sm));
-      margin-right: var(--spacing-md);
-    }
-    .artistNickname {
-      font-size: 2.5rem;
-    }
-  }
+}
 </style>

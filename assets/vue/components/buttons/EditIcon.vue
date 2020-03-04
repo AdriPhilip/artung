@@ -7,6 +7,7 @@
       <!-- Affichage du bouton edit ou check -->
       <font-awesome-icon
         class="edit"
+        size="2x"
         :icon="icon"
       />
     </button>

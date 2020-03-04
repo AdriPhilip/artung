@@ -84,6 +84,7 @@ export default {
   data() {
     return {
       styleObject: null,
+      // Données de formulaires
       formFanPhoto: "",
       formFanEmail: "",
       formFanNickname: ""
@@ -149,7 +150,7 @@ export default {
       // Update le fan associé
       let urlFan = window.rootUrl + 'fans/' + this.user.fan.id +'/edit';
       let dataFan = {
-        nickname: this.user.fan.nickname,
+        nickname: this.formFanNickname,
         photo: this.formFanPhoto
       };
       try {

@@ -2,26 +2,26 @@
   <div>
     <div class="topBar">
       <Header />
+      <div class="profil mx-5">
+        <h2>Mon profil</h2>
+        <EditIcon @onClick="submit()" />
+      </div>
     </div>
 
-    <h2
-      class="profil ml-5"
-      :style="styleObject"
-    >
-      Mon profil
-    </h2>
-
-    <!-- Formulaire de données de profil -->
+    <!-- Formulaire -->
     <form
-      class="mx-5 px-5"
+      class="mx-5"
+      :style="styleObject"
       @submit.prevent
     >
-      <EditIcon />
+      <!-- Données de profil -->
       <FormGroup
+        v-model="formArtistPhoto"
         form-group="photoInput"
         type="text"
         text="Photo de profil"
-        :model="user.artist.photo"
+        required
+        readonly
       />
       <div class="form-group">
         <label for="category">Catégorie</label>
@@ -62,18 +62,12 @@
           />
         </div>
       </div>
-    </form>
 
-    <hr class="mx-5">
+      <hr>
 
-    <!-- Paramètrer mes flux -->
-    <span>Paramétrer mes flux</span>
-    <form
-      class="mx-5 px-5"
-      @submit.prevent
-    >
-      <EditIcon />
-      <FormGroupInline icon-status="facebook" />
+      <!-- Paramètrer mes flux -->
+      <h2>Paramétrer mes flux</h2>
+
       <div class="d-flex">
         <p class="flex-grow-1">
           Pour lier votre page Facebook à l'application, veuillez vous connecter
@@ -89,37 +83,43 @@
           @sdk-loaded="sdkLoaded"
         />
       </div>
-      <FormGroupInline icon-status="twitter" />
-      <FormGroupInline icon-status="youtube" />
-      <FormGroupInline icon-status="wordpress" />
+
+      <FormGroupInline
+        v-model="formYoutubeLink"
+        icon-status="youtube"
+        placeholder="Votre ID de chaîne"
+      />
+      <FormGroupInline
+        v-model="formWordpressLink"
+        icon-status="wordpress"
+        placeholder="http://www.votrenomdomaine.com/"
+      />
+
+      <hr>
+
+      <!-- Données de connexion -->
+      <FormGroup
+        v-model="formArtistEmail"
+        form-group="emailInput"
+        type="email"
+        text="Email"
+        required
+        readonly
+      />
+      <FormGroup
+        v-model="formArtistNickname"
+        form-group="nicknameInput"
+        type="text"
+        text="Nom d'utilisateur"
+        required
+        readonly
+      />
     </form>
 
     <hr class="mx-5">
 
-    <!-- Formulaire de données de connexion -->
-
-    <FormGroup
-      v-model="model"
-      form-group="email"
-      type="email"
-      text="Email"
-      required
-      readonly
-    />
-
-    <FormGroup
-      v-model="model"
-      form-group="username"
-      type="text"
-      text="Nom d'utilisateur"
-      required
-      readonly
-    />
-
-    <hr class="mx-5">
-
     <!-- Boutons se déconnecter et supprimer mon profil -->
-    <div class="buttonGroup mx-5 px-5">
+    <div class="buttonGroup mx-5">
       <TextButton
         text="Me déconnecter"
         secondary
@@ -160,7 +160,13 @@ export default {
         scope: "public_profile, email, manage_pages"
       },
       loginLabel: "Lier la page Facebook",
-      logoutLabel: "Enlever la page Facebook"
+      logoutLabel: "Enlever la page Facebook",
+      // Données de formulaires
+      formArtistPhoto: "",
+      formArtistEmail: "",
+      formArtistNickname: "",
+      formYoutubeLink: "",
+      formWordpressLink: ""
     };
   },
   computed: {
@@ -170,6 +176,12 @@ export default {
     }
   },
   mounted() {
+    // Remplit les infos des formulaires avec les infos du user
+    if(this.user.artist.photo) this.formArtistPhoto = this.user.artist.photo;
+    else this.formArtistPhoto = "https://www.sebastienvelly.com/wp-content/themes/sebastienvelly/img/artung_logo-1.png";
+    this.formArtistEmail = this.user.username;
+    this.formArtistNickname = this.user.artist.nickname;
+    // Appelle la fonction resize() une 1ère fois puis à chaque redimensionnement de fenêtre
     this.resize();
     window.addEventListener("resize", this.resize());
   },
@@ -198,6 +210,44 @@ export default {
     sdkLoaded(payload) {
       //this.isConnected = payload.isConnected;
       this.FB = payload.FB;
+    },
+    async submit() {
+      // Update le user
+      let urlUser = window.rootUrl + 'user/' + this.user.id +'/edit';
+      let dataUser = {
+        username: this.formArtistEmail,
+        nickname: this.formArtistNickname
+      };
+      try {
+        await fetch(urlUser, {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(dataUser)
+        });
+      } catch (err) {
+        console.log(err);
+      }
+      // Update l'artist associé
+      let urlArtist = window.rootUrl + 'artists/' + this.user.artist.id +'/edit';
+      let dataArtist = {
+        nickname: this.formArtistNickname,
+        photo: this.formArtistPhoto
+      };
+      try {
+        await fetch(urlArtist, {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(dataArtist)
+        });
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
 };
@@ -205,8 +255,17 @@ export default {
 
 <style lang="scss">
 .profil {
-  font-size: 3em;
+  display: flex;
+  justify-content: space-between;
+}
+h2 {
+  font-size: 3rem;
   color: var(--light);
+}
+label {
+  font-size: 2em;
+  color: var(--light);
+  font-family: "Caveat";
 }
 hr {
   height: var(--spacing-xs);

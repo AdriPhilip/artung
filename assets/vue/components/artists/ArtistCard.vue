@@ -1,9 +1,8 @@
 <template>
-  <div>
+  <div class="artistCard">
     <div
       v-if="artist"
       :id="`artist-${ artist.id }`"
-      class="artistCard"
     >
       <!-- On clique sur la card pour accéder à la page détails de l'artiste -->
       <div

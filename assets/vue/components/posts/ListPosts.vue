@@ -1,19 +1,10 @@
 <template>
   <div class="listPosts">
-    <div
-      v-for="(post, generateId) of sortedListPostsArray"
-      :key="generateId"
-    >
+    <div v-for="(post, generateId) of sortedListPostsArray" :key="generateId">
       <!-- Posts Youtube -->
-      <div
-        v-if="post.typePost === 'youtube'"
-        class="youtubePost"
-      >
+      <div v-if="post.typePost === 'youtube'" class="youtubePost">
         <div class="headerPost">
-          <font-awesome-icon
-            :icon="['fab', 'youtube']"
-            size="3x"
-          />
+          <font-awesome-icon :icon="['fab', 'youtube']" size="3x" />
           <span>{{ post.date }}</span>
           <TextButton
             text="Source"
@@ -32,57 +23,35 @@
             allowfullscreen
           />
         </div>
-        <hr>
+        <hr />
       </div>
       <!-- Posts Wordpress -->
-      <div
-        v-if="post.typePost === 'wordpress'"
-        class="wordpressPost"
-      >
+      <div v-if="post.typePost === 'wordpress'" class="wordpressPost">
         <div class="headerPost">
-          <font-awesome-icon
-            :icon="['fab', 'wordpress']"
-            size="3x"
-          />
+          <font-awesome-icon :icon="['fab', 'wordpress']" size="3x" />
           <span>{{ post.date }}</span>
-          <TextButton
-            text="Source"
-            secondary
-            icon
-            @onClick="openSource(post.typePost, post.link)"
-          />
+          <TextButton text="Source" secondary icon @onClick="openSource(post.typePost, post.link)" />
         </div>
         <h3>{{ post.title.rendered }}</h3>
         <!-- eslint-disable-next-line vue/no-v-html -->
         <p v-html="post.content.rendered" />
-        <hr>
+        <hr />
       </div>
       <!-- Posts Facebook -->
-      <div
-        v-if="post.typePost === 'facebook'"
-        class="facebookPost"
-      >
+      <div v-if="post.typePost === 'facebook'" class="facebookPost">
         <div class="headerPost">
-          <font-awesome-icon
-            :icon="['fab', 'facebook']"
-            size="3x"
-          />
+          <font-awesome-icon :icon="['fab', 'facebook']" size="3x" />
           <span>{{ post.date }}</span>
-          <TextButton
-            text="Source"
-            secondary
-          />
+          <TextButton text="Source" secondary />
         </div>
         <h3>Post Facebook</h3>
         <!-- eslint-disable-next-line vue/no-v-html -->
         <p>{{ post.message }}</p>
-        <img :src="post.picture">
-        <hr>
+        <img :src="post.picture" />
+        <hr />
       </div>
     </div>
-    <p v-show="listPostsArray.length == 0">
-      Cet artiste n'a pas d'actualités.
-    </p>
+    <p v-show="listPostsArray.length == 0">Cet artiste n'a pas d'actualités.</p>
   </div>
 </template>
 
@@ -133,11 +102,11 @@ export default {
       return [...this.listPostsArray].sort(byDate);
     }
   },
-  created() {
-    this.getInfosWordpress();
-    this.getInfosYoutube();
-    this.getInfosFacebook();
-    this.getInfosPinterest();
+  mounted() {
+    if (this.artist && this.artist.wordpressLink !== "")
+      this.getInfosWordpress();
+    if (this.artist && this.artist.youtubeLink !== "") this.getInfosYoutube();
+    if (this.artist && this.artist.FacebookLink !== "") this.getInfosFacebook();
   },
   methods: {
     // Ouvre la source dans une nouvelle fenêtre
@@ -151,13 +120,11 @@ export default {
     // Récupère les données de l'API de Wordpress
     async getInfosWordpress() {
       try {
-        if (this.urlWordpress != "wp-json/wp/v2/posts") {
-          const response = await fetch(this.urlWordpress);
-          const wpResult = await response.json();
-          if (wpResult) {
-            this.wordpressResults = wpResult;
-            this.pushWordpressPosts();
-          }
+        const response = await fetch(this.urlWordpress);
+        const wpResult = await response.json();
+        if (wpResult) {
+          this.wordpressResults = wpResult;
+          this.pushWordpressPosts();
         }
       } catch (err) {
         console.log(err);

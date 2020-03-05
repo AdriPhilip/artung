@@ -3,12 +3,14 @@
     <div class="topBar">
       <Header />
       <ArtistCard
+        v-show="artist"
         :artist="artist"
         :style="styleObject"
       />
       <SearchBar :search-types="searchTypes" />
     </div>
     <ListPosts
+      v-show="artist"
       :artist="artist"
       :style="stylePaddingTopObject"
     />

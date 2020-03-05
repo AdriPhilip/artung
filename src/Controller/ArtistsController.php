@@ -65,7 +65,6 @@ class ArtistsController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="artists_edit", methods={"PUT"})
-     * @IsGranted("ROLE_ARTIST", message="Vous devez être enregistré en tant qu'artiste pour effectuer cette action")
      */
     public function edit(Request $request, ArtistsRepository $artistsRepository): Response
     {
@@ -81,8 +80,8 @@ class ArtistsController extends AbstractController
         $artist->setPhoto($body['photo']);
         $artist->setCategory($body['category']);
         $artist->setDescription($body['description']);
-        $artist->setFacebookLink($body['facebook_link']);
-        $artist->setTwitterLink($body['twitter_link']);
+        //$artist->setFacebookLink($body['facebook_link']);
+        //$artist->setTwitterLink($body['twitter_link']);
         $artist->setYoutubeLink($body['youtube_link']);
         $artist->setWordpressLink($body['wordpress_link']);
 

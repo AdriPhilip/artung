@@ -10,18 +10,23 @@
         type="email"
         text="Email"
         placeholder="de type votrenom@domaine.com"
+        required
       />
       <FormGroup
         v-model="nickname"
         form-group="nicknameInput"
         type="text"
         text="Nom d'utilisateur"
+        placeholder="20 caractères maximum"
+        maxlength="20"
+        required
       />
       <FormGroup
         v-model="password"
         form-group="passwordInput"
         type="password"
         text="Mot de passe"
+        required
       />
 
       <FormGroup
@@ -29,6 +34,7 @@
         form-group="confirmPasswordInput"
         type="password"
         text="Confirmer le mot de passe"
+        required
       />
       <div
         v-if="error"
@@ -138,7 +144,7 @@ export default {
         if (roles.includes("ROLE_ARTIST")) {
           this.$router.push({ path: "/artist/account" });
         } else if (roles.includes("ROLE_FAN")) {
-          this.$router.push({ path: "/fan" });
+          this.$router.push({ path: "/home" });
         } else {
           console.log("Le rôle n'est pas défini dans l'API");
         }

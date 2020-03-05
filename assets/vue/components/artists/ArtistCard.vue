@@ -1,37 +1,39 @@
 <template>
-  <div
-    :id="`artist-${ artist.id }`"
-    class="artistCard"
-  >
-    <!-- On clique sur la card pour accéder à la page détails de l'artiste -->
+  <div class="artistCard">
     <div
-      class="artistInfos"
-      @click.self="$router.push({ name: 'ArtistDetails', params: { id: artist.id, artist: artist }})"
+      v-if="artist"
+      :id="`artist-${ artist.id }`"
     >
-      <!-- Photo de miniature à laquelle on envoie l'objet artist -->
-      <ArtistThumbnail :artist="artist" />
-      <!-- Nom de l'artiste -->
-      <h2 class="artistNickname">
-        {{ artist.nickname }}
-      </h2>
-      <!-- Bouton de mise en favori ; ne doit s'afficher que quand on est connecté -->
-      <button
-        v-if="isAuthenticated"
-        class="starIcon"
-        @click="addFav()"
+      <!-- On clique sur la card pour accéder à la page détails de l'artiste -->
+      <div
+        class="artistInfos"
+        @click.self="redirect()"
       >
-        <font-awesome-icon
-          :icon="favIcon"
-          size="2x"
-        />
-      </button>
-    </div>
-    <!-- Description de l'artiste ; ne s'affiche que sur la page détails -->
-    <div
-      v-show="$route.name=='ArtistDetails'|$route.name=='ArtistPreview'"
-      class="artistDescription"
-    >
-      <p>{{ artist.description }}</p>
+        <!-- Photo de miniature à laquelle on envoie l'objet artist -->
+        <ArtistThumbnail :artist="artist" />
+        <!-- Nom de l'artiste -->
+        <h2 class="artistNickname">
+          {{ artist.nickname }}
+        </h2>
+        <!-- Bouton de mise en favori ; ne doit s'afficher que quand on est connecté -->
+        <button
+          v-if="isAuthenticated && $route.name != 'ArtistPreview'"
+          class="starIcon"
+          @click="addFav()"
+        >
+          <font-awesome-icon
+            :icon="favIcon"
+            size="2x"
+          />
+        </button>
+      </div>
+      <!-- Description de l'artiste ; ne s'affiche que sur la page détails -->
+      <div
+        v-show="$route.name=='ArtistDetails'|$route.name=='ArtistPreview'"
+        class="artistDescription"
+      >
+        <p>{{ artist.description }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -69,32 +71,28 @@ export default {
       else return null;
     },
     urlFav() {
-      return (
-        window.rootUrl +
-        "fans/" +
-        this.user.fan.id +
-        "/" +
-        this.favRequest +
-        "/" +
-        this.artist.id
+      if(this.user) return (
+        window.rootUrl + "fans/" + this.user.fan.id + "/" + this.favRequest + "/" + this.artist.id
       );
+      else return "";
     }
   },
-  created() {
-    this.checkFav();
+  mounted() {
+    if (this.user.fan && this.artist) this.checkFav();
   },
   methods: {
+    redirect() {
+      if(this.$route.name == 'Home') this.$router.push({ name: 'ArtistDetails', params: { id: this.artist.id, artist: this.artist }})
+    },
     // Check au chargement de la page si le fan a l'artist en favori, si oui, modifie le corps de la requête et l'icone
     checkFav() {
-      if (this.user) {
-        for (const element of this.user.fan.favoris) {
-          if (element.id === this.artist.id) {
-            this.favIcon = ["fa", "star"];
-            this.favRequest = "removefav";
-            this.fav = true;
-          }
-          if (this.fav) return;
+      for (const element of this.user.fan.favoris) {
+        if (element.id === this.artist.id) {
+          this.favIcon = ["fa", "star"];
+          this.favRequest = "removefav";
+          this.fav = true;
         }
+        if (this.fav) return;
       }
     },
     // Au clic sur le bouton, change l'icone et la requête, et envoie la requête de mise en favori

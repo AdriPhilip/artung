@@ -44,6 +44,7 @@
         form-group="nicknameInput"
         type="text"
         text="Nom d'utilisateur"
+        maxlength="20"
         required
         readonly
       />
@@ -84,6 +85,7 @@ export default {
   data() {
     return {
       styleObject: null,
+      // Données de formulaires
       formFanPhoto: "",
       formFanEmail: "",
       formFanNickname: ""
@@ -132,8 +134,6 @@ export default {
         username: this.formFanEmail,
         nickname: this.formFanNickname
       };
-      console.log(urlUser)
-      console.log(dataUser)
       try {
         await fetch(urlUser, {
           method: "PUT",
@@ -149,7 +149,7 @@ export default {
       // Update le fan associé
       let urlFan = window.rootUrl + 'fans/' + this.user.fan.id +'/edit';
       let dataFan = {
-        nickname: this.user.fan.nickname,
+        nickname: this.formFanNickname,
         photo: this.formFanPhoto
       };
       try {
@@ -173,6 +173,7 @@ export default {
 .profil {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 h2 {
   font-size: 3rem;

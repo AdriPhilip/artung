@@ -34,7 +34,7 @@ export default {
       return this.$store.getters["security/user"].fan.favoris;
     },
   },
-  created() {
+  mounted() {
     // Au chargement le tableau de favoris est chargé depuis le store
     this.favs = this.firstFavs;
     //Bus d'événement pour la mise à jour des favoris

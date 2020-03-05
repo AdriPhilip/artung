@@ -24,7 +24,7 @@ class Artists
     private $nickname;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, options={"default" : "https://www.sebastienvelly.com/wp-content/themes/sebastienvelly/img/artung_logo-1.png"}, nullable=true)
      */
     private $photo;
 

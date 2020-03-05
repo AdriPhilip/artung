@@ -88,6 +88,7 @@
 
 <script>
 import TextButton from "../buttons/TextButton";
+/* import Feed from "rss-to-json"; */
 
 export default {
   name: "ListPosts",
@@ -117,6 +118,7 @@ export default {
       return `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${this.artist.youtubeLink}&order=date&type=video&videoEmbeddable=true&videoSyndicated=true&key=${window.youtubeApi}`;
     },
     urlFacebook() {
+      // TODO A changer avec l'ID de la page de l'artiste
       return "107779020786055";
       // Récupère la valeur après le dernier slash, i. e. l'ID de la page
       //return /[^/]*$/.exec(this.artist.facebookLink);
@@ -135,6 +137,7 @@ export default {
     this.getInfosWordpress();
     this.getInfosYoutube();
     this.getInfosFacebook();
+    this.getInfosPinterest();
   },
   methods: {
     // Ouvre la source dans une nouvelle fenêtre
@@ -199,6 +202,17 @@ export default {
       } catch (err) {
         console.log(err);
       }
+    },
+    async getInfosPinterest() {
+      /* let pinterestUserName = "adrien";
+      let url = "https://www.pinterest.com/" + pinterestUserName + "/feed.rss";
+      //let response = await fetch(url);
+      //let result = await response.json();
+      //console.log(result);
+      console.log("Pinterest");
+      Feed.load(url, function(err, rss) {
+        console.log(rss);
+      }); */
     },
 
     // Pousse les données Youtube dans le tableau listPostArray, génère un "generateId", ajoute une donnée "typePost" et crée la donnée "date" à partir de "publishedAt" en prenant les 10 premiers caractères

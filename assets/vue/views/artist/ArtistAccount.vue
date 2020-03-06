@@ -234,8 +234,7 @@ export default {
       // Update le user
       let urlUser = window.rootUrl + 'user/' + this.user.id +'/edit';
       let dataUser = {
-        username: this.formArtistEmail,
-        nickname: this.formArtistNickname
+        username: this.formArtistEmail
       };
       console.log(dataUser)
       try {

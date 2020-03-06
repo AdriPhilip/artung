@@ -29,14 +29,6 @@ class UserController extends AbstractController
 
     // On redéfinit les valeurs du user
     $user->setLogin($body['username']);
-    //$user->setPlainPassword($body['password']);
-    if ($user->getFan()) {
-      $fan = $user->getFan();
-      $fan->setNickname($body['nickname']);
-    } else if ($user->getArtist()) {
-      $artist = $user->getArtist();
-      $artist->setNickname($body['nickname']);
-    }
 
     $this->getDoctrine()->getManager()->flush();
 

@@ -34,6 +34,7 @@ final class SecurityController extends AbstractController
     $user = $this->getUser();
     if ($user) {
       $userClone = clone $user;
+      $userClone->setPlainPassword('');
       $userClone->setPassword('');
 
       // Pour pouvoir récupérer le(s) artiste(s) associés aux fans, il faut préciser ça :

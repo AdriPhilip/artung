@@ -88,7 +88,7 @@ export default {
     },
     urlFacebook() {
       // TODO A changer avec l'ID de la page de l'artiste
-      return "107779020786055";
+      return this.artist.facebookLink;
       // Récupère la valeur après le dernier slash, i. e. l'ID de la page
       //return /[^/]*$/.exec(this.artist.facebookLink);
     },

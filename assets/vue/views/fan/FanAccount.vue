@@ -131,8 +131,7 @@ export default {
       // Update le user
       let urlUser = window.rootUrl + 'user/' + this.user.id +'/edit';
       let dataUser = {
-        username: this.formFanEmail,
-        nickname: this.formFanNickname
+        username: this.formFanEmail
       };
       try {
         await fetch(urlUser, {

@@ -28,7 +28,7 @@ export default {
   props: {
     listArtistsResults: {
       type: Array,
-      required: true  
+      default: () => []  
     },
     searchByCategory: {
       type: String,

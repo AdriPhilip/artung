@@ -2,12 +2,18 @@
   <div>
     <div class="topBar">
       <Header />
+      <p v-show="loading">
+        Chargement des infos de l'artiste...
+      </p>
       <ArtistCard
         v-show="infosArtistResults"
         :artist="infosArtistResults"
         :style="styleObject"
       />
-      <SearchBar :search-types="searchTypes" />
+      <SearchBar
+        v-show="!loading"
+        :search-types="searchTypes"
+      />
     </div>
     <ListPosts
       v-show="infosArtistResults"
@@ -35,7 +41,8 @@ export default {
       infosArtistResults: null,
       searchTypes: ["flux", "date"],
       styleObject: {width: "100%"},
-      stylePaddingTopObject: null
+      stylePaddingTopObject: null,
+      loading: false
     };
   },
   computed: {
@@ -53,10 +60,12 @@ export default {
   methods: {
     // retourne le artist JSON qui sort de l'API
     async getInfosArtist() {
+      this.loading = true;
       try {
         const response = await fetch(this.urlArtist);
         const result = await response.json();
         this.infosArtistResults = result;
+        this.loading = false;
       } catch (err) {
         console.log(err);
       }
@@ -78,4 +87,7 @@ export default {
 </script>
 
 <style lang="scss">
+p {
+  color: var(--light);
+}
 </style>

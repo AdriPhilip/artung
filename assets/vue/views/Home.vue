@@ -5,12 +5,13 @@
       <SearchBar :search-types="searchTypes" />
     </div>
     <ListArtists
+      v-show="listArtistsResults"
       :list-artists-results="listArtistsResults"
       :style="styleObject"
       :search-by-category="searchCategory"
       :search-by-text="searchText"
     />
-    <p v-if="loading">
+    <p v-show="loading">
       Chargement des artistes...
     </p>
   </div>
@@ -89,4 +90,7 @@ export default {
 </script>
 
 <style lang="scss">
+p {
+  color: var(--light);
+}
 </style>

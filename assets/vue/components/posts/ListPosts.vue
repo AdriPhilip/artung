@@ -79,10 +79,10 @@
         <hr>
       </div>
     </div>
-    <p v-if="loading">
+    <p v-show="loading">
       Chargement des actualités...
     </p>
-    <p v-if="!loading && listPostsArray.length === 0">
+    <p v-show="!loading && listPostsArray.length === 0">
       Cet artiste n'a pas d'actualités.
     </p>
   </div>
@@ -153,10 +153,9 @@ export default {
         const response = await fetch(this.urlArtist);
         const result = await response.json();
         this.infosArtistResults = result;
-        if (this.infosArtistResults.wordpressLink !== "") this.getInfosWordpress();
-        if (this.infosArtistResults.youtubeLink !== "") this.getInfosYoutube();
-        //if (this.infosArtistResults.FacebookLink !== "") this.getInfosFacebook();
-        this.loading = false;
+        if (this.infosArtistResults.wordpressLink !== "") this.getInfosWordpress(); else this.loading = false;
+        if (this.infosArtistResults.youtubeLink !== "") this.getInfosYoutube(); else this.loading = false;
+        //if (this.infosArtistResults.FacebookLink !== "") this.getInfosFacebook(); else this.loading = false;
       } catch (err) {
         console.log(err);
       }
@@ -236,6 +235,7 @@ export default {
         this.listPostsArray.push(element);
         i++;
       });
+      this.loading = false;
     },
     // Pousse les données Wordpress dans le tableau listPostArray, crée un "generateId" à partir de "id", ajoute une donnée "typePost" et modifie la donnée "date" en prenant uniquement les 10 premiers caractères
     pushWordpressPosts() {
@@ -245,6 +245,7 @@ export default {
         element.date = element.date.substring(0, 10);
         this.listPostsArray.push(element);
       });
+      this.loading = false;
     },
     pushFacebookPosts() {
       this.facebookResults.forEach(element => {
@@ -252,6 +253,7 @@ export default {
         element.date = element.created_time.substring(0, 10);
         this.listPostsArray.push(element);
       });
+      this.loading = false;
     }
   }
 };

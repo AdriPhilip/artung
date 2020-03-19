@@ -3,15 +3,14 @@
     <div class="topBar">
       <Header />
       <ArtistCard
-        v-show="artist"
-        :artist="artist"
+        v-show="infosArtistResults"
+        :artist="infosArtistResults"
         :style="styleObject"
       />
       <SearchBar :search-types="searchTypes" />
     </div>
     <ListPosts
-      v-show="artist"
-      :artist="artist"
+      v-show="infosArtistResults"
       :style="stylePaddingTopObject"
     />
   </div>
@@ -42,14 +41,10 @@ export default {
   computed: {
     urlArtist() {
       return `${window.rootUrl}artists/${this.$route.params.id}`;
-    },
-    artist() {
-      if(this.$route.params.artist) return this.$route.params.artist;
-      else return this.infosArtistResults;
     }
   },
   created() {
-    if(!this.artist) this.getInfosArtist();
+    this.getInfosArtist();
   },
   mounted() {
     this.resize();

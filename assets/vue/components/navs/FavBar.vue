@@ -8,7 +8,10 @@
         :artist="fav"
       />
     </div>
-    <p v-show="favs.length === 0">
+    <p v-show="loading">
+      Chargement des favoris...
+    </p>
+    <p v-show="!loading && favs.length === 0">
       Vous n'avez pas encore d'artistes favoris
     </p>
   </div>
@@ -25,18 +28,27 @@ export default {
   },
   data() {
     return {
-      favs: []
+      favs: [],
+      loading: false
     }
   },
   computed: {
-    // Récupère dans le store les favoris du fan connecté
-    firstFavs() {
-      return this.$store.getters["security/user"].fan.favoris;
+    // Récupère si le user est connecté
+    isAuthenticated() {
+      return this.$store.getters["security/isAuthenticated"];
+    },
+    // Récupère le user
+    user() {
+      if (this.isAuthenticated) return this.$store.getters["security/user"];
+      else return null;
+    },
+    urlFan() {
+      return `${window.rootUrl}fans/${this.user.fan.id}`;
     },
   },
   mounted() {
-    // Au chargement le tableau de favoris est chargé depuis le store
-    this.favs = this.firstFavs;
+    // Au chargement le tableau de favoris est chargé
+    this.getFanFavs(this.urlFan);
     //Bus d'événement pour la mise à jour des favoris
     favBus.$on("reloadFav", data => {
       let urlFanReload = `${window.rootUrl}fans/${data}`
@@ -46,10 +58,12 @@ export default {
   methods: {
     // retourne les favoris JSON qui sortent de l'API
     async getFanFavs(url) {
+      this.loading = true;
       try {
         const response = await fetch(url);
         const result = await response.json();
         this.favs = result.favoris;
+        this.loading = false;
       } catch (err) {
         console.log(err);
       }

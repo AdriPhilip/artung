@@ -8,7 +8,7 @@
         :artist="artist"
       />
     </div>
-    <!-- Si la recherche ne retourne aucun artiste -->
+    <!-- Si la recherche retourne aucun artiste -->
     <p
       v-show="filteredArtists && filteredArtists.length == 0"
     >
@@ -28,7 +28,7 @@ export default {
   props: {
     listArtistsResults: {
       type: Array,
-      required: true
+      required: true  
     },
     searchByCategory: {
       type: String,

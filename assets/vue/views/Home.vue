@@ -5,10 +5,14 @@
       <SearchBar :search-types="searchTypes" />
     </div>
     <ListArtists
+      :list-artists-results="listArtistsResults"
       :style="styleObject"
       :search-by-category="searchCategory"
       :search-by-text="searchText"
     />
+    <p v-if="loading">
+      Chargement des artistes...
+    </p>
   </div>
 </template>
 
@@ -30,10 +34,19 @@ export default {
       searchTypes: ["category", "text"],
       searchText: "",
       searchCategory: "",
-      styleObject: null
+      styleObject: null,
+      listArtistsResults: null,
+      loading: false
     };
   },
+  computed: {
+    // Url d'interrogation de l'API
+    urlListArtists() {
+      return `${window.rootUrl}artists`;
+    }
+  },
   created() {
+    this.getListArtists();
     // Bus d'événements pour les champs de recherche
     searchBus.$on("input-text", data => {
       this.searchText = data;
@@ -57,6 +70,18 @@ export default {
         resizeObserver.observe(divTopBar);
       } else {
         console.log('Resize observer not supported!');
+      }
+    },
+    // Retourne le JSON de la liste des artistes qui sort de l'API
+    async getListArtists() {
+      this.loading = true;
+      try {
+        const response = await fetch(this.urlListArtists);
+        const result = await response.json();
+        this.listArtistsResults = result;
+        this.loading = false;
+      } catch (err) {
+        console.log(err);
       }
     }
   }

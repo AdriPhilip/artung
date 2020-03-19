@@ -17,7 +17,7 @@
         </h2>
         <!-- Bouton de mise en favori ; ne doit s'afficher que quand on est connecté -->
         <button
-          v-if="isAuthenticated && $route.name != 'ArtistPreview'"
+          v-show="isAuthenticated && $route.name != 'ArtistPreview'"
           class="starIcon"
           @click="addFav()"
         >
@@ -55,6 +55,7 @@ export default {
   },
   data() {
     return {
+      infosFavResults: null,
       fav: false,
       favIcon: ["far", "star"],
       favRequest: "addfav"
@@ -75,24 +76,44 @@ export default {
         window.rootUrl + "fans/" + this.user.fan.id + "/" + this.favRequest + "/" + this.artist.id
       );
       else return "";
-    }
+    },
+    urlFan() {
+      return `${window.rootUrl}fans/${this.user.fan.id}`;
+    },
   },
-  mounted() {
-    if (this.user.fan && this.artist) this.checkFav();
+  created() {
+    if (this.isAuthenticated) this.checkFav();
   },
   methods: {
     redirect() {
       if(this.$route.name == 'Home') this.$router.push({ name: 'ArtistDetails', params: { id: this.artist.id, artist: this.artist }})
     },
+    // Retourne le JSON des favoris du fan qui sort de l'API
+    async getFavsFan() {
+      try {
+        const response = await fetch(this.urlFan);
+        const result = await response.json();
+        this.infosFavResults = result.favoris;
+      } catch (err) {
+        console.log(err);
+      }
+    },
     // Check au chargement de la page si le fan a l'artist en favori, si oui, modifie le corps de la requête et l'icone
-    checkFav() {
-      for (const element of this.user.fan.favoris) {
-        if (element.id === this.artist.id) {
-          this.favIcon = ["fa", "star"];
-          this.favRequest = "removefav";
-          this.fav = true;
+    async checkFav() {
+      try {
+        const response = await fetch(this.urlFan);
+        const result = await response.json();
+        this.infosFavResults = result.favoris;
+        for (const element of this.infosFavResults) {
+          if (element.id === this.artist.id) {
+            this.favIcon = ["fa", "star"];
+            this.favRequest = "removefav";
+            this.fav = true;
+          }
+          if (this.fav) return;
         }
-        if (this.fav) return;
+      } catch (err) {
+        console.log(err);
       }
     },
     // Au clic sur le bouton, change l'icone et la requête, et envoie la requête de mise en favori

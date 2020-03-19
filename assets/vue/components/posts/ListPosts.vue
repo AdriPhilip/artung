@@ -28,7 +28,6 @@
             height="315"
             :src="`https://www.youtube.com/embed/${post.id.videoId}`"
             frameborder="0"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen
           />
         </div>
@@ -80,7 +79,10 @@
         <hr>
       </div>
     </div>
-    <p v-show="listPostsArray.length == 0">
+    <p v-if="loading">
+      Chargement des actualités...
+    </p>
+    <p v-if="!loading && listPostsArray.length === 0">
       Cet artiste n'a pas d'actualités.
     </p>
   </div>
@@ -95,31 +97,30 @@ export default {
   components: {
     TextButton
   },
-  props: {
-    artist: {
-      type: Object,
-      default: null
-    }
-  },
   data() {
     return {
+      infosArtistResults: null,
       wordpressResults: null,
       youtubeResults: null,
       facebookResults: null,
-      listPostsArray: []
+      listPostsArray: [],
+      loading: false
     };
   },
   computed: {
+    urlArtist() {
+      return `${window.rootUrl}artists/${this.$route.params.id}`;
+    },
     // S'assurer que l'url fournie finit par / et est une adresse Wordpress valide
     urlWordpress() {
-      return `${this.artist.wordpressLink}wp-json/wp/v2/posts`;
+      return `${this.infosArtistResults.wordpressLink}wp-json/wp/v2/posts`;
     },
     urlYoutube() {
-      return `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${this.artist.youtubeLink}&order=date&type=video&videoEmbeddable=true&videoSyndicated=true&key=${window.youtubeApi}`;
+      return `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${this.infosArtistResults.youtubeLink}&order=date&type=video&videoEmbeddable=true&videoSyndicated=true&key=${window.youtubeApi}`;
     },
     urlFacebook() {
       // TODO A changer avec l'ID de la page de l'artiste
-      return this.artist.facebookLink;
+      return this.infosArtistResults.facebookLink;
       // Récupère la valeur après le dernier slash, i. e. l'ID de la page
       //return /[^/]*$/.exec(this.artist.facebookLink);
     },
@@ -133,11 +134,8 @@ export default {
       return [...this.listPostsArray].sort(byDate);
     }
   },
-  mounted() {
-    if (this.artist && this.artist.wordpressLink !== "")
-      this.getInfosWordpress();
-    if (this.artist && this.artist.youtubeLink !== "") this.getInfosYoutube();
-    if (this.artist && this.artist.FacebookLink !== "") this.getInfosFacebook();
+  created() {
+    this.getInfosArtist();
   },
   methods: {
     // Ouvre la source dans une nouvelle fenêtre
@@ -146,6 +144,21 @@ export default {
         window.open("https://www.youtube.com/watch?v=" + url);
       } else if (type === "wordpress") {
         window.open(url);
+      }
+    },
+    // retourne le artist JSON qui sort de l'API
+    async getInfosArtist() {
+      this.loading = true;
+      try {
+        const response = await fetch(this.urlArtist);
+        const result = await response.json();
+        this.infosArtistResults = result;
+        if (this.infosArtistResults.wordpressLink !== "") this.getInfosWordpress();
+        if (this.infosArtistResults.youtubeLink !== "") this.getInfosYoutube();
+        //if (this.infosArtistResults.FacebookLink !== "") this.getInfosFacebook();
+        this.loading = false;
+      } catch (err) {
+        console.log(err);
       }
     },
     // Récupère les données de l'API de Wordpress

@@ -8,14 +8,11 @@
         :artist="artist"
       />
     </div>
-    <!-- Si la recherche retourne aucun artiste -->
+    <!-- Si la recherche ne retourne aucun artiste -->
     <p
       v-show="filteredArtists && filteredArtists.length == 0"
     >
       Aucun artiste ne correspond à votre recherche.
-    </p>
-    <p v-if="loading">
-      Chargement des artistes...
     </p>
   </div>
 </template>
@@ -29,6 +26,10 @@ export default {
     ArtistCard
   },
   props: {
+    listArtistsResults: {
+      type: Array,
+      required: true
+    },
     searchByCategory: {
       type: String,
       default: ""
@@ -38,48 +39,19 @@ export default {
       default: ""
     }
   },
-  data() {
-    return {
-      infosArtistResults: null,
-      loading: false
-    };
-  },
   computed: {
-    urlArtist() {
-      // Url de l'API
-      return `${window.rootUrl}artists`;
-    },
     // filtre les résultats, par texte, par catégorie, ou pas du tout
     filteredArtists: function() {
-      if (this.loading == false) {
-        if (this.searchByText !== "") {
-          return this.infosArtistResults.filter(this.filterArtistsByText);
-        } else if (this.searchByCategory !== "") {
-          return this.infosArtistResults.filter(this.filterArtistsByCategory);
-        } else {
-          return this.infosArtistResults;
-        }
+      if (this.searchByText !== "") {
+        return this.listArtistsResults.filter(this.filterArtistsByText);
+      } else if (this.searchByCategory !== "") {
+        return this.listArtistsResults.filter(this.filterArtistsByCategory);
       } else {
-        return null;
+        return this.listArtistsResults;
       }
     }
   },
-  created() {
-    this.getInfosArtist();
-  },
   methods: {
-    // retourne le JSON qui sort de l'API
-    async getInfosArtist() {
-      this.loading = true;
-      try {
-        const response = await fetch(this.urlArtist);
-        const result = await response.json();
-        this.infosArtistResults = result;
-        this.loading = false;
-      } catch (err) {
-        console.log(err);
-      }
-    },
     // recherche par texte : compare le contenu de l'input au nickname de l'artiste, en mettant tout en minuscules
     filterArtistsByText: function(obj) {
       if (

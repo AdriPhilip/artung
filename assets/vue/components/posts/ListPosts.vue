@@ -13,6 +13,8 @@
           <font-awesome-icon
             :icon="['fab', 'youtube']"
             size="3x"
+            class="icon"
+            @click="changeFlux('youtube')"
           />
           <span>{{ post.date }}</span>
           <TextButton
@@ -42,6 +44,8 @@
           <font-awesome-icon
             :icon="['fab', 'wordpress']"
             size="3x"
+            class="icon"
+            @click="changeFlux('wordpress')"
           />
           <span>{{ post.date }}</span>
           <TextButton
@@ -65,6 +69,8 @@
           <font-awesome-icon
             :icon="['fab', 'facebook']"
             size="3x"
+            class="icon"
+            @click="changeFlux('facebook')"
           />
           <span>{{ post.date }}</span>
           <TextButton
@@ -86,7 +92,7 @@
       Cet artiste n'a pas d'actualités.
     </p>
     <p
-      v-show="!loading && sortedListPostsArray.length === 0"
+      v-show="!loading && sortedListPostsArray.length === 0 && searchFlux != ''"
     >
       Cet artiste n'a pas d'actualités sur ce réseau.
     </p>
@@ -282,6 +288,9 @@ export default {
       } else {
         return false;
       }
+    },
+    changeFlux(flux) {
+      this.searchFlux = flux;
     }
   }
 };
@@ -346,5 +355,9 @@ h3 {
     max-width: 60%;
     margin: 0 auto;
   }
+}
+
+.icon {
+  cursor: pointer;
 }
 </style>

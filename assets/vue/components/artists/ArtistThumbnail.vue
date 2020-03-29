@@ -91,7 +91,7 @@ export default {
   svg {
     position: absolute;
     top: var(--spacing-xs);
-    left: -24px;
+    left: -26px;
     width: 12px;
     height: 12px;
     color: var(--primary);

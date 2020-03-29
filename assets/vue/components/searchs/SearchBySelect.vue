@@ -57,7 +57,7 @@ export default {
 select {
   background-image: linear-gradient(45deg, transparent 50%, black 60%),
     linear-gradient(135deg, black 40%, transparent 50%) !important;
-  background-position: calc(100% - 30px) 14px, calc(100% - 20px) 14px, 100% 0;
+  background-position: calc(100% - 15px) 14px, calc(100% - 5px) 14px, 100% 0;
   background-size: 10px 10px, 10px 10px;
   background-repeat: no-repeat;
   -webkit-appearance: none;

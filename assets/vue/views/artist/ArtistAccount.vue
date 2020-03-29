@@ -70,7 +70,9 @@
       <hr>
 
       <!-- Paramètrer mes flux -->
-      <h2>Paramétrer mes flux</h2>
+      <p class="label">
+        Paramétrer mes flux
+      </p>
 
       <facebook-login
         class="facebookLogin"
@@ -287,7 +289,7 @@ h2 {
   font-size: 3rem;
   color: var(--light);
 }
-label {
+label, .label {
   font-size: 2em;
   color: var(--light);
   font-family: "Caveat";

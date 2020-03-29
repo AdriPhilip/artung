@@ -51,6 +51,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .accountButton {
+  min-width: 54px;
+  min-height: 54px;
   border: var(--spacing-xs) solid var(--primary);
   border-radius: 50%;
   overflow:hidden;
@@ -62,9 +64,5 @@ button {
   border: 0;
   display: flex;
   justify-content: center;
-}
-img {
-  max-width: 54px;
-  max-height: 54px;
 }
 </style>

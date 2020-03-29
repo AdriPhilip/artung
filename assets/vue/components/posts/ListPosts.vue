@@ -85,12 +85,17 @@
     <p v-show="!loading && listPostsArray.length === 0">
       Cet artiste n'a pas d'actualités.
     </p>
+    <p
+      v-show="!loading && sortedListPostsArray.length === 0"
+    >
+      Cet artiste n'a pas d'actualités sur ce réseau.
+    </p>
   </div>
 </template>
 
 <script>
 import TextButton from "../buttons/TextButton";
-/* import Feed from "rss-to-json"; */
+import { searchBus } from "../../index.js";
 
 export default {
   name: "ListPosts",
@@ -104,7 +109,9 @@ export default {
       youtubeResults: null,
       facebookResults: null,
       listPostsArray: [],
-      loading: false
+      loading: false,
+      searchDate: "",
+      searchFlux: ""
     };
   },
   computed: {
@@ -124,18 +131,22 @@ export default {
       // Récupère la valeur après le dernier slash, i. e. l'ID de la page
       //return /[^/]*$/.exec(this.artist.facebookLink);
     },
-    // Trie les posts par ordre antéchronologique
     sortedListPostsArray() {
-      const sortByMapped = (map, compareFn) => (a, b) =>
-        compareFn(map(a.date), map(b.date));
-      const toDate = e => new Date(e).getTime();
-      const byValue = (a, b) => b - a;
-      const byDate = sortByMapped(toDate, byValue);
-      return [...this.listPostsArray].sort(byDate);
+      // Tri par date
+      const sortedByDate = this.sortByDate();
+      // Tri par flux
+      const sortByFlux = this.sortByFlux(sortedByDate);
+      return sortByFlux;
     }
   },
   created() {
     this.getInfosArtist();
+    searchBus.$on("input-date", data => {
+      this.searchDate = data;
+    });
+    searchBus.$on("input-flux", data => {
+      this.searchFlux = data;
+    });
   },
   methods: {
     // Ouvre la source dans une nouvelle fenêtre
@@ -153,8 +164,11 @@ export default {
         const response = await fetch(this.urlArtist);
         const result = await response.json();
         this.infosArtistResults = result;
-        if (this.infosArtistResults.wordpressLink !== "") this.getInfosWordpress(); else this.loading = false;
-        if (this.infosArtistResults.youtubeLink !== "") this.getInfosYoutube(); else this.loading = false;
+        if (this.infosArtistResults.wordpressLink !== "")
+          this.getInfosWordpress();
+        else this.loading = false;
+        if (this.infosArtistResults.youtubeLink !== "") this.getInfosYoutube();
+        else this.loading = false;
         //if (this.infosArtistResults.FacebookLink !== "") this.getInfosFacebook(); else this.loading = false;
       } catch (err) {
         console.log(err);
@@ -213,18 +227,6 @@ export default {
         console.log(err);
       }
     },
-    async getInfosPinterest() {
-      /* let pinterestUserName = "adrien";
-      let url = "https://www.pinterest.com/" + pinterestUserName + "/feed.rss";
-      //let response = await fetch(url);
-      //let result = await response.json();
-      //console.log(result);
-      console.log("Pinterest");
-      Feed.load(url, function(err, rss) {
-        console.log(rss);
-      }); */
-    },
-
     // Pousse les données Youtube dans le tableau listPostArray, génère un "generateId", ajoute une donnée "typePost" et crée la donnée "date" à partir de "publishedAt" en prenant les 10 premiers caractères
     pushYoutubePosts() {
       let i = 0;
@@ -254,6 +256,32 @@ export default {
         this.listPostsArray.push(element);
       });
       this.loading = false;
+    },
+    sortByDate() {
+      let order = 1;
+      if (this.searchDate != "") {
+        order = this.searchDate == "asc" ? -1 : 1;
+      }
+      const sortByMapped = (map, compareFn) => (a, b) =>
+        compareFn(map(a.date), map(b.date));
+      const toDate = e => new Date(e).getTime();
+      const byValue = (a, b) => (b - a) * order;
+      const byDate = sortByMapped(toDate, byValue);
+      return [...this.listPostsArray].sort(byDate);
+    },
+    sortByFlux(posts) {
+      if (this.searchFlux != "") {
+        return posts.filter(this.filterByFlux);
+      } else {
+        return posts;
+      }
+    },
+    filterByFlux: function(post) {
+      if (post.typePost.includes(this.searchFlux)) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 };

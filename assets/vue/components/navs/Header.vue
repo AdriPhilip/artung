@@ -3,7 +3,7 @@
     <nav>
       <!-- Logo ; permet de retourner au catalogue -->
       <img
-        v-show="$route.name=='Home' || ($route.name=='ArtistDetails' && role!=='ROLE_ARTIST') || $route.name=='FanAccount'"
+        v-show="$route.name === 'Home' || ($route.name === 'ArtistDetails' && role !== 'ROLE_ARTIST') || $route.name === 'FanAccount'"
         src="../../../img/artung_logo.png"
         alt="logo de l'application Artung"
         title="Retour à l'accueil"
@@ -11,21 +11,21 @@
       >
       <!-- Boutons de registration ; ne s'affichent que si non connecté -->
       <TextButton
-        v-if="!isAuthenticated"
+        v-show="!isAuthenticated && $route.name !== 'Login' && $route.name !== 'Register'"
         text="Je suis artiste"
         class="marginButton"
         secondary
         @onClick="routerPush('Register', {role: 'artist'})"
       />
       <TextButton
-        v-if="!isAuthenticated"
+        v-show="!isAuthenticated && $route.name !== 'Login' && $route.name !== 'Register'"
         text="Je veux suivre des artistes"
         class="marginButton"
         @onClick="routerPush('Register', {role: 'fan'})"
       />
       <!-- Bouton d'aperçu de la page pour un artiste ; ne s'affiche que dans le parcours artiste -->
       <TextButton
-        v-show="role==='ROLE_ARTIST'"
+        v-show="role === 'ROLE_ARTIST'"
         text="Aperçu de ma page"
         class="apercuMarginButton"
         secondary
@@ -41,9 +41,16 @@
       />
       <!-- Bouton de login ; ne s'affiche que si non connecté -->
       <LoginButton
-        v-if="!isAuthenticated"
+        v-show="!isAuthenticated && $route.name !== 'Login' && $route.name !== 'Register'"
         class="loginMarginButton"
         @onClick="routerPush('Login', '')"
+      />
+      <!-- Bouton de retour ; ne s'affiche que sur les pages login et register -->
+      <LoginButton
+        v-show="$route.name === 'Login' || $route.name === 'Register'"
+        class="loginMarginButton"
+        inverted="180"
+        @onClick="routerPush('Home', '')"
       />
     </nav>
   </div>

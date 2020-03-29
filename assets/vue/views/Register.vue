@@ -1,70 +1,77 @@
 <template>
   <div>
-    <form
-      class="mx-5 p-5"
-      @submit.prevent
-    >
-      <FormGroup
-        v-model="login"
-        form-group="emailInput"
-        type="email"
-        text="Email"
-        placeholder="de type votrenom@domaine.com"
-        required
-      />
-      <FormGroup
-        v-model="nickname"
-        form-group="nicknameInput"
-        type="text"
-        text="Nom d'utilisateur"
-        placeholder="20 caractères maximum"
-        maxlength="20"
-        required
-      />
-      <FormGroup
-        v-model="password"
-        form-group="passwordInput"
-        type="password"
-        text="Mot de passe"
-        required
-      />
-
-      <FormGroup
-        v-model="passwordConfirm"
-        form-group="confirmPasswordInput"
-        type="password"
-        text="Confirmer le mot de passe"
-        required
-      />
-      <div
-        v-if="error"
-        class="alert alert-danger"
+    <div class="topBar">
+      <Header />
+    </div>
+    <div class="loginForm">
+      <form
+        class="mx-5 p-5"
+        @submit.prevent
       >
-        {{ error }}
-      </div>
-      <div class="d-flex justify-content-center pt-5">
-        <TextButton
-          text="Go !"
-          form
-          @onClick="register()"
+        <FormGroup
+          v-model="login"
+          form-group="emailInput"
+          type="email"
+          text="Email"
+          placeholder="votrenom@domaine.com"
+          required
         />
-      </div>
-      <div v-if="loading">
-        <p class="text-light">
-          Connexion en cours...
-        </p>
-      </div>
-    </form>
+        <FormGroup
+          v-model="nickname"
+          form-group="nicknameInput"
+          type="text"
+          text="Nom d'utilisateur"
+          placeholder="20 caractères maximum"
+          maxlength="20"
+          required
+        />
+        <FormGroup
+          v-model="password"
+          form-group="passwordInput"
+          type="password"
+          text="Mot de passe"
+          required
+        />
+
+        <FormGroup
+          v-model="passwordConfirm"
+          form-group="confirmPasswordInput"
+          type="password"
+          text="Confirmer le mot de passe"
+          required
+        />
+        <div
+          v-if="error"
+          class="alert alert-danger"
+        >
+          {{ error }}
+        </div>
+        <div class="d-flex justify-content-center pt-5">
+          <TextButton
+            text="Go !"
+            form
+            @onClick="register()"
+          />
+        </div>
+        <div v-if="loading">
+          <p class="text-light">
+            Connexion en cours...
+          </p>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
+import Header from "../components/navs/Header";
 import FormGroup from "../components/forms/FormGroup";
 import TextButton from "../components/buttons/TextButton";
 
 export default {
   name: "Register",
   components: {
+    Header,
     FormGroup,
     TextButton
   },
@@ -163,5 +170,11 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped>
+.topBar {
+  padding: var(--spacing-md) 0;
+}
+.loginForm {
+  padding-top: var(--spacing-lg);
+}
 </style>

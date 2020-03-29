@@ -7,6 +7,7 @@
       <img
         src="../../../img/Arrow.svg"
         alt="right arrow of login button"
+        :style="styleObject"
       >
     </button>
   </div>
@@ -14,7 +15,18 @@
 
 <script>
 export default {
-  name: "LoginButton"
+  name: "LoginButton",
+  props: {
+    inverted: {
+      type: String,
+      default: "0"
+    }
+  },
+  computed: {
+    styleObject() {
+      return { transform: 'rotate(' + this.inverted + 'deg)' };
+    }
+  }
 };
 </script>
 
@@ -27,9 +39,7 @@ export default {
   border-radius: 50%;
   border: 2px solid #db5c4d;
 }
-
 .loginButton > img{
   margin-left: -3px;
 }
-
 </style>

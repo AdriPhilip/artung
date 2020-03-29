@@ -86,7 +86,6 @@ label {
   color: var(--light);
   font-family: "Caveat";
 }
-
 .form-control-plaintext {
   color: var(--light);
 }

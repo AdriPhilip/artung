@@ -1,6 +1,7 @@
 <template>
   <div class="accountButton">
     <button
+      title="Mon profil"
       @click="$emit('onClick')"
     >
       <img

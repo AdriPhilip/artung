@@ -145,6 +145,16 @@ export default {
       return sortByFlux;
     }
   },
+  watch: {
+    // Surveille si l'id de la route change : charge les infos de l'artiste à chaque changement
+    '$route' () {
+      this.infosArtistResults=null;
+      this.wordpressResults=[];
+      this.youtubeResults=[];
+      this.listPostsArray=[];
+      this.getInfosArtist();
+    }
+  },
   created() {
     this.getInfosArtist();
     searchBus.$on("input-date", data => {

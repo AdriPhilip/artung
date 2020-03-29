@@ -50,6 +50,13 @@ export default {
       return `${window.rootUrl}artists/${this.$route.params.id}`;
     }
   },
+  watch: {
+    // Surveille si l'id de la route change : charge les infos de l'artiste à chaque changement
+    '$route' () {
+      this.infosArtistResults=null;
+      this.getInfosArtist();
+    }
+  },
   created() {
     this.getInfosArtist();
   },

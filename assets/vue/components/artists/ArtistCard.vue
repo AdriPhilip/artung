@@ -15,9 +15,9 @@
         <h2 class="artistNickname">
           {{ artist.nickname }}
         </h2>
-        <!-- Bouton de mise en favori ; ne doit s'afficher que quand on est connecté -->
+        <!-- Bouton de mise en favori ; ne doit s'afficher que quand on est connecté en tant que fan -->
         <button
-          v-show="isAuthenticated && $route.name != 'ArtistPreview'"
+          v-show="role==='ROLE_FAN'"
           class="starIcon"
           @click="addFav()"
         >
@@ -29,7 +29,7 @@
       </div>
       <!-- Description de l'artiste ; ne s'affiche que sur la page détails -->
       <div
-        v-show="$route.name=='ArtistDetails'|$route.name=='ArtistPreview'"
+        v-show="$route.name=='ArtistDetails'"
         class="artistDescription"
       >
         <p>{{ artist.description }}</p>
@@ -66,6 +66,11 @@ export default {
     isAuthenticated() {
       return this.$store.getters["security/isAuthenticated"];
     },
+    // récupère le rôle du user connecté
+    role() {
+      if (this.isAuthenticated) return this.$store.getters["security/roles"][0];
+      else return "NO";
+    },
     // Récupère le user
     user() {
       if (this.isAuthenticated) return this.$store.getters["security/user"];
@@ -86,7 +91,7 @@ export default {
   },
   methods: {
     redirect() {
-      if(this.$route.name == 'Home') this.$router.push({ name: 'ArtistDetails', params: { id: this.artist.id, artist: this.artist }})
+      if(this.$route.name === 'Home') this.$router.push({ name: 'ArtistDetails', params: { id: this.artist.id, artist: this.artist }})
     },
     // Retourne le JSON des favoris du fan qui sort de l'API
     async getFavsFan() {

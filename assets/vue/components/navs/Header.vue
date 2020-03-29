@@ -3,9 +3,10 @@
     <nav>
       <!-- Logo ; permet de retourner au catalogue -->
       <img
-        v-show="$route.name=='Home'|$route.name=='ArtistDetails'|$route.name=='FanAccount'"
+        v-show="$route.name=='Home' || ($route.name=='ArtistDetails' && role!=='ROLE_ARTIST') || $route.name=='FanAccount'"
         src="../../../img/artung_logo.png"
         alt="logo de l'application Artung"
+        title="Retour à l'accueil"
         @click="routerPush('Home', '')"
       >
       <!-- Boutons de registration ; ne s'affichent que si non connecté -->
@@ -24,11 +25,11 @@
       />
       <!-- Bouton d'aperçu de la page pour un artiste ; ne s'affiche que dans le parcours artiste -->
       <TextButton
-        v-show="$route.name=='ArtistAccount' || $route.name=='ArtistPreview'"
+        v-show="role==='ROLE_ARTIST'"
         text="Aperçu de ma page"
         class="apercuMarginButton"
         secondary
-        @onClick="routerPush('ArtistPreview', { artist: user.artist })"
+        @onClick="routerPush('ArtistDetails', { id: user.artist.id, artist: user.artist })"
       />
       <!-- Barre de favoris ; ne s'affiche que dans le parcours fan -->
       <FavBar v-if="role === 'ROLE_FAN'" />

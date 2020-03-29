@@ -301,6 +301,7 @@ export default {
     },
     changeFlux(flux) {
       this.searchFlux = flux;
+      searchBus.$emit("input-flux", flux);
     }
   }
 };

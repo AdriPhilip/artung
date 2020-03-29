@@ -33,14 +33,29 @@ export default {
     this.getAccountInfo();
   },
   methods: {
-    getAccountInfo() {
+    async getAccountInfo() {
       {
         let user = this.$store.getters["security/user"];
         let role = this.$store.getters["security/roles"][0];
         if (role == "ROLE_FAN") {
-          this.accountInfo = user.fan;
+          // retourne le fan JSON qui sort de l'API
+          try {
+            const response = await fetch(`${window.rootUrl}fans/${user.fan.id}`);
+            const result = await response.json();
+            this.accountInfo = result;
+          } catch (err) {
+            console.log(err);
+          }
         } else if (role == "ROLE_ARTIST") {
-          this.accountInfo = user.artist;
+          // retourne le artist JSON qui sort de l'API
+          try {
+            const response = await fetch(`${window.rootUrl}artists/${user.artist.id}`);
+            const result = await response.json();
+            this.accountInfo = result;
+            this.loading = false;
+          } catch (err) {
+            console.log(err);
+          }
         }
       }
     }

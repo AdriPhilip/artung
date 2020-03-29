@@ -43,6 +43,12 @@ export default {
       value: null
     };
   },
+  created() {
+    // Envoie la valeur de tri dans la value du select (qd on clique sur une icône pour trier)
+    searchBus.$on("input-" + this.search.type, data => {
+      this.value = data;
+    });
+  },
   methods: {
     emitValue($event) {
       searchBus.$emit("input-" + this.search.type, $event.target.value);

@@ -35,9 +35,9 @@ export default {
 .loginButton {
   height: 36px;
   width: 36px;
-  background-color: #131b23;
+  background-color: var(--black);
   border-radius: 50%;
-  border: 2px solid #db5c4d;
+  border: 2px solid var(--primary);
 }
 .loginButton > img{
   margin-left: -3px;

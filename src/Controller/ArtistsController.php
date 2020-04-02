@@ -66,6 +66,25 @@ class ArtistsController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/account", name="artists_account", methods={"GET"})
+     */
+    public function account(Request $request, ArtistsRepository $artistsRepository, SerializerInterface $serializer): Response
+    {
+        // Récupération de la valeur de {id} à partir de la route
+        $id = $request->get('id');
+        $artist = $artistsRepository->createQueryBuilder('a')->select('a.id, a.nickname, a.photo')->where('a.id = :id')->setParameter('id', $id)->getQuery()->getOneOrNullResult();
+
+        $data = $serializer->serialize($artist, 'json');
+        $response = new Response(
+            'Account',
+            Response::HTTP_OK,
+            ['content-type' => 'application/json']
+        );
+        $response->setContent($data);
+        return $response;
+    }
+
+    /**
      * @Route("/{id}/edit", name="artists_edit", methods={"PUT"})
      */
     public function edit(Request $request, ArtistsRepository $artistsRepository): Response

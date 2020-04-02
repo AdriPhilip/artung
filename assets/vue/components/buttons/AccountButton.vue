@@ -22,7 +22,7 @@ export default {
   },
   computed: {
     photo() {
-      if (this.accountInfo.photo == null) {
+      if (this.accountInfo.photo === null) {
         return "https://www.sebastienvelly.com/wp-content/themes/sebastienvelly/img/artung_logo-1.png";
       } else {
         return this.accountInfo.photo;
@@ -40,7 +40,7 @@ export default {
         if (role == "ROLE_FAN") {
           // retourne le fan JSON qui sort de l'API
           try {
-            const response = await fetch(`${window.rootUrl}fans/${user.fan.id}`);
+            const response = await fetch(`${window.rootUrl}fans/${user.fan.id}/account`);
             const result = await response.json();
             this.accountInfo = result;
           } catch (err) {
@@ -49,7 +49,7 @@ export default {
         } else if (role == "ROLE_ARTIST") {
           // retourne le artist JSON qui sort de l'API
           try {
-            const response = await fetch(`${window.rootUrl}artists/${user.artist.id}`);
+            const response = await fetch(`${window.rootUrl}artists/${user.artist.id}/account`);
             const result = await response.json();
             this.accountInfo = result;
             this.loading = false;

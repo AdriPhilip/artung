@@ -83,7 +83,7 @@ export default {
       else return "";
     },
     urlFan() {
-      return `${window.rootUrl}fans/${this.user.fan.id}`;
+      return `${window.rootUrl}fans/${this.user.fan.id}/favoris`;
     },
   },
   created() {
@@ -93,22 +93,12 @@ export default {
     redirect() {
       if(this.$route.name === 'Home') this.$router.push({ name: 'ArtistDetails', params: { id: this.artist.id, artist: this.artist }})
     },
-    // Retourne le JSON des favoris du fan qui sort de l'API
-    async getFavsFan() {
-      try {
-        const response = await fetch(this.urlFan);
-        const result = await response.json();
-        this.infosFavResults = result.favoris;
-      } catch (err) {
-        console.log(err);
-      }
-    },
     // Check au chargement de la page si le fan a l'artist en favori, si oui, modifie le corps de la requête et l'icone
     async checkFav() {
       try {
         const response = await fetch(this.urlFan);
         const result = await response.json();
-        this.infosFavResults = result.favoris;
+        this.infosFavResults = result;
         for (const element of this.infosFavResults) {
           if (element.id === this.artist.id) {
             this.favIcon = ["fa", "star"];

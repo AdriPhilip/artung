@@ -67,6 +67,45 @@ class FansController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/account", name="fans_account", methods={"GET"})
+     */
+    public function account(Request $request, FansRepository $fansRepository, SerializerInterface $serializer): Response
+    {
+        // Récupération de la valeur de {id} à partir de la route
+        $id = $request->get('id');
+        $fan = $fansRepository->createQueryBuilder('f')->select('f.id, f.nickname, f.photo')->where('f.id = :id')->setParameter('id', $id)->getQuery()->getOneOrNullResult();
+
+        $data = $serializer->serialize($fan, 'json');
+        $response = new Response(
+            'Account',
+            Response::HTTP_OK,
+            ['content-type' => 'application/json']
+        );
+        $response->setContent($data);
+        return $response;
+    }
+
+    /**
+     * @Route("/{id}/favoris", name="fans_favs", methods={"GET"})
+     */
+    public function favs(Request $request, FansRepository $fansRepository, ArtistsRepository $artistsRepository, SerializerInterface $serializer): Response
+    {
+        // Récupération de la valeur de {id} à partir de la route
+        $id = $request->get('id');
+        $fan = $fansRepository->findOneById($id);
+        $favoris = $artistsRepository->createQueryBuilder('a')->join('a.fans', 'f', 'WITH', 'f = :f')->setParameter('f',$fan)->getQuery()->getResult();
+
+        $data = $serializer->serialize($favoris, 'json', ['attributes' => ['id', 'nickname', 'photo', 'category']]);
+        $response = new Response(
+            'Favs',
+            Response::HTTP_OK,
+            ['content-type' => 'application/json']
+        );
+        $response->setContent($data);
+        return $response;
+    }
+
+    /**
      * @Route("/{id}/edit", name="fans_edit", methods={"PUT"})
      * @IsGranted("ROLE_FAN", message="Vous devez être enregistré en tant que fan pour effectuer cette action")
      */

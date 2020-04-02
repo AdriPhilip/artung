@@ -43,7 +43,7 @@ export default {
       else return null;
     },
     urlFan() {
-      return `${window.rootUrl}fans/${this.user.fan.id}`;
+      return `${window.rootUrl}fans/${this.user.fan.id}/favoris`;
     },
   },
   mounted() {
@@ -51,7 +51,7 @@ export default {
     this.getFanFavs(this.urlFan);
     //Bus d'événement pour la mise à jour des favoris
     favBus.$on("reloadFav", data => {
-      let urlFanReload = `${window.rootUrl}fans/${data}`
+      let urlFanReload = `${window.rootUrl}fans/${data}/favoris`
       this.getFanFavs(urlFanReload);
     });
   },
@@ -62,7 +62,7 @@ export default {
       try {
         const response = await fetch(url);
         const result = await response.json();
-        this.favs = result.favoris;
+        this.favs = result;
         this.loading = false;
       } catch (err) {
         console.log(err);

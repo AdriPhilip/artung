@@ -17,6 +17,7 @@
     </div>
     <ListPosts
       v-show="infosArtistResults"
+      :artist="infosArtistResults"
       :style="stylePaddingTopObject"
     />
   </div>

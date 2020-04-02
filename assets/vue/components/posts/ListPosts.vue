@@ -126,17 +126,19 @@ export default {
     },
     // S'assurer que l'url fournie finit par / et est une adresse Wordpress valide
     urlWordpress() {
-      return `${this.infosArtistResults.wordpressLink}wp-json/wp/v2/posts`;
+      if (this.infosArtistResults.wordpressLink) return `${this.infosArtistResults.wordpressLink}wp-json/wp/v2/posts`;
+      else return null;
     },
     urlYoutube() {
-      return `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${this.infosArtistResults.youtubeLink}&order=date&type=video&videoEmbeddable=true&videoSyndicated=true&key=${window.youtubeApi}`;
+      if (this.infosArtistResults.youtubeLink) return `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${this.infosArtistResults.youtubeLink}&order=date&type=video&videoEmbeddable=true&videoSyndicated=true&key=${window.youtubeApi}`;
+      else return null;
     },
-    urlFacebook() {
-      // TODO A changer avec l'ID de la page de l'artiste
-      return this.infosArtistResults.facebookLink;
-      // Récupère la valeur après le dernier slash, i. e. l'ID de la page
-      //return /[^/]*$/.exec(this.artist.facebookLink);
-    },
+    // urlFacebook() {
+    //   // TODO A changer avec l'ID de la page de l'artiste
+    //   return this.infosArtistResults.facebookLink;
+    //   // Récupère la valeur après le dernier slash, i. e. l'ID de la page
+    //   //return /[^/]*$/.exec(this.artist.facebookLink);
+    // },
     sortedListPostsArray() {
       // Tri par date
       const sortedByDate = this.sortByDate();
@@ -167,11 +169,8 @@ export default {
   methods: {
     // Ouvre la source dans une nouvelle fenêtre
     openSource(type, url) {
-      if (type === "youtube") {
-        window.open("https://www.youtube.com/watch?v=" + url);
-      } else if (type === "wordpress") {
-        window.open(url);
-      }
+      if (type === "youtube") window.open("https://www.youtube.com/watch?v=" + url);
+      else if (type === "wordpress") window.open(url);
     },
     // retourne le artist JSON qui sort de l'API
     async getInfosArtist() {
@@ -180,10 +179,9 @@ export default {
         const response = await fetch(this.urlArtist);
         const result = await response.json();
         this.infosArtistResults = result;
-        if (this.infosArtistResults.wordpressLink !== "")
-          this.getInfosWordpress();
+        if (this.urlWordpress) this.getInfosWordpress();
         else this.loading = false;
-        if (this.infosArtistResults.youtubeLink !== "") this.getInfosYoutube();
+        if (this.urlYoutube) this.getInfosYoutube();
         else this.loading = false;
         //if (this.infosArtistResults.FacebookLink !== "") this.getInfosFacebook(); else this.loading = false;
       } catch (err) {
@@ -216,33 +214,33 @@ export default {
         console.log(err);
       }
     },
-    async getInfosFacebook() {
-      console.log("Fonction getInfosFacebook");
-      let url = "/" + this.urlFacebook;
-      console.log(window.appAccessToken);
-      try {
-        window.FB.api(
-          url,
-          "GET",
-          {
-            fields:
-              "posts{event,picture,attachments,comments,created_time,message}"
-          },
-          page => {
-            console.log(page);
-            console.log(page.data);
-            if (page) {
-              this.facebookResults = page.posts.data;
-              this.pushFacebookPosts();
-            } else {
-              console.log("La page Facebook n'a pas été trouvée");
-            }
-          }
-        );
-      } catch (err) {
-        console.log(err);
-      }
-    },
+    // async getInfosFacebook() {
+    //   console.log("Fonction getInfosFacebook");
+    //   let url = "/" + this.urlFacebook;
+    //   console.log(window.appAccessToken);
+    //   try {
+    //     window.FB.api(
+    //       url,
+    //       "GET",
+    //       {
+    //         fields:
+    //           "posts{event,picture,attachments,comments,created_time,message}"
+    //       },
+    //       page => {
+    //         console.log(page);
+    //         console.log(page.data);
+    //         if (page) {
+    //           this.facebookResults = page.posts.data;
+    //           this.pushFacebookPosts();
+    //         } else {
+    //           console.log("La page Facebook n'a pas été trouvée");
+    //         }
+    //       }
+    //     );
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // },
     // Pousse les données Youtube dans le tableau listPostArray, génère un "generateId", ajoute une donnée "typePost" et crée la donnée "date" à partir de "publishedAt" en prenant les 10 premiers caractères
     pushYoutubePosts() {
       let i = 0;
@@ -265,14 +263,14 @@ export default {
       });
       this.loading = false;
     },
-    pushFacebookPosts() {
-      this.facebookResults.forEach(element => {
-        element.typePost = "facebook";
-        element.date = element.created_time.substring(0, 10);
-        this.listPostsArray.push(element);
-      });
-      this.loading = false;
-    },
+    // pushFacebookPosts() {
+    //   this.facebookResults.forEach(element => {
+    //     element.typePost = "facebook";
+    //     element.date = element.created_time.substring(0, 10);
+    //     this.listPostsArray.push(element);
+    //   });
+    //   this.loading = false;
+    // },
     sortByDate() {
       let order = 1;
       if (this.searchDate != "") {

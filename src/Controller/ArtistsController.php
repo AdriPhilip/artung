@@ -20,15 +20,16 @@ class ArtistsController extends AbstractController
      */
     public function index(ArtistsRepository $artistsRepository, SerializerInterface $serializer): Response
     {
-        $artists = $artistsRepository->findAll();
+        //$artists = $artistsRepository->findAll();
+        $artists = $artistsRepository->createQueryBuilder('a')->select('a.id, a.nickname, a.photo, a.description, a.category, a.wordpress_link AS wordpressLink, a.youtube_link AS youtubeLink')->getQuery()->getResult();
 
         // Pour pouvoir récupérer le(s) artiste(s) associés aux fans, il faut préciser ça :
-        $context['circular_reference_handler'] = function ($object) {
-            return $object->getId();
-        };
+        // $context['circular_reference_handler'] = function ($object) {
+        //     return $object->getId();
+        // };
 
         // Transformation de l'objet Doctrine en JSON
-        $data = $serializer->serialize($artists, 'json', $context);
+        $data = $serializer->serialize($artists, 'json');
 
         $response = new Response(
             'Artists',
@@ -46,14 +47,15 @@ class ArtistsController extends AbstractController
     {
         // Récupération de la valeur de {id} à partir de la route
         $id = $request->get('id');
-        $artist = $artistsRepository->findOneBy(['id' => $id]);
+        //$artist = $artistsRepository->findOneBy(['id' => $id]);
+        $artist = $artistsRepository->createQueryBuilder('a')->select('a.id, a.nickname, a.photo, a.description, a.category, a.wordpress_link AS wordpressLink, a.youtube_link AS youtubeLink')->where('a.id = :id')->setParameter('id', $id)->getQuery()->getOneOrNullResult();
 
         // Pour pouvoir récupérer le(s) fan(s) associés à l'artiste, il faut préciser ça :
-        $context['circular_reference_handler'] = function ($object) {
-            return $object->getId();
-        };
+        // $context['circular_reference_handler'] = function ($object) {
+        //     return $object->getId();
+        // };
 
-        $data = $serializer->serialize($artist, 'json', $context);
+        $data = $serializer->serialize($artist, 'json');
         $response = new Response(
             'Artist',
             Response::HTTP_OK,
